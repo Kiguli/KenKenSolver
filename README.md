@@ -1,41 +1,37 @@
-# KenKen Puzzle Solver
+# Neuro-Symbolic Puzzle Solvers
 
-A neuro-symbolic AI system that solves KenKen puzzles by combining computer vision (CNNs) with symbolic constraint solving (Z3 SMT Solver). This project also benchmarks leading LLMs (Claude, GPT-4, Gemini, Qwen) on the same puzzles, demonstrating the superiority of hybrid neuro-symbolic approaches for structured logical problems.
+A collection of AI systems that solve constraint-based puzzles by combining **computer vision (CNNs)** with **symbolic reasoning (Z3 SMT Solver)**. This hybrid approach demonstrates the power of neuro-symbolic AI for structured logical problems where pure LLMs fail.
 
-## Key Results
+## Why Neuro-Symbolic?
 
-| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | Avg Time |
-|--------|-----|-----|-----|-----|-----|----------|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 93% | ~5s |
-| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | ~238s |
-| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | ~24s |
-| Qwen 2.5 VL | 10% | 0% | 0% | 0% | 0% | ~46s |
-| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | ~4s |
+Large Language Models (GPT-4, Claude, Gemini) struggle with constraint satisfaction puzzles beyond trivial sizes. Our approach separates the problem into:
 
-**Finding:** All LLMs fail on puzzles 5×5 and larger. The neuro-symbolic approach maintains near-perfect accuracy across all sizes.
+1. **Perception (Neural)**: CNNs extract puzzle structure from images
+2. **Reasoning (Symbolic)**: Z3 solver computes valid solutions using formal constraints
 
-## Project Structure
+This division of labor achieves near-perfect accuracy where LLMs fail completely.
+
+## Supported Puzzles
+
+| Puzzle | Status | Accuracy | Description |
+|--------|--------|----------|-------------|
+| [KenKen](KenKen/) | Complete | 93-100% | Latin square + arithmetic cages |
+| [Sudoku](Sudoku/) | In Progress | - | Latin square + box constraints |
+
+## Architecture
 
 ```
-KenKenSolver/
-├── NeuroSymbolicSolver.ipynb      # Main solver pipeline (CNN + Z3)
-├── SymbolicPuzzleGenerator.ipynb  # Generate valid KenKen puzzles
-├── BoardImageGeneration.ipynb     # Create puzzle images from JSON
-├── AnalyzingResults.ipynb         # Compare solver performance
-├── ClaudeEvaluation.ipynb         # Claude Sonnet 4 benchmark
-├── GPTEvaluation.ipynb            # GPT-4o Mini benchmark
-├── GeminiEvaluation.ipynb         # Gemini 2.5 Pro/Flash benchmark
-├── QwenEvaluation.ipynb           # Qwen 2.5 VL benchmark
-├── models/                        # Pre-trained CNN weights (Git LFS)
-│   ├── character_recognition_v2_model_weights.pth
-│   └── grid_detection_model_weights.pth
-├── puzzles/
-│   └── puzzles_dict.json          # 290 puzzles (3×3 to 7×7)
-├── board_images/                  # 430+ generated puzzle PNGs
-├── symbols/
-│   ├── TMNIST_NotoSans.csv        # Character training data
-│   └── operators/                 # +, -, ×, ÷ symbol images
-└── results/                       # Evaluation CSV files
+Image Input (900×900)
+        ↓
+    Grid CNN → Detect puzzle size
+        ↓
+    OpenCV → Extract structure (borders, boxes)
+        ↓
+   Digit CNN → Read numbers/operators
+        ↓
+   Z3 Solver → Compute valid solution
+        ↓
+    Solution Output
 ```
 
 ## Installation
@@ -47,172 +43,76 @@ KenKenSolver/
 
 ### Setup
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Kiguli/KenKenSolver.git
-   cd KenKenSolver
-   ```
-
-2. **Install Git LFS and pull model weights:**
-   ```bash
-   # macOS
-   brew install git-lfs
-
-   # Ubuntu/Debian
-   sudo apt install git-lfs
-
-   # Then pull the actual model files
-   git lfs install
-   git lfs pull
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   pip install z3-solver torch torchvision opencv-python pillow pandas numpy matplotlib
-   ```
-
-4. **For LLM evaluations (optional):**
-   ```bash
-   pip install anthropic openai google-generativeai transformers qwen-vl-utils python-dotenv
-   ```
-
-## Usage
-
-### Running the NeuroSymbolic Solver
-
-The main solver pipeline processes puzzle images and returns solutions:
-
 ```bash
+# Clone the repository
+git clone https://github.com/Kiguli/KenKenSolver.git
+cd KenKenSolver
+
+# Install Git LFS and pull model weights
+brew install git-lfs  # macOS (use apt on Linux)
+git lfs install
+git lfs pull
+
+# Install core dependencies
+pip install z3-solver torch torchvision opencv-python pillow pandas numpy matplotlib
+
+# For LLM evaluations (optional)
+pip install anthropic openai google-generativeai transformers python-dotenv
+```
+
+## Quick Start
+
+### KenKen Solver
+```bash
+cd KenKen
 jupyter notebook NeuroSymbolicSolver.ipynb
 ```
 
-**Pipeline overview:**
-1. **Grid Detection (CNN)** → Determines puzzle size (3-7)
-2. **Border Detection (OpenCV)** → Identifies cage boundaries
-3. **Character Recognition (CNN)** → Reads targets and operators
-4. **Constraint Solving (Z3)** → Computes valid solution
-
-### Generating New Puzzles
-
-Create new puzzle datasets:
-
+### Sudoku Solver
 ```bash
-jupyter notebook SymbolicPuzzleGenerator.ipynb
+cd Sudoku
+jupyter notebook NeuroSymbolicSolver.ipynb
 ```
 
-This generates `puzzles_dict.json` with valid, solvable puzzles.
+## Benchmark Results
 
-### Creating Puzzle Images
+### KenKen (430 puzzles, sizes 3×3 to 7×7)
 
-Convert puzzle JSON to 900×900px PNG images:
+| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 |
+|--------|-----|-----|-----|-----|-----|
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 93% |
+| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% |
+| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% |
+| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% |
 
-```bash
-jupyter notebook BoardImageGeneration.ipynb
-```
+**Key Finding**: All LLMs fail completely on puzzles 5×5 and larger.
 
-### Running LLM Evaluations
-
-Each evaluation notebook requires API credentials:
-
-#### Claude
-```python
-# Set environment variable
-export ANTHROPIC_API_KEY="your-key-here"
-
-# Or edit ClaudeEvaluation.ipynb cell-4:
-client = anthropic.Anthropic(api_key="your-key-here")
-```
-
-#### GPT
-```bash
-export OPENAI_API_KEY="your-key-here"
-```
-
-#### Gemini
-Create a `.env` file in the project root:
-```
-GOOGLE_API_KEY=your-key-here
-```
-
-#### Qwen
-No API key needed - runs locally via Hugging Face Transformers.
-
-### Analyzing Results
-
-Compare all solver performances:
-
-```bash
-jupyter notebook AnalyzingResults.ipynb
-```
-
-## Architecture
-
-### NeuroSymbolic Pipeline
+## Project Structure
 
 ```
-Image (900×900)
-    ↓
-Grid_CNN → Size (3-7)
-    ↓
-OpenCV (Canny + HoughLines) → Cage boundaries
-    ↓
-CNN_v2 → Target numbers + operators
-    ↓
-Z3 Solver → Valid solution
+KenKenSolver/
+├── README.md                    # This file
+├── CLAUDE.md                    # Development documentation
+├── KenKen/                      # KenKen puzzle solver
+│   ├── README.md               # KenKen-specific documentation
+│   ├── NeuroSymbolicSolver.ipynb
+│   ├── SymbolicPuzzleGenerator.ipynb
+│   ├── BoardImageGeneration.ipynb
+│   ├── *Evaluation.ipynb       # LLM benchmarks
+│   ├── models/                 # Pre-trained CNN weights
+│   ├── puzzles/                # Puzzle dataset (JSON)
+│   ├── board_images/           # Generated puzzle images
+│   └── results/                # Evaluation results
+├── Sudoku/                      # Sudoku puzzle solver
+│   ├── README.md
+│   ├── NeuroSymbolicSolver.ipynb
+│   ├── SymbolicPuzzleGenerator.ipynb
+│   ├── BoardImageGeneration.ipynb
+│   ├── models/
+│   ├── puzzles/
+│   ├── board_images/
+│   └── results/
 ```
-
-### Neural Networks
-
-**Grid Detection CNN:**
-- Input: 128×128 grayscale
-- Output: 5 classes (sizes 3-7)
-- Architecture: Conv(1→32→64) → FC(262144→128→5)
-
-**Character Recognition CNN:**
-- Input: 28×28 grayscale
-- Output: 14 classes (0-9, +, -, ×, ÷)
-- Architecture: Conv(1→32→64) → FC(3136→128→14)
-
-### Z3 Constraints
-
-```python
-# Cell values in range
-1 ≤ X[i][j] ≤ size
-
-# Latin square rules
-Distinct(row), Distinct(column)
-
-# Cage operations
-Sum(cage) == target      # Addition
-Product(cage) == target  # Multiplication
-|a - b| == target        # Subtraction
-max(a/b, b/a) == target  # Division
-```
-
-## Dataset
-
-| Size | Count | Description |
-|------|-------|-------------|
-| 3×3 | 100 | Simple puzzles |
-| 4×4 | 100 | Standard puzzles |
-| 5×5 | 100 | Medium puzzles |
-| 6×6 | 100 | Hard puzzles |
-| 7×7 | 30 | Expert puzzles |
-
-**Total:** 430 puzzles with validated solutions
-
-## Troubleshooting
-
-### Model files show as text/pointers
-```bash
-git lfs pull
-```
-
-### PyTorch 2.6+ UnpicklingError
-The notebooks already include `weights_only=False` for compatibility.
-
-### File not found errors
-Ensure you're running notebooks from the repository root directory.
 
 ## License
 

@@ -4,64 +4,107 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A neuro-symbolic KenKen puzzle solver that combines computer vision (CNNs for grid detection and character recognition), symbolic constraint solving (Z3 SMT solver), and LLM evaluation benchmarks. The solver achieves 100% accuracy on puzzles of size 3x3 to 7x7, significantly outperforming pure LLM approaches.
+A collection of neuro-symbolic puzzle solvers that combine computer vision (CNNs) with symbolic constraint solving (Z3 SMT solver). Currently supports:
+
+- **KenKen**: Latin square + arithmetic cages (100% accuracy on 3×3 to 6×6, 93% on 7×7)
+- **Sudoku**: Latin square + box constraints (4×4 and 9×9)
+
+## Repository Structure
+
+```
+KenKenSolver/
+├── CLAUDE.md              # This file
+├── README.md              # Project overview
+├── KenKen/                # KenKen puzzle solver
+│   ├── README.md
+│   ├── NeuroSymbolicSolver.ipynb
+│   ├── SymbolicPuzzleGenerator.ipynb
+│   ├── BoardImageGeneration.ipynb
+│   ├── *Evaluation.ipynb  # LLM benchmarks
+│   ├── models/            # CNN weights (.pth)
+│   ├── puzzles/           # puzzles_dict.json
+│   ├── board_images/      # 900x900 PNGs
+│   ├── symbols/           # TMNIST training data
+│   └── results/           # Evaluation CSVs
+├── Sudoku/                # Sudoku puzzle solver
+│   ├── README.md
+│   ├── NeuroSymbolicSolver.ipynb
+│   ├── SymbolicPuzzleGenerator.ipynb
+│   ├── BoardImageGeneration.ipynb
+│   ├── models/
+│   ├── puzzles/
+│   ├── board_images/
+│   └── results/
+```
 
 ## Architecture
 
-### Core Pipeline (NeuroSymbolicSolver.ipynb)
+### KenKen Pipeline (KenKen/NeuroSymbolicSolver.ipynb)
 ```
-Image → Grid Detection (CNN) → Border/Cage Detection (OpenCV) →
-Character Recognition (CNN) → Constraint Solving (Z3) → Solution
+Image → Grid_CNN (size) → OpenCV (cages) → CNN_v2 (digits+ops) → Z3 → Solution
 ```
 
-**Key Components:**
-- `Grid_CNN`: Detects board size (3-7) from 128x128 input
-- `CNN_v2`: Character recognition (14 classes: 0-9, +, -, *, /) from 28x28 input
-- Z3 constraints: Latin square rules + cage arithmetic constraints
+### Sudoku Pipeline (Sudoku/NeuroSymbolicSolver.ipynb)
+```
+Image/JSON → Size Detection → Digit Recognition → Z3 → Solution
+```
 
-### Data Flow Functions
-- `find_size_and_borders(img)` → extracts grid size, cage structure, border thickness
-- `make_puzzle(img, ...)` → segments cells, runs OCR, builds puzzle specification
-- `evaluate_puzzle(puzzle)` → Z3 solver returns solution grid
+### Key CNN Models
+- `Grid_CNN`: Board size detection (128×128 input)
+- `CNN_v2`: Character recognition (28×28 input, 14 classes for KenKen, 10 for Sudoku)
 
-### Other Notebooks
-- `SymbolicPuzzleGenerator.ipynb`: Generates valid KenKen puzzles using Z3
-- `BoardImageGeneration.ipynb`: Creates 900x900px puzzle images from JSON data
-- `*Evaluation.ipynb`: Benchmarks various LLMs (Claude, GPT, Gemini, Qwen) against the neuro-symbolic approach
+## Z3 Constraints
+
+### KenKen
+```python
+1 ≤ X[i][j] ≤ size              # Cell range
+Distinct(row), Distinct(col)     # Latin square
+Sum(cage) == target              # Addition
+Product(cage) == target          # Multiplication
+|a - b| == target                # Subtraction
+max(a/b, b/a) == target          # Division
+```
+
+### Sudoku
+```python
+1 ≤ X[i][j] ≤ size              # Cell range
+Distinct(row), Distinct(col)     # Latin square
+Distinct(box)                    # Box constraint (2×2 or 3×3)
+```
 
 ## Setup
 
 ```bash
-pip install z3-solver torch torchvision anthropic openai opencv-python pillow pandas matplotlib numpy
+# Core dependencies
+pip install z3-solver torch torchvision opencv-python pillow pandas numpy matplotlib
+
+# For LLM evaluations
+pip install anthropic openai google-generativeai transformers python-dotenv
+
+# Git LFS for model weights
+brew install git-lfs  # macOS
+git lfs pull
 ```
 
-**Note:** File paths in notebooks reference Google Colab paths (`/content/drive/MyDrive/...`). Adjust for local use.
+## Data Formats
 
-## Key Files
-
-| File | Purpose |
-|------|---------|
-| `models/*.pth` | Pre-trained PyTorch weights (Git LFS) |
-| `puzzles/puzzles_dict.json` | Dataset of 290 puzzles (3x3 to 7x7) |
-| `board_images/` | Generated puzzle PNGs |
-| `symbols/TMNIST_NotoSans.csv` | Character training data (28x28 images) |
-| `results/*.csv` | Evaluation results for each solver |
-
-## Puzzle Data Format
-
+### KenKen Puzzle JSON
 ```json
 {
-  "puzzles": [{
-    "cells": [[0,0], [0,1]],
-    "op": "+",
-    "target": 5
-  }, ...],
-  "solution": [[1,2,3], [3,1,2], [2,3,1]]
+  "cells": [[0,0], [0,1]],
+  "op": "add",
+  "target": 5
 }
 ```
 
-## Z3 Constraint Structure
+### Sudoku Puzzle JSON
+```json
+{
+  "puzzle": [[0,2,0,4], ...],   // 0 = empty
+  "solution": [[1,2,3,4], ...]
+}
+```
 
-- Cell values: `1 ≤ X[i][j] ≤ grid_size`
-- Row/column: `Distinct()` constraint (Latin square)
-- Cage operations: `+` (sum), `*` (product), `-` (absolute difference), `/` (max ratio)
+## File Path Notes
+
+All notebooks use relative paths with `./` prefix (e.g., `./puzzles/puzzles_dict.json`). Ensure you run notebooks from their respective directories (KenKen/ or Sudoku/).
