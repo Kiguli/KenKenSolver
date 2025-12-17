@@ -195,11 +195,11 @@ max(a/b, b/a) == target  # Division
 |------|-------|-------------|
 | 3×3 | 100 | Simple puzzles |
 | 4×4 | 100 | Standard puzzles |
-| 5×5 | 30 | Medium puzzles |
-| 6×6 | 30 | Hard puzzles |
+| 5×5 | 100 | Medium puzzles |
+| 6×6 | 100 | Hard puzzles |
 | 7×7 | 30 | Expert puzzles |
 
-**Total:** 290 puzzles with validated solutions
+**Total:** 430 puzzles with validated solutions
 
 ## Troubleshooting
 
