@@ -1,0 +1,701 @@
+size,puzzle_index,filename,size_detected,size_correct,solved,solve_time_ms,error_type,error_message
+3,0,./board_images/board3_0.png,3,True,True,299.2870807647705,none,
+3,1,./board_images/board3_1.png,3,True,True,215.20304679870605,none,
+3,2,./board_images/board3_2.png,3,True,True,219.3930149078369,none,
+3,3,./board_images/board3_3.png,3,True,True,215.31319618225098,none,
+3,4,./board_images/board3_4.png,3,True,True,224.32208061218262,none,
+3,5,./board_images/board3_5.png,3,True,True,217.67210960388184,none,
+3,6,./board_images/board3_6.png,3,True,True,216.74704551696777,none,
+3,7,./board_images/board3_7.png,3,True,True,284.58714485168457,none,
+3,8,./board_images/board3_8.png,3,True,True,419.1477298736572,none,
+3,9,./board_images/board3_9.png,3,True,True,302.91199684143066,none,
+3,10,./board_images/board3_10.png,3,True,True,221.39906883239746,none,
+3,11,./board_images/board3_11.png,3,True,True,219.38085556030273,none,
+3,12,./board_images/board3_12.png,3,True,True,218.96815299987793,none,
+3,13,./board_images/board3_13.png,3,True,True,217.32306480407715,none,
+3,14,./board_images/board3_14.png,3,True,True,241.6532039642334,none,
+3,15,./board_images/board3_15.png,3,True,True,215.53468704223633,none,
+3,16,./board_images/board3_16.png,3,True,True,221.95982933044434,none,
+3,17,./board_images/board3_17.png,3,True,True,222.40304946899414,none,
+3,18,./board_images/board3_18.png,3,True,True,227.63681411743164,none,
+3,19,./board_images/board3_19.png,3,True,True,222.8538990020752,none,
+3,20,./board_images/board3_20.png,3,True,True,225.72016716003418,none,
+3,21,./board_images/board3_21.png,3,True,True,230.92889785766602,none,
+3,22,./board_images/board3_22.png,3,True,True,223.419189453125,none,
+3,23,./board_images/board3_23.png,3,True,True,225.5992889404297,none,
+3,24,./board_images/board3_24.png,3,True,True,221.25577926635742,none,
+3,25,./board_images/board3_25.png,3,True,True,226.90200805664062,none,
+3,26,./board_images/board3_26.png,3,True,True,223.32525253295898,none,
+3,27,./board_images/board3_27.png,3,True,True,214.35809135437012,none,
+3,28,./board_images/board3_28.png,3,True,True,218.5351848602295,none,
+3,29,./board_images/board3_29.png,3,True,True,215.7890796661377,none,
+3,30,./board_images/board3_30.png,3,True,True,231.41813278198242,none,
+3,31,./board_images/board3_31.png,3,True,True,241.19305610656738,none,
+3,32,./board_images/board3_32.png,3,True,True,286.90218925476074,none,
+3,33,./board_images/board3_33.png,3,True,True,239.6700382232666,none,
+3,34,./board_images/board3_34.png,3,True,True,225.59690475463867,none,
+3,35,./board_images/board3_35.png,3,True,True,226.16171836853027,none,
+3,36,./board_images/board3_36.png,3,True,True,213.75107765197754,none,
+3,37,./board_images/board3_37.png,3,True,True,216.59374237060547,none,
+3,38,./board_images/board3_38.png,3,True,True,224.96891021728516,none,
+3,39,./board_images/board3_39.png,3,True,True,227.6630401611328,none,
+3,40,./board_images/board3_40.png,3,True,True,217.36788749694824,none,
+3,41,./board_images/board3_41.png,3,True,True,216.1691188812256,none,
+3,42,./board_images/board3_42.png,3,True,True,220.75796127319336,none,
+3,43,./board_images/board3_43.png,3,True,True,220.95727920532227,none,
+3,44,./board_images/board3_44.png,3,True,True,225.02398490905762,none,
+3,45,./board_images/board3_45.png,3,True,True,213.70697021484375,none,
+3,46,./board_images/board3_46.png,3,True,True,216.8262004852295,none,
+3,47,./board_images/board3_47.png,3,True,True,211.8539810180664,none,
+3,48,./board_images/board3_48.png,3,True,True,219.09713745117188,none,
+3,49,./board_images/board3_49.png,3,True,True,213.40489387512207,none,
+3,50,./board_images/board3_50.png,3,True,True,212.07618713378906,none,
+3,51,./board_images/board3_51.png,3,True,True,218.76215934753418,none,
+3,52,./board_images/board3_52.png,3,True,True,257.335901260376,none,
+3,53,./board_images/board3_53.png,3,True,True,289.9200916290283,none,
+3,54,./board_images/board3_54.png,3,True,True,275.0368118286133,none,
+3,55,./board_images/board3_55.png,3,True,True,237.04195022583008,none,
+3,56,./board_images/board3_56.png,3,True,True,237.79821395874023,none,
+3,57,./board_images/board3_57.png,3,True,True,225.89373588562012,none,
+3,58,./board_images/board3_58.png,3,True,True,220.56293487548828,none,
+3,59,./board_images/board3_59.png,3,True,True,223.03366661071777,none,
+3,60,./board_images/board3_60.png,3,True,True,220.30305862426758,none,
+3,61,./board_images/board3_61.png,3,True,True,209.7320556640625,none,
+3,62,./board_images/board3_62.png,3,True,True,214.1120433807373,none,
+3,63,./board_images/board3_63.png,3,True,True,215.30413627624512,none,
+3,64,./board_images/board3_64.png,3,True,True,234.1439723968506,none,
+3,65,./board_images/board3_65.png,3,True,True,223.31595420837402,none,
+3,66,./board_images/board3_66.png,3,True,True,274.53017234802246,none,
+3,67,./board_images/board3_67.png,3,True,True,286.0867977142334,none,
+3,68,./board_images/board3_68.png,3,True,True,276.7360210418701,none,
+3,69,./board_images/board3_69.png,3,True,True,222.57375717163086,none,
+3,70,./board_images/board3_70.png,3,True,True,225.82602500915527,none,
+3,71,./board_images/board3_71.png,3,True,True,217.71979331970215,none,
+3,72,./board_images/board3_72.png,3,True,True,217.9117202758789,none,
+3,73,./board_images/board3_73.png,3,True,True,231.20689392089844,none,
+3,74,./board_images/board3_74.png,3,True,True,243.79587173461914,none,
+3,75,./board_images/board3_75.png,3,True,True,272.5560665130615,none,
+3,76,./board_images/board3_76.png,3,True,True,272.144079208374,none,
+3,77,./board_images/board3_77.png,3,True,True,619.0440654754639,none,
+3,78,./board_images/board3_78.png,3,True,True,296.8769073486328,none,
+3,79,./board_images/board3_79.png,3,True,True,220.76010704040527,none,
+3,80,./board_images/board3_80.png,3,True,True,294.35014724731445,none,
+3,81,./board_images/board3_81.png,3,True,True,220.61800956726074,none,
+3,82,./board_images/board3_82.png,3,True,True,218.0652618408203,none,
+3,83,./board_images/board3_83.png,3,True,True,225.8930206298828,none,
+3,84,./board_images/board3_84.png,3,True,True,223.59585762023926,none,
+3,85,./board_images/board3_85.png,3,True,True,264.1448974609375,none,
+3,86,./board_images/board3_86.png,3,True,True,284.26098823547363,none,
+3,87,./board_images/board3_87.png,3,True,True,250.56982040405273,none,
+3,88,./board_images/board3_88.png,3,True,True,225.03185272216797,none,
+3,89,./board_images/board3_89.png,3,True,True,223.2520580291748,none,
+3,90,./board_images/board3_90.png,3,True,True,217.87214279174805,none,
+3,91,./board_images/board3_91.png,3,True,True,234.22884941101074,none,
+3,92,./board_images/board3_92.png,3,True,True,252.02417373657227,none,
+3,93,./board_images/board3_93.png,3,True,True,227.07605361938477,none,
+3,94,./board_images/board3_94.png,3,True,True,241.1971092224121,none,
+3,95,./board_images/board3_95.png,3,True,True,286.6389751434326,none,
+3,96,./board_images/board3_96.png,3,True,True,254.09197807312012,none,
+3,97,./board_images/board3_97.png,3,True,True,216.6578769683838,none,
+3,98,./board_images/board3_98.png,3,True,True,264.20116424560547,none,
+3,99,./board_images/board3_99.png,3,True,True,226.11594200134277,none,
+4,0,./board_images/board4_0.png,4,True,True,289.4730567932129,none,
+4,1,./board_images/board4_1.png,4,True,True,355.28087615966797,none,
+4,2,./board_images/board4_2.png,4,True,True,294.88086700439453,none,
+4,3,./board_images/board4_3.png,4,True,True,417.24610328674316,none,
+4,4,./board_images/board4_4.png,4,True,True,321.5899467468262,none,
+4,5,./board_images/board4_5.png,4,True,True,307.45601654052734,none,
+4,6,./board_images/board4_6.png,4,True,True,351.22203826904297,none,
+4,7,./board_images/board4_7.png,4,True,True,279.6018123626709,none,
+4,8,./board_images/board4_8.png,4,True,True,325.3817558288574,none,
+4,9,./board_images/board4_9.png,4,True,True,334.352970123291,none,
+4,10,./board_images/board4_10.png,4,True,True,318.74918937683105,none,
+4,11,./board_images/board4_11.png,4,True,True,270.9510326385498,none,
+4,12,./board_images/board4_12.png,4,True,True,314.7459030151367,none,
+4,13,./board_images/board4_13.png,4,True,True,377.2890567779541,none,
+4,14,./board_images/board4_14.png,4,True,True,296.74291610717773,none,
+4,15,./board_images/board4_15.png,4,True,True,285.22777557373047,none,
+4,16,./board_images/board4_16.png,4,True,True,257.066011428833,none,
+4,17,./board_images/board4_17.png,4,True,True,289.0479564666748,none,
+4,18,./board_images/board4_18.png,4,True,True,279.77585792541504,none,
+4,19,./board_images/board4_19.png,4,True,True,260.5550289154053,none,
+4,20,./board_images/board4_20.png,4,True,True,276.74007415771484,none,
+4,21,./board_images/board4_21.png,4,True,True,261.2450122833252,none,
+4,22,./board_images/board4_22.png,4,True,True,283.91075134277344,none,
+4,23,./board_images/board4_23.png,4,True,True,469.77901458740234,none,
+4,24,./board_images/board4_24.png,4,True,True,280.7281017303467,none,
+4,25,./board_images/board4_25.png,4,True,True,329.2410373687744,none,
+4,26,./board_images/board4_26.png,4,True,True,311.9199275970459,none,
+4,27,./board_images/board4_27.png,4,True,True,276.8130302429199,none,
+4,28,./board_images/board4_28.png,4,True,True,325.2451419830322,none,
+4,29,./board_images/board4_29.png,4,True,True,430.50599098205566,none,
+4,30,./board_images/board4_30.png,4,True,True,366.1959171295166,none,
+4,31,./board_images/board4_31.png,4,True,True,303.3409118652344,none,
+4,32,./board_images/board4_32.png,4,True,True,443.0058002471924,none,
+4,33,./board_images/board4_33.png,4,True,True,558.5529804229736,none,
+4,34,./board_images/board4_34.png,4,True,True,417.4990653991699,none,
+4,35,./board_images/board4_35.png,4,True,True,373.2643127441406,none,
+4,36,./board_images/board4_36.png,4,True,True,448.8098621368408,none,
+4,37,./board_images/board4_37.png,4,True,True,335.36481857299805,none,
+4,38,./board_images/board4_38.png,4,True,True,302.1368980407715,none,
+4,39,./board_images/board4_39.png,4,True,True,321.97093963623047,none,
+4,40,./board_images/board4_40.png,4,True,True,289.9000644683838,none,
+4,41,./board_images/board4_41.png,4,True,True,320.7812309265137,none,
+4,42,./board_images/board4_42.png,4,True,True,306.76817893981934,none,
+4,43,./board_images/board4_43.png,4,True,True,302.34479904174805,none,
+4,44,./board_images/board4_44.png,4,True,True,291.5618419647217,none,
+4,45,./board_images/board4_45.png,4,True,True,313.9970302581787,none,
+4,46,./board_images/board4_46.png,4,True,True,357.3760986328125,none,
+4,47,./board_images/board4_47.png,4,True,True,276.0300636291504,none,
+4,48,./board_images/board4_48.png,4,True,True,273.3030319213867,none,
+4,49,./board_images/board4_49.png,4,True,True,282.25207328796387,none,
+4,50,./board_images/board4_50.png,4,True,True,290.93408584594727,none,
+4,51,./board_images/board4_51.png,4,True,True,272.68099784851074,none,
+4,52,./board_images/board4_52.png,4,True,True,296.314001083374,none,
+4,53,./board_images/board4_53.png,4,True,True,271.78311347961426,none,
+4,54,./board_images/board4_54.png,4,True,True,264.6493911743164,none,
+4,55,./board_images/board4_55.png,4,True,True,302.8149604797363,none,
+4,56,./board_images/board4_56.png,4,True,True,286.8170738220215,none,
+4,57,./board_images/board4_57.png,4,True,True,288.8193130493164,none,
+4,58,./board_images/board4_58.png,4,True,True,445.465087890625,none,
+4,59,./board_images/board4_59.png,4,True,True,383.7623596191406,none,
+4,60,./board_images/board4_60.png,4,True,True,573.9917755126953,none,
+4,61,./board_images/board4_61.png,4,True,True,418.0107116699219,none,
+4,62,./board_images/board4_62.png,4,True,True,335.71314811706543,none,
+4,63,./board_images/board4_63.png,4,True,True,311.88511848449707,none,
+4,64,./board_images/board4_64.png,4,True,True,334.84697341918945,none,
+4,65,./board_images/board4_65.png,4,True,True,328.1068801879883,none,
+4,66,./board_images/board4_66.png,4,True,True,372.80988693237305,none,
+4,67,./board_images/board4_67.png,4,True,True,317.38877296447754,none,
+4,68,./board_images/board4_68.png,4,True,True,323.34089279174805,none,
+4,69,./board_images/board4_69.png,4,True,True,321.3179111480713,none,
+4,70,./board_images/board4_70.png,4,True,True,316.9219493865967,none,
+4,71,./board_images/board4_71.png,4,True,True,287.1370315551758,none,
+4,72,./board_images/board4_72.png,4,True,True,287.40501403808594,none,
+4,73,./board_images/board4_73.png,4,True,True,289.78896141052246,none,
+4,74,./board_images/board4_74.png,4,True,True,276.7941951751709,none,
+4,75,./board_images/board4_75.png,4,True,True,284.6260070800781,none,
+4,76,./board_images/board4_76.png,4,True,True,314.4199848175049,none,
+4,77,./board_images/board4_77.png,4,True,True,304.6882152557373,none,
+4,78,./board_images/board4_78.png,4,True,True,310.29605865478516,none,
+4,79,./board_images/board4_79.png,4,True,True,344.27714347839355,none,
+4,80,./board_images/board4_80.png,4,True,True,286.3020896911621,none,
+4,81,./board_images/board4_81.png,4,True,True,292.4690246582031,none,
+4,82,./board_images/board4_82.png,4,True,True,279.81066703796387,none,
+4,83,./board_images/board4_83.png,4,True,True,288.8350486755371,none,
+4,84,./board_images/board4_84.png,4,True,True,293.70689392089844,none,
+4,85,./board_images/board4_85.png,4,True,True,331.0580253601074,none,
+4,86,./board_images/board4_86.png,4,True,True,336.7118835449219,none,
+4,87,./board_images/board4_87.png,4,True,True,295.6397533416748,none,
+4,88,./board_images/board4_88.png,4,True,True,282.1340560913086,none,
+4,89,./board_images/board4_89.png,4,True,True,357.9411506652832,none,
+4,90,./board_images/board4_90.png,4,True,True,289.6120548248291,none,
+4,91,./board_images/board4_91.png,4,True,True,329.72097396850586,none,
+4,92,./board_images/board4_92.png,4,True,True,268.068790435791,none,
+4,93,./board_images/board4_93.png,4,True,True,366.6980266571045,none,
+4,94,./board_images/board4_94.png,4,True,True,307.18994140625,none,
+4,95,./board_images/board4_95.png,4,True,True,295.3181266784668,none,
+4,96,./board_images/board4_96.png,4,True,True,277.02808380126953,none,
+4,97,./board_images/board4_97.png,4,True,True,390.3038501739502,none,
+4,98,./board_images/board4_98.png,4,True,True,283.5400104522705,none,
+4,99,./board_images/board4_99.png,4,True,True,385.2858543395996,none,
+5,0,./board_images/board5_0.png,5,True,True,765.8491134643555,none,
+5,1,./board_images/board5_1.png,5,True,True,471.9400405883789,none,
+5,2,./board_images/board5_2.png,5,True,True,488.3098602294922,none,
+5,3,./board_images/board5_3.png,5,True,True,396.92115783691406,none,
+5,4,./board_images/board5_4.png,5,True,True,393.9499855041504,none,
+5,5,./board_images/board5_5.png,5,True,True,661.4680290222168,none,
+5,6,./board_images/board5_6.png,5,True,True,358.0489158630371,none,
+5,7,./board_images/board5_7.png,5,True,True,389.8508548736572,none,
+5,8,./board_images/board5_8.png,5,True,True,361.1466884613037,none,
+5,9,./board_images/board5_9.png,5,True,True,527.2409915924072,none,
+5,10,./board_images/board5_10.png,5,True,True,427.0520210266113,none,
+5,11,./board_images/board5_11.png,5,True,True,354.92897033691406,none,
+5,12,./board_images/board5_12.png,5,True,True,452.1799087524414,none,
+5,13,./board_images/board5_13.png,5,True,True,346.22907638549805,none,
+5,14,./board_images/board5_14.png,5,True,True,348.1621742248535,none,
+5,15,./board_images/board5_15.png,5,True,True,354.3200492858887,none,
+5,16,./board_images/board5_16.png,5,True,True,631.497859954834,none,
+5,17,./board_images/board5_17.png,5,True,True,396.11077308654785,none,
+5,18,./board_images/board5_18.png,5,True,True,456.42805099487305,none,
+5,19,./board_images/board5_19.png,5,True,True,369.37403678894043,none,
+5,20,./board_images/board5_20.png,5,True,True,471.21596336364746,none,
+5,21,./board_images/board5_21.png,5,True,True,350.2941131591797,none,
+5,22,./board_images/board5_22.png,5,True,True,387.42804527282715,none,
+5,23,./board_images/board5_23.png,5,True,True,594.8750972747803,none,
+5,24,./board_images/board5_24.png,5,True,True,489.2270565032959,none,
+5,25,./board_images/board5_25.png,5,True,True,515.1529312133789,none,
+5,26,./board_images/board5_26.png,5,True,True,493.3948516845703,none,
+5,27,./board_images/board5_27.png,5,True,True,575.7670402526855,none,
+5,28,./board_images/board5_28.png,5,True,True,377.758264541626,none,
+5,29,./board_images/board5_29.png,5,True,True,596.2610244750977,none,
+5,30,./board_images/board5_30.png,5,True,True,351.5479564666748,none,
+5,31,./board_images/board5_31.png,5,True,True,841.8047428131104,none,
+5,32,./board_images/board5_32.png,5,True,True,570.8169937133789,none,
+5,33,./board_images/board5_33.png,5,True,True,661.5440845489502,none,
+5,34,./board_images/board5_34.png,5,True,True,439.8632049560547,none,
+5,35,./board_images/board5_35.png,5,True,True,438.60888481140137,none,
+5,36,./board_images/board5_36.png,5,True,True,599.3049144744873,none,
+5,37,./board_images/board5_37.png,5,True,True,393.6319351196289,none,
+5,38,./board_images/board5_38.png,5,True,True,914.1113758087158,none,
+5,39,./board_images/board5_39.png,5,True,True,778.8741588592529,none,
+5,40,./board_images/board5_40.png,5,True,True,577.6631832122803,none,
+5,41,./board_images/board5_41.png,5,True,True,675.2810478210449,none,
+5,42,./board_images/board5_42.png,5,True,True,919.1219806671143,none,
+5,43,./board_images/board5_43.png,5,True,True,609.011173248291,none,
+5,44,./board_images/board5_44.png,5,True,True,417.2701835632324,none,
+5,45,./board_images/board5_45.png,5,True,True,442.1072006225586,none,
+5,46,./board_images/board5_46.png,5,True,True,672.8899478912354,none,
+5,47,./board_images/board5_47.png,5,True,True,491.2581443786621,none,
+5,48,./board_images/board5_48.png,5,True,True,378.4899711608887,none,
+5,49,./board_images/board5_49.png,5,True,True,445.07598876953125,none,
+5,50,./board_images/board5_50.png,5,True,True,365.3421401977539,none,
+5,51,./board_images/board5_51.png,5,True,True,909.7638130187988,none,
+5,52,./board_images/board5_52.png,5,True,True,736.8431091308594,none,
+5,53,./board_images/board5_53.png,5,True,True,367.98691749572754,none,
+5,54,./board_images/board5_54.png,5,True,True,398.36978912353516,none,
+5,55,./board_images/board5_55.png,5,True,True,345.30115127563477,none,
+5,56,./board_images/board5_56.png,5,True,True,344.76304054260254,none,
+5,57,./board_images/board5_57.png,5,True,True,661.5829467773438,none,
+5,58,./board_images/board5_58.png,5,True,True,570.7340240478516,none,
+5,59,./board_images/board5_59.png,5,True,True,355.0398349761963,none,
+5,60,./board_images/board5_60.png,5,True,True,510.39886474609375,none,
+5,61,./board_images/board5_61.png,5,True,True,430.2849769592285,none,
+5,62,./board_images/board5_62.png,5,True,True,518.9731121063232,none,
+5,63,./board_images/board5_63.png,5,True,True,405.66015243530273,none,
+5,64,./board_images/board5_64.png,5,True,True,373.8698959350586,none,
+5,65,./board_images/board5_65.png,5,True,True,397.11618423461914,none,
+5,66,./board_images/board5_66.png,5,True,True,337.72921562194824,none,
+5,67,./board_images/board5_67.png,5,True,True,337.2070789337158,none,
+5,68,./board_images/board5_68.png,5,True,True,349.0471839904785,none,
+5,69,./board_images/board5_69.png,5,True,True,414.80016708374023,none,
+5,70,./board_images/board5_70.png,5,True,True,344.8028564453125,none,
+5,71,./board_images/board5_71.png,5,True,True,568.4030055999756,none,
+5,72,./board_images/board5_72.png,5,True,True,338.9568328857422,none,
+5,73,./board_images/board5_73.png,5,True,True,340.03615379333496,none,
+5,74,./board_images/board5_74.png,5,True,True,371.91200256347656,none,
+5,75,./board_images/board5_75.png,5,True,True,412.27006912231445,none,
+5,76,./board_images/board5_76.png,5,True,True,332.7817916870117,none,
+5,77,./board_images/board5_77.png,5,True,True,603.114128112793,none,
+5,78,./board_images/board5_78.png,5,True,True,376.81007385253906,none,
+5,79,./board_images/board5_79.png,5,True,True,353.226900100708,none,
+5,80,./board_images/board5_80.png,5,True,True,370.833158493042,none,
+5,81,./board_images/board5_81.png,5,True,True,347.8400707244873,none,
+5,82,./board_images/board5_82.png,5,True,True,449.2218494415283,none,
+5,83,./board_images/board5_83.png,5,True,True,696.6099739074707,none,
+5,84,./board_images/board5_84.png,5,True,True,524.0211486816406,none,
+5,85,./board_images/board5_85.png,5,True,True,446.4421272277832,none,
+5,86,./board_images/board5_86.png,5,True,True,399.677038192749,none,
+5,87,./board_images/board5_87.png,5,True,True,399.3239402770996,none,
+5,88,./board_images/board5_88.png,5,True,True,488.2340431213379,none,
+5,89,./board_images/board5_89.png,5,True,True,356.5981388092041,none,
+5,90,./board_images/board5_90.png,5,True,True,356.89806938171387,none,
+5,91,./board_images/board5_91.png,5,True,True,337.83793449401855,none,
+5,92,./board_images/board5_92.png,5,True,True,331.8049907684326,none,
+5,93,./board_images/board5_93.png,5,True,True,330.92308044433594,none,
+5,94,./board_images/board5_94.png,5,True,True,334.428071975708,none,
+5,95,./board_images/board5_95.png,5,True,True,354.02584075927734,none,
+5,96,./board_images/board5_96.png,5,True,True,381.3621997833252,none,
+5,97,./board_images/board5_97.png,5,True,True,362.69521713256836,none,
+5,98,./board_images/board5_98.png,5,True,True,417.8030490875244,none,
+5,99,./board_images/board5_99.png,5,True,True,356.8558692932129,none,
+6,0,./board_images/board6_0.png,6,True,True,1243.4799671173096,none,
+6,1,./board_images/board6_1.png,6,True,True,409.7001552581787,none,
+6,2,./board_images/board6_2.png,6,True,True,909.9788665771484,none,
+6,3,./board_images/board6_3.png,6,True,True,417.96398162841797,none,
+6,4,./board_images/board6_4.png,6,True,True,833.7228298187256,none,
+6,5,./board_images/board6_5.png,6,True,True,1452.5930881500244,none,
+6,6,./board_images/board6_6.png,6,True,True,16235.429286956787,none,
+6,7,./board_images/board6_7.png,6,True,True,955.8262825012207,none,
+6,8,./board_images/board6_8.png,6,True,True,484.17091369628906,none,
+6,9,./board_images/board6_9.png,6,True,True,1241.401195526123,none,
+6,10,./board_images/board6_10.png,6,True,True,1599.0898609161377,none,
+6,11,./board_images/board6_11.png,6,True,True,1366.0690784454346,none,
+6,12,./board_images/board6_12.png,6,True,True,1149.1780281066895,none,
+6,13,./board_images/board6_13.png,6,True,True,1082.2129249572754,none,
+6,14,./board_images/board6_14.png,6,True,True,705.5759429931641,none,
+6,15,./board_images/board6_15.png,6,True,True,1285.0141525268555,none,
+6,16,./board_images/board6_16.png,6,True,True,1694.7972774505615,none,
+6,17,./board_images/board6_17.png,6,True,True,1361.4270687103271,none,
+6,18,./board_images/board6_18.png,6,True,True,1030.1649570465088,none,
+6,19,./board_images/board6_19.png,6,True,True,1024.4710445404053,none,
+6,20,./board_images/board6_20.png,6,True,True,1220.52001953125,none,
+6,21,./board_images/board6_21.png,6,True,True,728.1930446624756,none,
+6,22,./board_images/board6_22.png,6,True,True,665.3330326080322,none,
+6,23,./board_images/board6_23.png,6,True,True,661.311149597168,none,
+6,24,./board_images/board6_24.png,6,True,True,1004.6060085296631,none,
+6,25,./board_images/board6_25.png,6,True,True,1263.1990909576416,none,
+6,26,./board_images/board6_26.png,6,True,True,701.995849609375,none,
+6,27,./board_images/board6_27.png,6,True,True,7635.254859924316,none,
+6,28,./board_images/board6_28.png,6,True,True,558.5300922393799,none,
+6,29,./board_images/board6_29.png,6,True,True,1210.3626728057861,none,
+6,30,./board_images/board6_30.png,6,True,True,939.7752285003662,none,
+6,31,./board_images/board6_31.png,6,True,True,690.5920505523682,none,
+6,32,./board_images/board6_32.png,6,True,True,983.4110736846924,none,
+6,33,./board_images/board6_33.png,6,True,True,913.5701656341553,none,
+6,34,./board_images/board6_34.png,6,True,True,9961.456298828125,none,
+6,35,./board_images/board6_35.png,6,True,True,713.2458686828613,none,
+6,36,./board_images/board6_36.png,6,True,True,789.1941070556641,none,
+6,37,./board_images/board6_37.png,6,True,True,426.0437488555908,none,
+6,38,./board_images/board6_38.png,6,True,True,7525.861978530884,none,
+6,39,./board_images/board6_39.png,6,True,True,2081.6738605499268,none,
+6,40,./board_images/board6_40.png,6,True,True,10654.521942138672,none,
+6,41,./board_images/board6_41.png,6,True,True,1683.0558776855469,none,
+6,42,./board_images/board6_42.png,6,True,True,2047.3580360412598,none,
+6,43,./board_images/board6_43.png,6,True,True,770.1718807220459,none,
+6,44,./board_images/board6_44.png,6,True,True,802.1001815795898,none,
+6,45,./board_images/board6_45.png,6,True,True,889.9140357971191,none,
+6,46,./board_images/board6_46.png,6,True,True,1111.7401123046875,none,
+6,47,./board_images/board6_47.png,6,True,True,1013.0679607391357,none,
+6,48,./board_images/board6_48.png,6,True,True,1503.1638145446777,none,
+6,49,./board_images/board6_49.png,6,True,True,1086.3409042358398,none,
+6,50,./board_images/board6_50.png,6,True,True,1826.9009590148926,none,
+6,51,./board_images/board6_51.png,6,True,True,8776.823997497559,none,
+6,52,./board_images/board6_52.png,6,True,True,1521.1193561553955,none,
+6,53,./board_images/board6_53.png,6,True,True,913.5777950286865,none,
+6,54,./board_images/board6_54.png,6,True,True,8856.165170669556,none,
+6,55,./board_images/board6_55.png,6,True,True,1293.2279109954834,none,
+6,56,./board_images/board6_56.png,6,True,True,403.05304527282715,none,
+6,57,./board_images/board6_57.png,6,True,True,913.3529663085938,none,
+6,58,./board_images/board6_58.png,6,True,True,7559.384107589722,none,
+6,59,./board_images/board6_59.png,6,True,True,979.2451858520508,none,
+6,60,./board_images/board6_60.png,6,True,True,2436.1791610717773,none,
+6,61,./board_images/board6_61.png,6,True,True,1206.4447402954102,none,
+6,62,./board_images/board6_62.png,6,True,True,1116.7590618133545,none,
+6,63,./board_images/board6_63.png,6,True,True,916.9228076934814,none,
+6,64,./board_images/board6_64.png,6,True,True,439.3148422241211,none,
+6,65,./board_images/board6_65.png,6,True,True,420.712947845459,none,
+6,66,./board_images/board6_66.png,6,True,True,10543.061017990112,none,
+6,67,./board_images/board6_67.png,6,True,True,965.4419422149658,none,
+6,68,./board_images/board6_68.png,6,True,True,483.9949607849121,none,
+6,69,./board_images/board6_69.png,6,True,True,817.5020217895508,none,
+6,70,./board_images/board6_70.png,6,True,True,2216.8848514556885,none,
+6,71,./board_images/board6_71.png,6,True,True,7529.8449993133545,none,
+6,72,./board_images/board6_72.png,6,True,True,847.0618724822998,none,
+6,73,./board_images/board6_73.png,6,True,True,1535.099983215332,none,
+6,74,./board_images/board6_74.png,6,True,True,1120.042085647583,none,
+6,75,./board_images/board6_75.png,6,True,True,1997.267246246338,none,
+6,76,./board_images/board6_76.png,6,True,True,426.602840423584,none,
+6,77,./board_images/board6_77.png,6,True,True,765.0852203369141,none,
+6,78,./board_images/board6_78.png,6,True,True,1693.0561065673828,none,
+6,79,./board_images/board6_79.png,6,True,True,7621.849298477173,none,
+6,80,./board_images/board6_80.png,6,True,True,475.9359359741211,none,
+6,81,./board_images/board6_81.png,6,True,True,812.2129440307617,none,
+6,82,./board_images/board6_82.png,6,True,True,914.9429798126221,none,
+6,83,./board_images/board6_83.png,6,True,True,1295.4769134521484,none,
+6,84,./board_images/board6_84.png,6,True,True,645.9450721740723,none,
+6,85,./board_images/board6_85.png,6,True,True,1086.6031646728516,none,
+6,86,./board_images/board6_86.png,6,True,True,2245.314836502075,none,
+6,87,./board_images/board6_87.png,6,True,True,2143.770933151245,none,
+6,88,./board_images/board6_88.png,6,True,True,762.3369693756104,none,
+6,89,./board_images/board6_89.png,6,True,True,611.3340854644775,none,
+6,90,./board_images/board6_90.png,6,True,True,2103.097915649414,none,
+6,91,./board_images/board6_91.png,6,True,True,13177.596807479858,none,
+6,92,./board_images/board6_92.png,6,True,True,11444.402933120728,none,
+6,93,./board_images/board6_93.png,6,True,True,894.1328525543213,none,
+6,94,./board_images/board6_94.png,6,True,True,712.050199508667,none,
+6,95,./board_images/board6_95.png,6,True,True,417.49024391174316,none,
+6,96,./board_images/board6_96.png,6,True,True,955.7888507843018,none,
+6,97,./board_images/board6_97.png,6,True,True,1151.310920715332,none,
+6,98,./board_images/board6_98.png,6,True,True,854.8600673675537,none,
+6,99,./board_images/board6_99.png,6,True,True,515.3820514678955,none,
+7,0,./board_images/board7_0.png,7,True,True,16288.029909133911,none,
+7,1,./board_images/board7_1.png,7,True,True,37913.25902938843,none,
+7,2,./board_images/board7_2.png,7,True,True,31354.920864105225,none,
+7,3,./board_images/board7_3.png,7,True,True,32158.188104629517,none,
+7,4,./board_images/board7_4.png,7,True,True,12922.480821609497,none,
+7,5,./board_images/board7_5.png,7,True,True,50034.95788574219,none,
+7,6,./board_images/board7_6.png,7,True,True,22827.68487930298,none,
+7,7,./board_images/board7_7.png,7,True,True,11651.466131210327,none,
+7,8,./board_images/board7_8.png,7,True,True,11441.296100616455,none,
+7,9,./board_images/board7_9.png,7,True,True,11913.445234298706,none,
+7,10,./board_images/board7_10.png,7,True,True,1531.0509204864502,none,
+7,11,./board_images/board7_11.png,7,True,True,36435.259103775024,none,
+7,12,./board_images/board7_12.png,7,True,True,13942.873239517212,none,
+7,13,./board_images/board7_13.png,7,True,False,480.8001518249512,exception,list index out of range
+7,14,./board_images/board7_14.png,7,True,False,465.0461673736572,exception,list index out of range
+7,15,./board_images/board7_15.png,7,True,True,17472.599029541016,none,
+7,16,./board_images/board7_16.png,7,True,True,18860.09192466736,none,
+7,17,./board_images/board7_17.png,7,True,True,53516.379833221436,none,
+7,18,./board_images/board7_18.png,7,True,True,56311.644315719604,none,
+7,19,./board_images/board7_19.png,7,True,True,2561.403751373291,none,
+7,20,./board_images/board7_20.png,7,True,True,1686.8059635162354,none,
+7,21,./board_images/board7_21.png,7,True,True,10863.964080810547,none,
+7,22,./board_images/board7_22.png,7,True,True,13857.820987701416,none,
+7,23,./board_images/board7_23.png,7,True,True,12908.712387084961,none,
+7,24,./board_images/board7_24.png,7,True,True,7096.231937408447,none,
+7,25,./board_images/board7_25.png,7,True,True,9918.495893478394,none,
+7,26,./board_images/board7_26.png,7,True,True,166620.46003341675,none,
+7,27,./board_images/board7_27.png,7,True,True,16649.173974990845,none,
+7,28,./board_images/board7_28.png,7,True,True,11900.719165802002,none,
+7,29,./board_images/board7_29.png,7,True,True,8532.817125320435,none,
+7,30,./board_images/board7_30.png,7,True,True,7946.763753890991,none,
+7,31,./board_images/board7_31.png,7,True,False,437.76822090148926,exception,list index out of range
+7,32,./board_images/board7_32.png,7,True,True,27042.550802230835,none,
+7,33,./board_images/board7_33.png,7,True,True,28548.680067062378,none,
+7,34,./board_images/board7_34.png,7,True,True,27145.325899124146,none,
+7,35,./board_images/board7_35.png,7,True,False,451.5519142150879,z3_unsolvable,Z3 could not satisfy constraints
+7,36,./board_images/board7_36.png,7,True,True,22181.29801750183,none,
+7,37,./board_images/board7_37.png,7,True,True,13481.58597946167,none,
+7,38,./board_images/board7_38.png,7,True,True,19316.930055618286,none,
+7,39,./board_images/board7_39.png,7,True,True,10093.799114227295,none,
+7,40,./board_images/board7_40.png,7,True,True,51136.97791099548,none,
+7,41,./board_images/board7_41.png,7,True,True,1914.2720699310303,none,
+7,42,./board_images/board7_42.png,7,True,True,12613.357782363892,none,
+7,43,./board_images/board7_43.png,7,True,True,10701.48515701294,none,
+7,44,./board_images/board7_44.png,7,True,True,8880.836963653564,none,
+7,45,./board_images/board7_45.png,7,True,False,482.2390079498291,z3_unsolvable,Z3 could not satisfy constraints
+7,46,./board_images/board7_46.png,7,True,True,102089.90001678467,none,
+7,47,./board_images/board7_47.png,7,True,True,60841.814041137695,none,
+7,48,./board_images/board7_48.png,7,True,True,8311.24496459961,none,
+7,49,./board_images/board7_49.png,7,True,False,556.7021369934082,z3_unsolvable,Z3 could not satisfy constraints
+7,50,./board_images/board7_50.png,7,True,True,37525.08521080017,none,
+7,51,./board_images/board7_51.png,7,True,True,27974.76577758789,none,
+7,52,./board_images/board7_52.png,7,True,True,16970.957279205322,none,
+7,53,./board_images/board7_53.png,7,True,True,12995.589256286621,none,
+7,54,./board_images/board7_54.png,7,True,True,13392.68684387207,none,
+7,55,./board_images/board7_55.png,7,True,True,11630.389928817749,none,
+7,56,./board_images/board7_56.png,7,True,True,11977.465867996216,none,
+7,57,./board_images/board7_57.png,7,True,True,15720.792055130005,none,
+7,58,./board_images/board7_58.png,7,True,True,24017.194986343384,none,
+7,59,./board_images/board7_59.png,7,True,True,22212.098121643066,none,
+7,60,./board_images/board7_60.png,7,True,True,52532.763719558716,none,
+7,61,./board_images/board7_61.png,7,True,True,13588.954210281372,none,
+7,62,./board_images/board7_62.png,7,True,True,29246.783018112183,none,
+7,63,./board_images/board7_63.png,7,True,True,1853.4891605377197,none,
+7,64,./board_images/board7_64.png,7,True,True,17616.110801696777,none,
+7,65,./board_images/board7_65.png,7,True,True,8304.287910461426,none,
+7,66,./board_images/board7_66.png,7,True,True,13215.999841690063,none,
+7,67,./board_images/board7_67.png,7,True,True,25087.76569366455,none,
+7,68,./board_images/board7_68.png,7,True,True,10137.18295097351,none,
+7,69,./board_images/board7_69.png,7,True,False,423.84886741638184,exception,list index out of range
+7,70,./board_images/board7_70.png,7,True,True,10065.691947937012,none,
+7,71,./board_images/board7_71.png,7,True,True,11071.319103240967,none,
+7,72,./board_images/board7_72.png,7,True,True,32957.34405517578,none,
+7,73,./board_images/board7_73.png,7,True,True,11459.374189376831,none,
+7,74,./board_images/board7_74.png,7,True,True,20182.94596672058,none,
+7,75,./board_images/board7_75.png,7,True,True,14489.89987373352,none,
+7,76,./board_images/board7_76.png,7,True,True,22605.451107025146,none,
+7,77,./board_images/board7_77.png,7,True,True,13200.951099395752,none,
+7,78,./board_images/board7_78.png,7,True,True,11749.897956848145,none,
+7,79,./board_images/board7_79.png,7,True,True,10144.788980484009,none,
+7,80,./board_images/board7_80.png,7,True,True,7472.647905349731,none,
+7,81,./board_images/board7_81.png,7,True,True,11040.213108062744,none,
+7,82,./board_images/board7_82.png,7,True,True,8204.43606376648,none,
+7,83,./board_images/board7_83.png,7,True,True,13294.710159301758,none,
+7,84,./board_images/board7_84.png,7,True,True,24423.62093925476,none,
+7,85,./board_images/board7_85.png,7,True,False,736.0398769378662,exception,list index out of range
+7,86,./board_images/board7_86.png,7,True,True,2090.651035308838,none,
+7,87,./board_images/board7_87.png,7,True,False,587.1102809906006,z3_unsolvable,Z3 could not satisfy constraints
+7,88,./board_images/board7_88.png,7,True,True,11478.934049606323,none,
+7,89,./board_images/board7_89.png,7,True,True,13303.545236587524,none,
+7,90,./board_images/board7_90.png,7,True,True,40345.29781341553,none,
+7,91,./board_images/board7_91.png,7,True,True,12568.384170532227,none,
+7,92,./board_images/board7_92.png,7,True,True,8703.179121017456,none,
+7,93,./board_images/board7_93.png,7,True,True,9501.595735549927,none,
+7,94,./board_images/board7_94.png,7,True,True,19610.926151275635,none,
+7,95,./board_images/board7_95.png,7,True,True,8520.956039428711,none,
+7,96,./board_images/board7_96.png,7,True,True,15194.29612159729,none,
+7,97,./board_images/board7_97.png,7,True,True,20396.666049957275,none,
+7,98,./board_images/board7_98.png,7,True,True,30297.797203063965,none,
+7,99,./board_images/board7_99.png,7,True,True,12152.563095092773,none,
+8,0,./board_images/board8_0.png,8,True,False,1288.6271476745605,z3_unsolvable,Z3 could not satisfy constraints
+8,1,./board_images/board8_1.png,8,True,False,757.4858665466309,z3_unsolvable,Z3 could not satisfy constraints
+8,2,./board_images/board8_2.png,8,True,False,639.0640735626221,z3_unsolvable,Z3 could not satisfy constraints
+8,3,./board_images/board8_3.png,8,True,False,643.9540386199951,z3_unsolvable,Z3 could not satisfy constraints
+8,4,./board_images/board8_4.png,8,True,False,720.6223011016846,z3_unsolvable,Z3 could not satisfy constraints
+8,5,./board_images/board8_5.png,8,True,False,821.4027881622314,z3_unsolvable,Z3 could not satisfy constraints
+8,6,./board_images/board8_6.png,8,True,False,678.955078125,z3_unsolvable,Z3 could not satisfy constraints
+8,7,./board_images/board8_7.png,8,True,False,881.4272880554199,z3_unsolvable,Z3 could not satisfy constraints
+8,8,./board_images/board8_8.png,8,True,False,691.0810470581055,z3_unsolvable,Z3 could not satisfy constraints
+8,9,./board_images/board8_9.png,8,True,False,671.9150543212891,z3_unsolvable,Z3 could not satisfy constraints
+8,10,./board_images/board8_10.png,8,True,False,689.9082660675049,z3_unsolvable,Z3 could not satisfy constraints
+8,11,./board_images/board8_11.png,8,True,False,826.47705078125,z3_unsolvable,Z3 could not satisfy constraints
+8,12,./board_images/board8_12.png,8,True,False,631.3810348510742,z3_unsolvable,Z3 could not satisfy constraints
+8,13,./board_images/board8_13.png,8,True,False,657.8009128570557,z3_unsolvable,Z3 could not satisfy constraints
+8,14,./board_images/board8_14.png,8,True,False,801.8150329589844,z3_unsolvable,Z3 could not satisfy constraints
+8,15,./board_images/board8_15.png,8,True,False,679.6619892120361,z3_unsolvable,Z3 could not satisfy constraints
+8,16,./board_images/board8_16.png,8,True,False,594.8398113250732,z3_unsolvable,Z3 could not satisfy constraints
+8,17,./board_images/board8_17.png,8,True,False,658.6439609527588,z3_unsolvable,Z3 could not satisfy constraints
+8,18,./board_images/board8_18.png,8,True,False,676.59592628479,z3_unsolvable,Z3 could not satisfy constraints
+8,19,./board_images/board8_19.png,8,True,False,625.8161067962646,z3_unsolvable,Z3 could not satisfy constraints
+8,20,./board_images/board8_20.png,8,True,False,614.9451732635498,exception,list index out of range
+8,21,./board_images/board8_21.png,8,True,False,639.3640041351318,z3_unsolvable,Z3 could not satisfy constraints
+8,22,./board_images/board8_22.png,8,True,False,927.9329776763916,z3_unsolvable,Z3 could not satisfy constraints
+8,23,./board_images/board8_23.png,8,True,False,656.947135925293,exception,list index out of range
+8,24,./board_images/board8_24.png,8,True,False,631.3152313232422,z3_unsolvable,Z3 could not satisfy constraints
+8,25,./board_images/board8_25.png,8,True,False,590.5978679656982,z3_unsolvable,Z3 could not satisfy constraints
+8,26,./board_images/board8_26.png,8,True,False,813.0459785461426,z3_unsolvable,Z3 could not satisfy constraints
+8,27,./board_images/board8_27.png,8,True,False,684.514045715332,z3_unsolvable,Z3 could not satisfy constraints
+8,28,./board_images/board8_28.png,8,True,False,574.8212337493896,z3_unsolvable,Z3 could not satisfy constraints
+8,29,./board_images/board8_29.png,8,True,False,927.8829097747803,z3_unsolvable,Z3 could not satisfy constraints
+8,30,./board_images/board8_30.png,8,True,False,671.6141700744629,z3_unsolvable,Z3 could not satisfy constraints
+8,31,./board_images/board8_31.png,8,True,False,602.1020412445068,z3_unsolvable,Z3 could not satisfy constraints
+8,32,./board_images/board8_32.png,8,True,False,783.7080955505371,z3_unsolvable,Z3 could not satisfy constraints
+8,33,./board_images/board8_33.png,8,True,False,642.0516967773438,z3_unsolvable,Z3 could not satisfy constraints
+8,34,./board_images/board8_34.png,8,True,False,652.8899669647217,z3_unsolvable,Z3 could not satisfy constraints
+8,35,./board_images/board8_35.png,8,True,False,582.2629928588867,z3_unsolvable,Z3 could not satisfy constraints
+8,36,./board_images/board8_36.png,8,True,False,616.257905960083,z3_unsolvable,Z3 could not satisfy constraints
+8,37,./board_images/board8_37.png,8,True,False,892.564058303833,z3_unsolvable,Z3 could not satisfy constraints
+8,38,./board_images/board8_38.png,8,True,False,997.4169731140137,z3_unsolvable,Z3 could not satisfy constraints
+8,39,./board_images/board8_39.png,8,True,False,618.4289455413818,z3_unsolvable,Z3 could not satisfy constraints
+8,40,./board_images/board8_40.png,8,True,False,763.0610466003418,z3_unsolvable,Z3 could not satisfy constraints
+8,41,./board_images/board8_41.png,8,True,False,841.9039249420166,z3_unsolvable,Z3 could not satisfy constraints
+8,42,./board_images/board8_42.png,8,True,False,659.747838973999,z3_unsolvable,Z3 could not satisfy constraints
+8,43,./board_images/board8_43.png,8,True,False,685.6369972229004,z3_unsolvable,Z3 could not satisfy constraints
+8,44,./board_images/board8_44.png,8,True,False,723.1249809265137,z3_unsolvable,Z3 could not satisfy constraints
+8,45,./board_images/board8_45.png,8,True,False,628.5538673400879,z3_unsolvable,Z3 could not satisfy constraints
+8,46,./board_images/board8_46.png,8,True,False,645.7641124725342,z3_unsolvable,Z3 could not satisfy constraints
+8,47,./board_images/board8_47.png,8,True,False,667.2220230102539,z3_unsolvable,Z3 could not satisfy constraints
+8,48,./board_images/board8_48.png,8,True,False,675.8029460906982,z3_unsolvable,Z3 could not satisfy constraints
+8,49,./board_images/board8_49.png,8,True,False,594.7680473327637,z3_unsolvable,Z3 could not satisfy constraints
+8,50,./board_images/board8_50.png,8,True,False,557.2929382324219,z3_unsolvable,Z3 could not satisfy constraints
+8,51,./board_images/board8_51.png,8,True,False,644.5980072021484,z3_unsolvable,Z3 could not satisfy constraints
+8,52,./board_images/board8_52.png,8,True,False,731.9097518920898,z3_unsolvable,Z3 could not satisfy constraints
+8,53,./board_images/board8_53.png,8,True,False,620.9409236907959,z3_unsolvable,Z3 could not satisfy constraints
+8,54,./board_images/board8_54.png,8,True,False,584.6409797668457,z3_unsolvable,Z3 could not satisfy constraints
+8,55,./board_images/board8_55.png,8,True,False,591.7220115661621,z3_unsolvable,Z3 could not satisfy constraints
+8,56,./board_images/board8_56.png,8,True,False,646.1279392242432,z3_unsolvable,Z3 could not satisfy constraints
+8,57,./board_images/board8_57.png,8,True,False,622.4067211151123,z3_unsolvable,Z3 could not satisfy constraints
+8,58,./board_images/board8_58.png,8,True,False,686.7828369140625,z3_unsolvable,Z3 could not satisfy constraints
+8,59,./board_images/board8_59.png,8,True,False,580.1501274108887,z3_unsolvable,Z3 could not satisfy constraints
+8,60,./board_images/board8_60.png,8,True,False,603.7392616271973,z3_unsolvable,Z3 could not satisfy constraints
+8,61,./board_images/board8_61.png,8,True,False,914.3579006195068,z3_unsolvable,Z3 could not satisfy constraints
+8,62,./board_images/board8_62.png,8,True,False,609.6920967102051,z3_unsolvable,Z3 could not satisfy constraints
+8,63,./board_images/board8_63.png,8,True,False,736.4027500152588,z3_unsolvable,Z3 could not satisfy constraints
+8,64,./board_images/board8_64.png,8,True,False,630.6257247924805,z3_unsolvable,Z3 could not satisfy constraints
+8,65,./board_images/board8_65.png,8,True,False,508.7568759918213,exception,list index out of range
+8,66,./board_images/board8_66.png,8,True,False,636.5370750427246,z3_unsolvable,Z3 could not satisfy constraints
+8,67,./board_images/board8_67.png,8,True,False,605.7999134063721,z3_unsolvable,Z3 could not satisfy constraints
+8,68,./board_images/board8_68.png,8,True,False,646.5120315551758,z3_unsolvable,Z3 could not satisfy constraints
+8,69,./board_images/board8_69.png,8,True,False,610.7287406921387,z3_unsolvable,Z3 could not satisfy constraints
+8,70,./board_images/board8_70.png,8,True,False,597.2650051116943,z3_unsolvable,Z3 could not satisfy constraints
+8,71,./board_images/board8_71.png,8,True,False,659.4870090484619,z3_unsolvable,Z3 could not satisfy constraints
+8,72,./board_images/board8_72.png,8,True,False,600.1977920532227,z3_unsolvable,Z3 could not satisfy constraints
+8,73,./board_images/board8_73.png,8,True,False,584.1426849365234,exception,"Unsupported operation or malformed block: {'cells': [[0, 0], [0, 1], [1, 1], [2, 1], [2, 2], [3, 1]], 'op': 'sub', 'target': 7}"
+8,74,./board_images/board8_74.png,8,True,False,735.0151538848877,z3_unsolvable,Z3 could not satisfy constraints
+8,75,./board_images/board8_75.png,8,True,False,600.7819175720215,z3_unsolvable,Z3 could not satisfy constraints
+8,76,./board_images/board8_76.png,8,True,False,569.7221755981445,z3_unsolvable,Z3 could not satisfy constraints
+8,77,./board_images/board8_77.png,8,True,False,567.4419403076172,z3_unsolvable,Z3 could not satisfy constraints
+8,78,./board_images/board8_78.png,8,True,False,578.0291557312012,z3_unsolvable,Z3 could not satisfy constraints
+8,79,./board_images/board8_79.png,8,True,False,503.1890869140625,exception,"Unsupported operation or malformed block: {'cells': [[0, 4], [0, 5], [0, 6], [0, 7]], 'op': 'div', 'target': 7}"
+8,80,./board_images/board8_80.png,8,True,False,638.873815536499,exception,list index out of range
+8,81,./board_images/board8_81.png,8,True,False,536.9870662689209,z3_unsolvable,Z3 could not satisfy constraints
+8,82,./board_images/board8_82.png,8,True,False,499.2351531982422,z3_unsolvable,Z3 could not satisfy constraints
+8,83,./board_images/board8_83.png,8,True,False,570.5811977386475,z3_unsolvable,Z3 could not satisfy constraints
+8,84,./board_images/board8_84.png,8,True,False,530.5509567260742,z3_unsolvable,Z3 could not satisfy constraints
+8,85,./board_images/board8_85.png,8,True,False,512.9241943359375,z3_unsolvable,Z3 could not satisfy constraints
+8,86,./board_images/board8_86.png,8,True,False,649.7902870178223,z3_unsolvable,Z3 could not satisfy constraints
+8,87,./board_images/board8_87.png,8,True,False,584.5351219177246,z3_unsolvable,Z3 could not satisfy constraints
+8,88,./board_images/board8_88.png,8,True,False,547.6679801940918,z3_unsolvable,Z3 could not satisfy constraints
+8,89,./board_images/board8_89.png,8,True,False,526.669979095459,exception,list index out of range
+8,90,./board_images/board8_90.png,8,True,False,535.2981090545654,z3_unsolvable,Z3 could not satisfy constraints
+8,91,./board_images/board8_91.png,8,True,False,531.1081409454346,z3_unsolvable,Z3 could not satisfy constraints
+8,92,./board_images/board8_92.png,8,True,False,629.518985748291,z3_unsolvable,Z3 could not satisfy constraints
+8,93,./board_images/board8_93.png,8,True,False,763.725757598877,z3_unsolvable,Z3 could not satisfy constraints
+8,94,./board_images/board8_94.png,8,True,False,561.3508224487305,z3_unsolvable,Z3 could not satisfy constraints
+8,95,./board_images/board8_95.png,8,True,False,521.6629505157471,z3_unsolvable,Z3 could not satisfy constraints
+8,96,./board_images/board8_96.png,8,True,False,555.340051651001,z3_unsolvable,Z3 could not satisfy constraints
+8,97,./board_images/board8_97.png,8,True,False,569.4489479064941,z3_unsolvable,Z3 could not satisfy constraints
+8,98,./board_images/board8_98.png,8,True,False,540.9941673278809,z3_unsolvable,Z3 could not satisfy constraints
+8,99,./board_images/board8_99.png,8,True,False,543.4989929199219,z3_unsolvable,Z3 could not satisfy constraints
+9,0,./board_images/board9_0.png,9,True,False,587.2623920440674,exception,list index out of range
+9,1,./board_images/board9_1.png,9,True,False,505.4290294647217,z3_unsolvable,Z3 could not satisfy constraints
+9,2,./board_images/board9_2.png,9,True,False,481.7631244659424,exception,list index out of range
+9,3,./board_images/board9_3.png,9,True,False,506.67595863342285,exception,list index out of range
+9,4,./board_images/board9_4.png,9,True,False,531.0778617858887,z3_unsolvable,Z3 could not satisfy constraints
+9,5,./board_images/board9_5.png,9,True,False,707.4570655822754,z3_unsolvable,Z3 could not satisfy constraints
+9,6,./board_images/board9_6.png,9,True,False,606.255292892456,exception,list index out of range
+9,7,./board_images/board9_7.png,9,True,False,503.2021999359131,exception,list index out of range
+9,8,./board_images/board9_8.png,9,True,False,499.19700622558594,exception,list index out of range
+9,9,./board_images/board9_9.png,9,True,False,501.9350051879883,exception,list index out of range
+9,10,./board_images/board9_10.png,9,True,False,565.22536277771,z3_unsolvable,Z3 could not satisfy constraints
+9,11,./board_images/board9_11.png,9,True,False,573.2159614562988,z3_unsolvable,Z3 could not satisfy constraints
+9,12,./board_images/board9_12.png,9,True,False,491.4729595184326,exception,list index out of range
+9,13,./board_images/board9_13.png,9,True,False,494.1279888153076,exception,list index out of range
+9,14,./board_images/board9_14.png,9,True,False,530.8210849761963,z3_unsolvable,Z3 could not satisfy constraints
+9,15,./board_images/board9_15.png,9,True,False,602.7369499206543,exception,list index out of range
+9,16,./board_images/board9_16.png,9,True,False,562.4721050262451,exception,list index out of range
+9,17,./board_images/board9_17.png,9,True,False,626.9140243530273,z3_unsolvable,Z3 could not satisfy constraints
+9,18,./board_images/board9_18.png,9,True,False,490.8721446990967,exception,list index out of range
+9,19,./board_images/board9_19.png,9,True,False,487.6737594604492,exception,list index out of range
+9,20,./board_images/board9_20.png,9,True,False,493.9463138580322,exception,list index out of range
+9,21,./board_images/board9_21.png,9,True,False,490.44299125671387,exception,list index out of range
+9,22,./board_images/board9_22.png,9,True,False,527.9853343963623,z3_unsolvable,Z3 could not satisfy constraints
+9,23,./board_images/board9_23.png,9,True,False,499.4339942932129,exception,list index out of range
+9,24,./board_images/board9_24.png,9,True,False,558.2058429718018,exception,list index out of range
+9,25,./board_images/board9_25.png,9,True,False,732.5649261474609,exception,list index out of range
+9,26,./board_images/board9_26.png,9,True,False,594.9230194091797,exception,list index out of range
+9,27,./board_images/board9_27.png,9,True,False,712.0330333709717,z3_unsolvable,Z3 could not satisfy constraints
+9,28,./board_images/board9_28.png,9,True,False,606.6000461578369,exception,list index out of range
+9,29,./board_images/board9_29.png,9,True,False,616.0500049591064,z3_unsolvable,Z3 could not satisfy constraints
+9,30,./board_images/board9_30.png,9,True,False,503.2658576965332,exception,list index out of range
+9,31,./board_images/board9_31.png,9,True,False,480.60107231140137,exception,list index out of range
+9,32,./board_images/board9_32.png,9,True,False,546.4658737182617,z3_unsolvable,Z3 could not satisfy constraints
+9,33,./board_images/board9_33.png,9,True,False,646.9156742095947,z3_unsolvable,Z3 could not satisfy constraints
+9,34,./board_images/board9_34.png,9,True,False,481.0047149658203,exception,list index out of range
+9,35,./board_images/board9_35.png,9,True,False,470.57509422302246,exception,list index out of range
+9,36,./board_images/board9_36.png,9,True,False,633.1467628479004,z3_unsolvable,Z3 could not satisfy constraints
+9,37,./board_images/board9_37.png,9,True,False,470.134973526001,exception,list index out of range
+9,38,./board_images/board9_38.png,9,True,False,873.7421035766602,exception,list index out of range
+9,39,./board_images/board9_39.png,9,True,False,655.9927463531494,z3_unsolvable,Z3 could not satisfy constraints
+9,40,./board_images/board9_40.png,9,True,False,636.3987922668457,z3_unsolvable,Z3 could not satisfy constraints
+9,41,./board_images/board9_41.png,9,True,False,528.6130905151367,exception,list index out of range
+9,42,./board_images/board9_42.png,9,True,False,587.4850749969482,exception,list index out of range
+9,43,./board_images/board9_43.png,9,True,False,608.165979385376,z3_unsolvable,Z3 could not satisfy constraints
+9,44,./board_images/board9_44.png,9,True,False,615.1039600372314,z3_unsolvable,Z3 could not satisfy constraints
+9,45,./board_images/board9_45.png,9,True,False,524.2691040039062,z3_unsolvable,Z3 could not satisfy constraints
+9,46,./board_images/board9_46.png,9,True,False,660.614013671875,z3_unsolvable,Z3 could not satisfy constraints
+9,47,./board_images/board9_47.png,9,True,False,554.9142360687256,exception,list index out of range
+9,48,./board_images/board9_48.png,9,True,False,537.6458168029785,z3_unsolvable,Z3 could not satisfy constraints
+9,49,./board_images/board9_49.png,9,True,False,500.6988048553467,z3_unsolvable,Z3 could not satisfy constraints
+9,50,./board_images/board9_50.png,9,True,False,546.760082244873,z3_unsolvable,Z3 could not satisfy constraints
+9,51,./board_images/board9_51.png,9,True,False,506.35814666748047,exception,list index out of range
+9,52,./board_images/board9_52.png,9,True,False,451.31993293762207,exception,list index out of range
+9,53,./board_images/board9_53.png,9,True,False,523.4382152557373,z3_unsolvable,Z3 could not satisfy constraints
+9,54,./board_images/board9_54.png,9,True,False,483.1092357635498,exception,list index out of range
+9,55,./board_images/board9_55.png,9,True,False,507.188081741333,exception,list index out of range
+9,56,./board_images/board9_56.png,9,True,False,529.8500061035156,z3_unsolvable,Z3 could not satisfy constraints
+9,57,./board_images/board9_57.png,9,True,False,524.724006652832,z3_unsolvable,Z3 could not satisfy constraints
+9,58,./board_images/board9_58.png,9,True,False,478.085994720459,exception,list index out of range
+9,59,./board_images/board9_59.png,9,True,False,529.82497215271,z3_unsolvable,Z3 could not satisfy constraints
+9,60,./board_images/board9_60.png,9,True,False,479.8731803894043,exception,list index out of range
+9,61,./board_images/board9_61.png,9,True,False,564.5732879638672,z3_unsolvable,Z3 could not satisfy constraints
+9,62,./board_images/board9_62.png,9,True,False,526.3688564300537,exception,list index out of range
+9,63,./board_images/board9_63.png,9,True,False,505.2661895751953,z3_unsolvable,Z3 could not satisfy constraints
+9,64,./board_images/board9_64.png,9,True,False,458.45699310302734,exception,list index out of range
+9,65,./board_images/board9_65.png,9,True,False,462.42380142211914,exception,list index out of range
+9,66,./board_images/board9_66.png,9,True,False,751.6601085662842,exception,list index out of range
+9,67,./board_images/board9_67.png,9,True,False,672.7960109710693,z3_unsolvable,Z3 could not satisfy constraints
+9,68,./board_images/board9_68.png,9,True,False,699.3098258972168,z3_unsolvable,Z3 could not satisfy constraints
+9,69,./board_images/board9_69.png,9,True,False,806.3709735870361,z3_unsolvable,Z3 could not satisfy constraints
+9,70,./board_images/board9_70.png,9,True,False,1430.361032485962,exception,list index out of range
+9,71,./board_images/board9_71.png,9,True,False,686.6209506988525,z3_unsolvable,Z3 could not satisfy constraints
+9,72,./board_images/board9_72.png,9,True,False,589.148998260498,exception,list index out of range
+9,73,./board_images/board9_73.png,9,True,False,539.862871170044,z3_unsolvable,Z3 could not satisfy constraints
+9,74,./board_images/board9_74.png,9,True,False,602.1280288696289,z3_unsolvable,Z3 could not satisfy constraints
+9,75,./board_images/board9_75.png,9,True,False,549.8571395874023,exception,list index out of range
+9,76,./board_images/board9_76.png,9,True,False,594.7587490081787,exception,list index out of range
+9,77,./board_images/board9_77.png,9,True,False,628.5598278045654,exception,list index out of range
+9,78,./board_images/board9_78.png,9,True,False,664.607048034668,z3_unsolvable,Z3 could not satisfy constraints
+9,79,./board_images/board9_79.png,9,True,False,561.8510246276855,exception,list index out of range
+9,80,./board_images/board9_80.png,9,True,False,466.41087532043457,exception,list index out of range
+9,81,./board_images/board9_81.png,9,True,False,541.8891906738281,z3_unsolvable,Z3 could not satisfy constraints
+9,82,./board_images/board9_82.png,9,True,False,501.8181800842285,exception,list index out of range
+9,83,./board_images/board9_83.png,9,True,False,546.6768741607666,z3_unsolvable,Z3 could not satisfy constraints
+9,84,./board_images/board9_84.png,9,True,False,522.9098796844482,exception,list index out of range
+9,85,./board_images/board9_85.png,9,True,False,459.49721336364746,exception,list index out of range
+9,86,./board_images/board9_86.png,9,True,False,454.495906829834,exception,list index out of range
+9,87,./board_images/board9_87.png,9,True,False,661.8998050689697,exception,list index out of range
+9,88,./board_images/board9_88.png,9,True,False,556.7491054534912,exception,list index out of range
+9,89,./board_images/board9_89.png,9,True,False,506.5929889678955,exception,list index out of range
+9,90,./board_images/board9_90.png,9,True,False,571.645975112915,z3_unsolvable,Z3 could not satisfy constraints
+9,91,./board_images/board9_91.png,9,True,False,562.6821517944336,z3_unsolvable,Z3 could not satisfy constraints
+9,92,./board_images/board9_92.png,9,True,False,560.95290184021,z3_unsolvable,Z3 could not satisfy constraints
+9,93,./board_images/board9_93.png,9,True,False,514.946699142456,exception,list index out of range
+9,94,./board_images/board9_94.png,9,True,False,484.8508834838867,exception,list index out of range
+9,95,./board_images/board9_95.png,9,True,False,497.9588985443115,exception,list index out of range
+9,96,./board_images/board9_96.png,9,True,False,539.1590595245361,z3_unsolvable,Z3 could not satisfy constraints
+9,97,./board_images/board9_97.png,9,True,False,870.5110549926758,z3_unsolvable,Z3 could not satisfy constraints
+9,98,./board_images/board9_98.png,9,True,False,558.884859085083,exception,list index out of range
+9,99,./board_images/board9_99.png,9,True,False,455.7313919067383,exception,list index out of range
