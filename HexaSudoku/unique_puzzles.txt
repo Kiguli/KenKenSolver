@@ -1,0 +1,7 @@
+HexaSudoku Unique Puzzle Analysis
+========================================
+Total puzzles analyzed: 100
+Puzzles with unique solutions: 0
+Total analysis time: 179.2s
+
+No puzzles with unique solutions found.
