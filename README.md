@@ -16,7 +16,10 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | Puzzle | Status | Accuracy | Description |
 |--------|--------|----------|-------------|
 | [KenKen](KenKen/) | Complete | 93-100% | Latin square + arithmetic cages |
-| [Sudoku](Sudoku/) | In Progress | - | Latin square + box constraints |
+| [Sudoku](Sudoku/) | Complete | 100% | Latin square + box constraints (4×4, 9×9) |
+| [HexaSudoku](HexaSudoku/) | Complete | 100% | 16×16 Sudoku with digits 1-9 and letters A-G |
+| [Handwritten Sudoku](Handwritten_Sudoku/) | Complete | 85.5% | Sudoku with real MNIST handwritten digits |
+| [Handwritten HexaSudoku](Handwritten_HexaSudoku/) | Complete | 6% | 16×16 with MNIST digits + EMNIST letters |
 
 ## Architecture
 
@@ -87,6 +90,16 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 
 **Key Finding**: All LLMs fail completely on puzzles 5×5 and larger.
 
+### Handwritten Digit Recognition (MNIST/EMNIST)
+
+| Solver | Extraction Accuracy | Solve Rate |
+|--------|---------------------|------------|
+| **Handwritten Sudoku (4×4)** | 99.50% | 92.0% |
+| **Handwritten Sudoku (9×9)** | 99.67% | 79.0% |
+| **Handwritten HexaSudoku (16×16)** | 98.89% | 6.0% |
+
+**Key Finding**: Near-perfect character recognition (~99%) doesn't guarantee puzzle solving. Larger puzzles with more clues are highly sensitive to even rare misclassifications.
+
 ## Project Structure
 
 ```
@@ -112,6 +125,17 @@ KenKenSolver/
 │   ├── puzzles/
 │   ├── board_images/
 │   └── results/
+├── HexaSudoku/                  # 16×16 Sudoku solver
+│   └── ...
+├── Handwritten_Sudoku/          # Sudoku with MNIST digits
+│   ├── README.md
+│   ├── download_datasets.py
+│   ├── train_cnn.py
+│   ├── generate_images.py
+│   ├── evaluate.py
+│   └── ...
+├── Handwritten_HexaSudoku/      # 16×16 with MNIST+EMNIST
+│   └── ...
 ```
 
 ## License
@@ -122,3 +146,5 @@ MIT License
 
 - Z3 Theorem Prover by Microsoft Research
 - TMNIST dataset for character recognition training
+- MNIST dataset (LeCun et al., 1998) for handwritten digits
+- EMNIST dataset (Cohen et al., 2017) for handwritten letters
