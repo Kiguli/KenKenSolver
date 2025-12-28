@@ -18,8 +18,15 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | [KenKen](KenKen/) | Complete | 93-100% | Latin square + arithmetic cages |
 | [Sudoku](Sudoku/) | Complete | 100% | Latin square + box constraints (4×4, 9×9) |
 | [HexaSudoku](HexaSudoku/) | Complete | 100% | 16×16 Sudoku with digits 1-9 and letters A-G |
-| [Handwritten Sudoku](Handwritten_Sudoku/) | Complete | 85.5% | Sudoku with real MNIST handwritten digits |
-| [Handwritten HexaSudoku](Handwritten_HexaSudoku/) | Complete | 6% | 16×16 with MNIST digits + EMNIST letters |
+
+### Handwritten Puzzle Experiments
+
+Two train/test split configurations are available for handwritten digit recognition:
+
+| Folder | Split | Description |
+|--------|-------|-------------|
+| [83-17 split handwritten](83-17%20split%20handwritten/) | 5000/1000 per class | Original experiments |
+| [90-10 split handwritten](90-10%20split%20handwritten/) | 5400/600 per class | More training data |
 
 ## Architecture
 
@@ -92,13 +99,18 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 
 ### Handwritten Digit Recognition (MNIST/EMNIST)
 
-| Solver | Extraction Accuracy | Solve Rate |
-|--------|---------------------|------------|
-| **Handwritten Sudoku (4×4)** | 99.50% | 92.0% |
-| **Handwritten Sudoku (9×9)** | 99.67% | 79.0% |
-| **Handwritten HexaSudoku (16×16)** | 98.89% | 6.0% |
+| Puzzle Type | Split | Extraction | Original Solve | + Error Correction |
+|-------------|-------|------------|----------------|-------------------|
+| **Sudoku 4×4** | 83-17 | 99.50% | 92% | 96% |
+| **Sudoku 4×4** | 90-10 | 99.31% | 92% | **98%** |
+| **Sudoku 9×9** | 83-17 | 99.67% | 79% | 90% |
+| **Sudoku 9×9** | 90-10 | 99.64% | 75% | **95%** |
+| **HexaSudoku 16×16** | 83-17 | 98.89% | 6% | 17% |
+| **HexaSudoku 16×16** | 90-10 | 99.06% | 10% | **27%** |
 
-**Key Finding**: Near-perfect character recognition (~99%) doesn't guarantee puzzle solving. Larger puzzles with more clues are highly sensitive to even rare misclassifications.
+**Error Correction**: When CNN misclassifies a digit causing UNSAT, the system substitutes low-confidence predictions with their second-best alternatives until a valid solution is found.
+
+**Key Finding**: Near-perfect character recognition (~99%) doesn't guarantee puzzle solving. Larger puzzles with more clues are highly sensitive to even rare misclassifications. Error correction significantly improves solve rates by leveraging CNN confidence scores.
 
 ## Project Structure
 
@@ -127,15 +139,14 @@ KenKenSolver/
 │   └── results/
 ├── HexaSudoku/                  # 16×16 Sudoku solver
 │   └── ...
-├── Handwritten_Sudoku/          # Sudoku with MNIST digits
-│   ├── README.md
-│   ├── download_datasets.py
-│   ├── train_cnn.py
-│   ├── generate_images.py
-│   ├── evaluate.py
-│   └── ...
-├── Handwritten_HexaSudoku/      # 16×16 with MNIST+EMNIST
-│   └── ...
+├── 83-17 split handwritten/     # Handwritten experiments (83-17 split)
+│   ├── Handwritten_Sudoku/
+│   ├── Handwritten_HexaSudoku/
+│   └── Handwritten_Error_Correction/
+├── 90-10 split handwritten/     # Handwritten experiments (90-10 split)
+│   ├── Handwritten_Sudoku/
+│   ├── Handwritten_HexaSudoku/
+│   └── Handwritten_Error_Correction/
 ```
 
 ## License
