@@ -1,6 +1,6 @@
 # Handwritten Error Detection and Correction (90-10 Split)
 
-This module implements error detection and correction for handwritten Sudoku and HexaSudoku puzzles. When the CNN misclassifies a digit causing the Z3 solver to fail (UNSAT), the system identifies and corrects single-digit errors by leveraging CNN confidence scores.
+This module implements error detection and correction for handwritten Sudoku and HexaSudoku puzzles. When the CNN misclassifies digits causing the Z3 solver to fail (UNSAT), the system identifies and corrects errors by leveraging CNN confidence scores.
 
 > **Note**: This folder uses results from the **90-10 train/test split** (5400 train / 600 test samples per class).
 > See also: [83-17 split handwritten](../../83-17%20split%20handwritten/) for the original experiments.
@@ -9,7 +9,7 @@ This module implements error detection and correction for handwritten Sudoku and
 
 ### The Problem
 
-When recognizing handwritten digits, the CNN occasionally misclassifies characters. A single misclassification can make a Sudoku puzzle unsolvable (UNSAT) because the constraints become contradictory.
+When recognizing handwritten digits, the CNN occasionally misclassifies characters. Even a single misclassification can make a Sudoku puzzle unsolvable (UNSAT) because the constraints become contradictory.
 
 ### The Solution: Confidence-Based Alternative Substitution
 
@@ -19,11 +19,15 @@ The CNN doesn't just predict a class - it outputs a probability distribution ove
 
 1. **Extract puzzle** from image with full CNN probability distribution for each clue
 2. **Try to solve** - if successful, done
-3. **If UNSAT**, sort clues by confidence (lowest first = most likely errors)
-4. **For each clue** (starting with lowest confidence):
-   - Substitute with second-best CNN prediction
+3. **If UNSAT**, attempt **single-error correction**:
+   - Sort clues by confidence (lowest first = most likely errors)
+   - For each clue, substitute with second-best CNN prediction
    - Try to solve the modified puzzle
    - If solvable, we found the correction
+4. **If single-error fails**, attempt **two-error correction**:
+   - Consider pairs of low-confidence clues
+   - Substitute both with their second-best predictions
+   - Try to solve the modified puzzle
 5. **Verify** the corrected solution against ground truth (for metrics only)
 
 ### Example
@@ -116,31 +120,33 @@ The script will:
 
 ### Limitations
 
-- **Assumes exactly ONE error**: If multiple digits are wrong, the single-substitution approach won't help
-- **HexaSudoku challenge**: With 120+ clues, puzzles often have 2+ errors, limiting correction success
+- **Handles up to TWO errors**: If 3+ digits are wrong, correction will fail
+- **HexaSudoku challenge**: With 120+ clues, puzzles may have 3+ errors
 - **Not guaranteed**: The second-best prediction isn't always the truth
+- **Computational cost**: Two-error correction is O(n²) vs O(n) for single-error
 
-### Results (90-10 Split)
+### Results (90-10 Split with Two-Error Correction)
 
-| Puzzle Type | Original | Corrections Found | Final | Improvement |
-|-------------|----------|-------------------|-------|-------------|
-| Sudoku 4x4 | 92% | 6 | **98%** | +6 puzzles |
-| Sudoku 9x9 | 75% | 21 | **95%** | +20 puzzles |
-| HexaSudoku 16x16 | 10% | 18 | **27%** | +17 puzzles |
+| Puzzle Type | Original | Single | Two | Final | Improvement |
+|-------------|----------|--------|-----|-------|-------------|
+| Sudoku 4x4 | 92% | 6 | 1 | **99%** | +7 puzzles |
+| Sudoku 9x9 | 75% | 21 | 4 | **99%** | +24 puzzles |
+| HexaSudoku 16x16 | 10% | 18 | 16 | **37%** | +27 puzzles |
 
 ### Comparison with 83-17 Split
 
 | Puzzle Type | 83-17 Original | 83-17 Final | 90-10 Original | 90-10 Final |
 |-------------|----------------|-------------|----------------|-------------|
-| Sudoku 4x4 | 92% | 96% | 92% | **98%** |
-| Sudoku 9x9 | 79% | 90% | 75% | **95%** |
-| HexaSudoku 16x16 | 6% | 17% | 10% | **27%** |
+| Sudoku 4x4 | 92% | 96% | 92% | **99%** |
+| Sudoku 9x9 | 79% | 91% | 75% | **99%** |
+| HexaSudoku 16x16 | 6% | 30% | 10% | **37%** |
 
 **Key observations:**
-- Average attempts to find correction: 1.0 (4x4), 1.1 (9x9), 3.0 (16x16)
+- Single-error corrections: avg 1.0 attempts (4x4), 1.1 (9x9), 3.0 (16x16)
+- Two-error corrections: avg 1.0 attempts (4x4), 8.2 (9x9), 35.4 (16x16)
 - Confidence-based sorting means errors are typically found in first few attempts
-- 90-10 split achieves better final accuracy despite similar or lower original solve rates
-- HexaSudoku improvement is limited because most failures have 2+ misclassifications
+- 90-10 split achieves better final accuracy than 83-17 split
+- Two-error correction significantly helps HexaSudoku (27% → 37%)
 
 ## Algorithm Details
 

@@ -143,11 +143,11 @@ Output: 10 classes (0-9)
 
 | Size | Extraction Accuracy | Solve Rate | + Error Correction |
 |------|---------------------|------------|-------------------|
-| 4×4 | 99.50% | 92% | 96% |
-| 9×9 | 99.67% | 79% | 90% |
-| **Overall** | **99.58%** | **85.5%** | **93%** |
+| 4×4 | 99.50% | 92% | **96%** |
+| 9×9 | 99.67% | 79% | **91%** |
+| **Overall** | **99.58%** | **85.5%** | **93.5%** |
 
-*Error correction results from [Handwritten_Error_Correction](../Handwritten_Error_Correction/)*
+*Error correction (single + two-digit) results from [Handwritten_Error_Correction](../Handwritten_Error_Correction/)*
 
 ### Analysis
 

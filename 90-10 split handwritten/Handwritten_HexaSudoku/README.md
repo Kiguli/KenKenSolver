@@ -42,9 +42,9 @@ The CNN **never sees** the exact handwritten samples that appear on the board im
 | Metric | Value | + Error Correction |
 |--------|-------|-------------------|
 | Extraction Accuracy | 99.06% | - |
-| Solve Rate | 10% | **27%** |
+| Solve Rate | 10% | **37%** |
 
-*Error correction results from [Handwritten_Error_Correction](../Handwritten_Error_Correction/)*
+*Error correction (single + two-digit) results from [Handwritten_Error_Correction](../Handwritten_Error_Correction/)*
 
 ### Comparison with 83-17 Split
 
@@ -52,9 +52,9 @@ The CNN **never sees** the exact handwritten samples that appear on the board im
 |--------|-------|-------|
 | Extraction Accuracy | 98.89% | **99.06%** |
 | Original Solve Rate | 6% | **10%** |
-| After Error Correction | 17% | **27%** |
+| After Error Correction | 30% | **37%** |
 
-The 90-10 split achieves significantly better results due to more training data, with a 67% relative improvement in original solve rate (6% → 10%) and 59% relative improvement after error correction (17% → 27%).
+The 90-10 split achieves significantly better results due to more training data. Two-error correction provides a major boost for HexaSudoku, improving solve rates from 10% to 37%.
 
 ## Quick Start
 

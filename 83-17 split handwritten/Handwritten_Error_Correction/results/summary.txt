@@ -1,6 +1,6 @@
 Error Correction Summary
 ==================================================
 
-hexasudoku_16x16: 6.0% -> 17.0% (+11)
-sudoku_4x4: 92.0% -> 96.0% (+4)
-sudoku_9x9: 79.0% -> 90.0% (+11)
+hexasudoku_16x16: 6.0% -> 30.0% (+24, single:13, two:14)
+sudoku_4x4: 92.0% -> 96.0% (+4, single:7, two:0)
+sudoku_9x9: 79.0% -> 91.0% (+12, single:18, two:2)

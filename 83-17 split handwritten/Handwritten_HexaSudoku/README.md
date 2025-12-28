@@ -145,9 +145,9 @@ Output: 17 classes
 | Metric | Value | + Error Correction |
 |--------|-------|-------------------|
 | Extraction Accuracy | 98.89% | - |
-| Solve Rate | 6% | 17% |
+| Solve Rate | 6% | **30%** |
 
-*Error correction results from [Handwritten_Error_Correction](../Handwritten_Error_Correction/)*
+*Error correction (single + two-digit) results from [Handwritten_Error_Correction](../Handwritten_Error_Correction/)*
 
 ### Analysis
 

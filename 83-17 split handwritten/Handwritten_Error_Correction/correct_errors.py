@@ -1,18 +1,26 @@
 """
 Error Detection and Correction for Handwritten Puzzles.
 
-When CNN misclassifies a digit causing Z3 to fail (UNSAT), this script
-identifies and corrects single-digit errors by substituting low-confidence
-predictions with their second-best alternatives.
+When CNN misclassifies digits causing Z3 to fail (UNSAT), this script
+identifies and corrects errors by substituting low-confidence predictions
+with their second-best alternatives.
+
+Supports:
+- Single-digit error correction: O(n) complexity
+- Two-digit error correction: O(n²) complexity, used when single fails
 
 Algorithm:
 1. Extract puzzle from image with CNN confidence scores
 2. Try to solve - if successful, done
-3. If UNSAT, sort clues by confidence (lowest first)
-4. For each clue, substitute with second-best prediction and try solving
+3. If UNSAT, attempt single-error correction:
+   - Sort clues by confidence (lowest first)
+   - For each clue, substitute with second-best prediction and try solving
+4. If single-error fails, attempt two-error correction:
+   - Consider pairs of low-confidence clues
+   - Substitute both with their second-best predictions
 5. If solvable, we found the correction
 
-Supports:
+Puzzle types supported:
 - Sudoku 4x4 and 9x9
 - HexaSudoku 16x16
 """
@@ -259,12 +267,29 @@ def solve_hexasudoku(given_cells):
 
 @dataclass
 class CorrectionResult:
-    """Result of a correction attempt."""
+    """Result of a single-digit correction attempt."""
     position: Tuple[int, int]
     original_value: int
     corrected_value: int
     original_conf: float
     second_conf: float
+    solution: List[List[int]]
+    attempts: int
+
+
+@dataclass
+class TwoDigitCorrectionResult:
+    """Result of a two-digit correction attempt."""
+    position1: Tuple[int, int]
+    position2: Tuple[int, int]
+    original_value1: int
+    original_value2: int
+    corrected_value1: int
+    corrected_value2: int
+    original_conf1: float
+    original_conf2: float
+    second_conf1: float
+    second_conf2: float
     solution: List[List[int]]
     attempts: int
 
@@ -341,6 +366,97 @@ def attempt_single_error_correction(
     return None, len(sorted_positions), attempt_times
 
 
+def attempt_two_error_correction(
+    puzzle: List[List[int]],
+    alternatives: Dict[Tuple[int, int], Dict],
+    size: int,
+    solver_fn,
+    max_candidates: int = 30,
+    max_pairs: int = 500
+) -> Tuple[Optional[TwoDigitCorrectionResult], int, List[float]]:
+    """
+    Attempt to correct two misclassified digits simultaneously.
+
+    Tries substituting pairs of clues with their second-best CNN predictions,
+    processing clue pairs in order of combined lowest confidence.
+
+    Args:
+        puzzle: Extracted puzzle grid
+        alternatives: Dict of recognition info for each clue position
+        size: Grid size
+        solver_fn: Function to solve puzzle (takes given_cells dict)
+        max_candidates: Max number of lowest-confidence clues to consider
+        max_pairs: Maximum number of pairs to try
+
+    Returns:
+        (TwoDigitCorrectionResult or None, total_attempts, attempt_times)
+    """
+    from itertools import combinations
+
+    # Build given_cells dict
+    given_cells = {}
+    for i in range(size):
+        for j in range(size):
+            if puzzle[i][j] != 0:
+                given_cells[(i, j)] = puzzle[i][j]
+
+    # Sort positions by confidence (lowest first = most likely errors)
+    sorted_positions = sorted(
+        alternatives.keys(),
+        key=lambda pos: alternatives[pos]['confidence']
+    )
+
+    # Limit to top N lowest-confidence candidates
+    candidates = sorted_positions[:min(max_candidates, len(sorted_positions))]
+
+    # Filter out positions where second_best is 0 (empty)
+    valid_candidates = [pos for pos in candidates if alternatives[pos]['second_best'] != 0]
+
+    if len(valid_candidates) < 2:
+        return None, 0, []
+
+    # Generate pairs sorted by combined confidence (sum of both confidences)
+    pairs = list(combinations(valid_candidates, 2))
+    pairs.sort(key=lambda p: alternatives[p[0]]['confidence'] + alternatives[p[1]]['confidence'])
+
+    # Limit number of pairs
+    pairs = pairs[:max_pairs]
+
+    attempt_times = []
+
+    for attempt_num, (pos1, pos2) in enumerate(pairs, 1):
+        second_best1 = alternatives[pos1]['second_best']
+        second_best2 = alternatives[pos2]['second_best']
+
+        # Create modified puzzle with both substitutions
+        modified_cells = given_cells.copy()
+        modified_cells[pos1] = second_best1
+        modified_cells[pos2] = second_best2
+
+        # Try to solve with this substitution
+        start_time = time.time()
+        solution = solver_fn(modified_cells)
+        attempt_times.append(time.time() - start_time)
+
+        if solution is not None:
+            return TwoDigitCorrectionResult(
+                position1=pos1,
+                position2=pos2,
+                original_value1=given_cells[pos1],
+                original_value2=given_cells[pos2],
+                corrected_value1=second_best1,
+                corrected_value2=second_best2,
+                original_conf1=alternatives[pos1]['confidence'],
+                original_conf2=alternatives[pos2]['confidence'],
+                second_conf1=alternatives[pos1]['second_conf'],
+                second_conf2=alternatives[pos2]['second_conf'],
+                solution=solution,
+                attempts=attempt_num
+            ), attempt_num, attempt_times
+
+    return None, len(pairs), attempt_times
+
+
 # =============================================================================
 # Evaluation Utilities
 # =============================================================================
@@ -389,10 +505,12 @@ def evaluate_puzzle_type(
     size: int,
     board_pixels: int,
     solver_fn,
-    max_correction_attempts: int = None
+    max_correction_attempts: int = None,
+    max_two_error_candidates: int = 30,
+    max_two_error_pairs: int = 500
 ) -> List[Dict]:
     """
-    Evaluate puzzles with error correction.
+    Evaluate puzzles with error correction (single and two-digit).
 
     Returns list of result dicts for each puzzle.
     """
@@ -452,26 +570,41 @@ def evaluate_puzzle_type(
             'original_status': original_status,
             'original_extraction_accuracy': extraction_accuracy,
             'num_misclassified_original': num_misclassified,
-            'correction_attempted': False,
-            'correction_found': False,
-            'attempts_to_solve': 0,
+            # Single-error correction fields
+            'single_correction_attempted': False,
+            'single_correction_found': False,
+            'single_attempts': 0,
             'error_row': None,
             'error_col': None,
             'original_value': None,
             'corrected_value': None,
             'original_confidence': None,
             'second_best_confidence': None,
+            # Two-error correction fields
+            'two_error_correction_attempted': False,
+            'two_error_correction_found': False,
+            'two_error_attempts': 0,
+            'error2_row': None,
+            'error2_col': None,
+            'original_value2': None,
+            'corrected_value2': None,
+            'original_confidence2': None,
+            'second_best_confidence2': None,
+            # Timing
             'time_first_solve_attempt': first_solve_time,
             'time_per_correction_attempt': 0,
             'time_total_all_attempts': first_solve_time,
+            # Final status
             'final_status': original_status if original_status == "solved" else "uncorrectable",
             'final_matches_ground_truth': original_status == "solved",
+            'correction_type': 'none' if original_status == "solved" else None,
             'ground_truth_error_positions': str([(e[0], e[1]) for e in extraction_errors])
         }
 
-        # Step 3: If not solved correctly, attempt correction
+        # Step 3: If not solved correctly, attempt single-error correction
+        all_attempt_times = []
         if original_status != "solved":
-            result['correction_attempted'] = True
+            result['single_correction_attempted'] = True
 
             correction, attempts, attempt_times = attempt_single_error_correction(
                 extracted_puzzle,
@@ -481,14 +614,11 @@ def evaluate_puzzle_type(
                 max_attempts=max_correction_attempts
             )
 
-            result['attempts_to_solve'] = attempts
-
-            if attempt_times:
-                result['time_per_correction_attempt'] = sum(attempt_times) / len(attempt_times)
-                result['time_total_all_attempts'] = first_solve_time + sum(attempt_times)
+            result['single_attempts'] = attempts
+            all_attempt_times.extend(attempt_times)
 
             if correction:
-                result['correction_found'] = True
+                result['single_correction_found'] = True
                 result['error_row'] = correction.position[0]
                 result['error_col'] = correction.position[1]
                 result['original_value'] = correction.original_value
@@ -499,9 +629,54 @@ def evaluate_puzzle_type(
                 # Verify against ground truth
                 matches_truth = solutions_match(correction.solution, expected_solution, size)
                 result['final_matches_ground_truth'] = matches_truth
-                result['final_status'] = "corrected" if matches_truth else "wrong_correction"
+                result['final_status'] = "corrected_single" if matches_truth else "wrong_correction"
+                result['correction_type'] = 'single'
+
+        # Step 4: If single-error correction failed, try two-error correction
+        if original_status != "solved" and not result['single_correction_found']:
+            result['two_error_correction_attempted'] = True
+
+            two_correction, two_attempts, two_attempt_times = attempt_two_error_correction(
+                extracted_puzzle,
+                alternatives,
+                size,
+                solver_fn,
+                max_candidates=max_two_error_candidates,
+                max_pairs=max_two_error_pairs
+            )
+
+            result['two_error_attempts'] = two_attempts
+            all_attempt_times.extend(two_attempt_times)
+
+            if two_correction:
+                result['two_error_correction_found'] = True
+                # First error position
+                result['error_row'] = two_correction.position1[0]
+                result['error_col'] = two_correction.position1[1]
+                result['original_value'] = two_correction.original_value1
+                result['corrected_value'] = two_correction.corrected_value1
+                result['original_confidence'] = two_correction.original_conf1
+                result['second_best_confidence'] = two_correction.second_conf1
+                # Second error position
+                result['error2_row'] = two_correction.position2[0]
+                result['error2_col'] = two_correction.position2[1]
+                result['original_value2'] = two_correction.original_value2
+                result['corrected_value2'] = two_correction.corrected_value2
+                result['original_confidence2'] = two_correction.original_conf2
+                result['second_best_confidence2'] = two_correction.second_conf2
+
+                # Verify against ground truth
+                matches_truth = solutions_match(two_correction.solution, expected_solution, size)
+                result['final_matches_ground_truth'] = matches_truth
+                result['final_status'] = "corrected_two" if matches_truth else "wrong_correction"
+                result['correction_type'] = 'two'
             else:
                 result['final_status'] = "uncorrectable"
+
+        # Update timing
+        if all_attempt_times:
+            result['time_per_correction_attempt'] = sum(all_attempt_times) / len(all_attempt_times)
+            result['time_total_all_attempts'] = first_solve_time + sum(all_attempt_times)
 
         results.append(result)
 
@@ -574,11 +749,13 @@ def main():
             # Summary for this size
             original_correct = sum(1 for r in results if r['original_status'] == "solved")
             final_correct = sum(1 for r in results if r['final_matches_ground_truth'])
-            corrected = sum(1 for r in results if r['correction_found'])
+            single_corrected = sum(1 for r in results if r['single_correction_found'])
+            two_corrected = sum(1 for r in results if r['two_error_correction_found'])
 
             print(f"\n{size}x{size} Summary:")
             print(f"  Original accuracy: {original_correct}/{len(results)} ({original_correct/len(results)*100:.1f}%)")
-            print(f"  Corrections found: {corrected}")
+            print(f"  Single-error corrections: {single_corrected}")
+            print(f"  Two-error corrections: {two_corrected}")
             print(f"  Final accuracy: {final_correct}/{len(results)} ({final_correct/len(results)*100:.1f}%)")
     else:
         print(f"\nSkipping Sudoku - model not found at {sudoku_model_path}")
@@ -618,11 +795,13 @@ def main():
             # Summary
             original_correct = sum(1 for r in results if r['original_status'] == "solved")
             final_correct = sum(1 for r in results if r['final_matches_ground_truth'])
-            corrected = sum(1 for r in results if r['correction_found'])
+            single_corrected = sum(1 for r in results if r['single_correction_found'])
+            two_corrected = sum(1 for r in results if r['two_error_correction_found'])
 
             print(f"\n16x16 Summary:")
             print(f"  Original accuracy: {original_correct}/{len(results)} ({original_correct/len(results)*100:.1f}%)")
-            print(f"  Corrections found: {corrected}")
+            print(f"  Single-error corrections: {single_corrected}")
+            print(f"  Two-error corrections: {two_corrected}")
             print(f"  Final accuracy: {final_correct}/{len(results)} ({final_correct/len(results)*100:.1f}%)")
     else:
         print(f"\nSkipping HexaSudoku - model not found at {hex_model_path}")
@@ -650,30 +829,38 @@ def main():
 
         original_correct = sum(1 for r in results if r['original_status'] == "solved")
         final_correct = sum(1 for r in results if r['final_matches_ground_truth'])
-        corrections_attempted = sum(1 for r in results if r['correction_attempted'])
-        corrections_found = sum(1 for r in results if r['correction_found'])
+        single_corrections = sum(1 for r in results if r['single_correction_found'])
+        two_corrections = sum(1 for r in results if r['two_error_correction_found'])
+        total_corrections = single_corrections + two_corrections
         wrong_corrections = sum(1 for r in results if r['final_status'] == "wrong_correction")
 
-        avg_attempts = 0
-        if corrections_found > 0:
-            avg_attempts = sum(r['attempts_to_solve'] for r in results if r['correction_found']) / corrections_found
+        # Calculate average attempts for successful corrections
+        avg_single_attempts = 0
+        avg_two_attempts = 0
+        if single_corrections > 0:
+            avg_single_attempts = sum(r['single_attempts'] for r in results if r['single_correction_found']) / single_corrections
+        if two_corrections > 0:
+            avg_two_attempts = sum(r['two_error_attempts'] for r in results if r['two_error_correction_found']) / two_corrections
 
         avg_time = sum(r['time_total_all_attempts'] for r in results) / n
 
         print(f"\n{pt}:")
         print(f"  Original: {original_correct}/{n} ({original_correct/n*100:.1f}%)")
-        print(f"  Corrections attempted: {corrections_attempted}")
-        print(f"  Corrections found: {corrections_found}")
+        print(f"  Single-error corrections: {single_corrections}")
+        print(f"  Two-error corrections: {two_corrections}")
+        print(f"  Total corrections: {total_corrections}")
         if wrong_corrections > 0:
             print(f"  Wrong corrections: {wrong_corrections}")
         print(f"  Final: {final_correct}/{n} ({final_correct/n*100:.1f}%)")
         print(f"  Improvement: +{final_correct - original_correct} puzzles")
-        if corrections_found > 0:
-            print(f"  Avg attempts when corrected: {avg_attempts:.1f}")
+        if single_corrections > 0:
+            print(f"  Avg single-error attempts: {avg_single_attempts:.1f}")
+        if two_corrections > 0:
+            print(f"  Avg two-error attempts: {avg_two_attempts:.1f}")
         print(f"  Avg total time: {avg_time:.3f}s")
 
         summary_lines.append(f"{pt}: {original_correct/n*100:.1f}% -> {final_correct/n*100:.1f}% "
-                            f"(+{final_correct - original_correct})")
+                            f"(+{final_correct - original_correct}, single:{single_corrections}, two:{two_corrections})")
 
     # Save CSV
     if all_results:

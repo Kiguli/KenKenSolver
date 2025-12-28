@@ -36,20 +36,20 @@ The CNN **never sees** the exact handwritten samples that appear on the board im
 
 | Size | Extraction Accuracy | Solve Rate | + Error Correction |
 |------|---------------------|------------|-------------------|
-| 4×4 | 99.31% | 92% | **98%** |
-| 9×9 | 99.64% | 75% | **95%** |
-| **Overall** | **99.48%** | **83.5%** | **96.5%** |
+| 4×4 | 99.31% | 92% | **99%** |
+| 9×9 | 99.64% | 75% | **99%** |
+| **Overall** | **99.48%** | **83.5%** | **99%** |
 
-*Error correction results from [Handwritten_Error_Correction](../Handwritten_Error_Correction/)*
+*Error correction (single + two-digit) results from [Handwritten_Error_Correction](../Handwritten_Error_Correction/)*
 
 ### Comparison with 83-17 Split
 
 | Size | 83-17 Solve | 90-10 Solve | 83-17 Corrected | 90-10 Corrected |
 |------|-------------|-------------|-----------------|-----------------|
-| 4×4 | 92% | 92% | 96% | **98%** |
-| 9×9 | 79% | 75% | 90% | **95%** |
+| 4×4 | 92% | 92% | 96% | **99%** |
+| 9×9 | 79% | 75% | 91% | **99%** |
 
-The 90-10 split achieves better final accuracy after error correction despite similar or slightly lower original solve rates.
+The 90-10 split with two-error correction achieves near-perfect accuracy (99%) for both puzzle sizes.
 
 ## Quick Start
 

@@ -102,15 +102,17 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 | Puzzle Type | Split | Extraction | Original Solve | + Error Correction |
 |-------------|-------|------------|----------------|-------------------|
 | **Sudoku 4×4** | 83-17 | 99.50% | 92% | 96% |
-| **Sudoku 4×4** | 90-10 | 99.31% | 92% | **98%** |
-| **Sudoku 9×9** | 83-17 | 99.67% | 79% | 90% |
-| **Sudoku 9×9** | 90-10 | 99.64% | 75% | **95%** |
-| **HexaSudoku 16×16** | 83-17 | 98.89% | 6% | 17% |
-| **HexaSudoku 16×16** | 90-10 | 99.06% | 10% | **27%** |
+| **Sudoku 4×4** | 90-10 | 99.31% | 92% | **99%** |
+| **Sudoku 9×9** | 83-17 | 99.67% | 79% | 91% |
+| **Sudoku 9×9** | 90-10 | 99.64% | 75% | **99%** |
+| **HexaSudoku 16×16** | 83-17 | 98.89% | 6% | 30% |
+| **HexaSudoku 16×16** | 90-10 | 99.06% | 10% | **37%** |
 
-**Error Correction**: When CNN misclassifies a digit causing UNSAT, the system substitutes low-confidence predictions with their second-best alternatives until a valid solution is found.
+**Error Correction**: When CNN misclassifies digits causing UNSAT, the system attempts:
+1. **Single-error correction**: Substitute low-confidence predictions with second-best alternatives (O(n))
+2. **Two-error correction**: If single fails, try pairs of low-confidence clues (O(n²))
 
-**Key Finding**: Near-perfect character recognition (~99%) doesn't guarantee puzzle solving. Larger puzzles with more clues are highly sensitive to even rare misclassifications. Error correction significantly improves solve rates by leveraging CNN confidence scores.
+**Key Finding**: Near-perfect character recognition (~99%) doesn't guarantee puzzle solving. Larger puzzles with more clues are highly sensitive to even rare misclassifications. Two-error correction significantly improves solve rates, achieving 99% on Sudoku and 37% on HexaSudoku.
 
 ## Project Structure
 
