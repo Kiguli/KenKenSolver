@@ -107,6 +107,118 @@ cd "90-10 split detect handwritten digit errors"
 python predict_digits.py
 ```
 
+## Failure Analysis: Why Puzzles Remain Unsolvable
+
+To understand why 55% of HexaSudoku puzzles remain uncorrectable even with top-4 predictions, `analyze_failures.py` performs a detailed analysis comparing CNN predictions against ground truth.
+
+### Key Question
+
+For each misclassified digit, **where does the true digit rank** in the CNN's probability distribution?
+- Rank 1: Correct prediction
+- Rank 2-4: Within our top-K search space (correctable)
+- Rank 5-10: Beyond K=4 but potentially correctable with larger K
+- Rank 11+: CNN fundamentally wrong (true digit has very low probability)
+
+### True Digit Rank Distribution
+
+| Puzzle Type | Total Misclassifications | Rank 2-4 | Rank 5-10 | Rank 11+ | Empty Detection |
+|-------------|--------------------------|----------|-----------|----------|-----------------|
+| Sudoku 4×4 | 11 | 81.8% | 0% | 0% | 18.2% |
+| Sudoku 9×9 | 29 | **100%** | 0% | 0% | 0% |
+| HexaSudoku | 240 | 94.2% | **4.2%** | **1.7%** | 0% |
+
+### Why HexaSudoku Fails (55 uncorrectable puzzles)
+
+| Failure Category | Count | Explanation |
+|------------------|-------|-------------|
+| all_rank_1-4 | **42** | All true digits were in top-4, but multiple errors require simultaneous correction |
+| some_rank_5-10 | 10 | At least one true digit ranked 5-10 (beyond K=4 search) |
+| some_rank_11+ | 3 | At least one true digit ranked 11+ (CNN fundamentally wrong) |
+
+**Key Insight**: The main issue (42/55 = 76%) is **not** that K=4 is too small, but that puzzles have **multiple errors** requiring simultaneous correction. With 3+ errors where each has ~3 alternatives (2nd, 3rd, 4th best), the search space explodes: 3^3 = 27, 3^4 = 81, 3^5 = 243 combinations per error set.
+
+### Top Character Confusions
+
+| Puzzle Type | Common Confusions |
+|-------------|-------------------|
+| Sudoku 4×4 | 4→9 (4x), 2→7 (2x), 1→7, 3→8, 3→7 |
+| Sudoku 9×9 | 5→3 (5x), 7→9 (3x), 6→5 (3x), 6→8 (2x), 5→9 (2x) |
+| HexaSudoku | E→C (20x), G→9 (16x), D→A (11x), G→A/8/6/C (10x each), 7→1 (7x), 5→9 (7x) |
+
+The letter 'G' is particularly problematic in HexaSudoku, commonly confused with 9, A, 8, 6, and C.
+
+### Recommendations Based on Analysis
+
+| Finding | Recommendation |
+|---------|---------------|
+| 94% of errors have true digit in top-4 | K=4 is sufficient for most individual errors |
+| 76% of failures are "all_rank_1-4" | Improve multi-error correction strategy |
+| G is the most confused character | Add more G training samples, augment with similar shapes |
+| E→C confusion dominates | Consider E/C-specific classifier or post-processing |
+| 6% of HexaSudoku errors beyond top-4 | Increasing K to 6-8 could help these edge cases |
+
+### Puzzles Uncorrectable Due to Rank 5+ Errors
+
+13 puzzles have at least one error where the true digit ranks 5th or lower in the CNN's predictions, making them fundamentally uncorrectable with K=4.
+
+#### Rank 5-10 Puzzles (10 puzzles)
+
+These could potentially be corrected by increasing K to 6-8:
+
+| Puzzle | Errors | Max Rank | Critical Error | Notes |
+|--------|--------|----------|----------------|-------|
+| 3 | 4 | 8 | F->7 at (9,8) | 100% confidence, true prob 0.0000 |
+| 7 | 2 | 8 | B->C at (6,12) | 85% confidence |
+| 20 | 5 | 5 | G->4 at (1,1) | 99.8% confidence |
+| 31 | 2 | 6 | F->5 at (4,6) | 56% confidence |
+| 41 | 6 | 7 | G->8 at (13,9) | 60% confidence |
+| 46 | 2 | 5 | G->4 at (11,9) | 31% confidence |
+| 63 | 2 | 8 | B->C at (11,6) | 85% confidence |
+| 67 | 5 | 8 | F->7 at (12,0) | 100% confidence |
+| 71 | 3 | 6 | F->E at (12,15) | 100% confidence |
+| 84 | 5 | 5 | 8->2 at (12,1) | 99.8% confidence |
+
+#### Rank 11+ Puzzles (3 puzzles)
+
+These are fundamentally uncorrectable - the CNN gave near-zero probability to the true digit:
+
+| Puzzle | Errors | Max Rank | Critical Error | Notes |
+|--------|--------|----------|----------------|-------|
+| 10 | 4 | 14 | E->1 at (1,14) | 100% confidence, true digit at rank 14 |
+| 14 | 5 | 11 | F->2 at (1,3) | 74% confidence, true digit at rank 11 |
+| 47 | 1 | 14 | E->1 at (13,2) | 100% confidence, true digit at rank 14 |
+
+#### Rank 5+ Error Patterns
+
+| Confusion | Count | Avg Rank | Notes |
+|-----------|-------|----------|-------|
+| E->1 | 2 | 14.0 | CNN fundamentally wrong |
+| F->7 | 2 | 8.0 | Similar shapes |
+| B->C | 2 | 8.0 | Similar shapes |
+| G->4 | 2 | 5.0 | Unusual confusion |
+| F->2 | 1 | 11.0 | CNN fundamentally wrong |
+| F->5 | 1 | 6.0 | Similar shapes |
+| G->8 | 1 | 7.0 | G confusion pattern |
+| F->E | 1 | 6.0 | Similar shapes |
+| 8->2 | 1 | 5.0 | Unusual confusion |
+
+**Key Observations:**
+- The letter **F** appears in 6 of 13 rank 5+ errors, confused with 7, 2, 5, and E
+- The letter **E** appears in 2 critical rank 14 errors, confused with 1
+- **B->C** confusion consistently ranks around 8
+- High-confidence (>99%) predictions can still be completely wrong
+
+### Running the Failure Analysis
+
+```bash
+cd "90-10 split detect handwritten digit errors"
+python analyze_failures.py
+```
+
+Generates:
+- `results/failure_analysis.csv`: Per-error detailed analysis
+- `results/puzzle_failure_summary.csv`: Per-puzzle summary
+
 ## Advantages
 
 1. **Much faster**: 10-25x fewer solver calls on average
@@ -134,12 +246,15 @@ python detect_errors.py
 ├── README.md                 # This file
 ├── detect_errors.py          # Unsat core detection (2nd-best only)
 ├── predict_digits.py         # Extended correction (top-4 predictions)
+├── analyze_failures.py       # Failure analysis (true digit ranking)
 ├── puzzles/
 │   ├── puzzles_dict.json         # Sudoku puzzles (4x4 and 9x9)
 │   └── unique_puzzles_dict.json  # HexaSudoku puzzles (16x16)
 └── results/
     ├── detection_results.csv     # Results from detect_errors.py
     ├── prediction_results.csv    # Results from predict_digits.py
+    ├── failure_analysis.csv      # Per-error analysis from analyze_failures.py
+    ├── puzzle_failure_summary.csv # Per-puzzle summary from analyze_failures.py
     ├── summary.txt               # detect_errors.py summary
     └── prediction_summary.txt    # predict_digits.py summary
 ```
