@@ -151,7 +151,16 @@ How many CNN misclassifications occur in each puzzle?
 | Two corrections | - | - | 12 | 4 | - | - | - |
 | Uncorrectable | - | 1 | 14 | 21 | 7 | 8 | 4 |
 
-**Why 3+ errors are uncorrectable**: With K=4 alternatives per error, the search space for 3 simultaneous errors is 4³ = 64 combinations. The current algorithm only tries up to 2-error corrections due to computational constraints.
+**Why 3+ errors are uncorrectable**: The current algorithm only tries up to 2-error corrections. With K=4 alternatives per error, the search space grows exponentially:
+
+| Errors | Puzzles | Search Space | Status |
+|--------|---------|--------------|--------|
+| 3 | 21 | 4³ = 64 combinations | Uncorrectable |
+| 4 | 7 | 4⁴ = 256 combinations | Uncorrectable |
+| 5 | 8 | 4⁵ = 1024 combinations | Uncorrectable |
+| 6 | 4 | 4⁶ = 4096 combinations | Uncorrectable |
+
+Note: Some 2-error puzzles (14) and even 1 single-error puzzle remain uncorrectable due to rank 5+ errors where the true digit isn't in the top-4 predictions.
 
 ### True Digit Rank Distribution
 
