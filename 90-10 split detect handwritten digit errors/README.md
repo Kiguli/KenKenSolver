@@ -119,6 +119,40 @@ For each misclassified digit, **where does the true digit rank** in the CNN's pr
 - Rank 5-10: Beyond K=4 but potentially correctable with larger K
 - Rank 11+: CNN fundamentally wrong (true digit has very low probability)
 
+### Error Count Distribution Per Puzzle
+
+How many CNN misclassifications occur in each puzzle?
+
+| Puzzle Type | 0 errors | 1 error | 2 errors | 3 errors | 4 errors | 5 errors | 6 errors |
+|-------------|----------|---------|----------|----------|----------|----------|----------|
+| Sudoku 4×4 | 90 | 9 | 1 | 0 | 0 | 0 | 0 |
+| Sudoku 9×9 | 75 | 21 | 4 | 0 | 0 | 0 | 0 |
+| HexaSudoku | 10 | 19 | 27 | 25 | 7 | 8 | 4 |
+
+**Summary Statistics:**
+
+| Puzzle Type | Total Errors | Puzzles with Errors | Avg Errors/Puzzle | Avg When Present |
+|-------------|--------------|---------------------|-------------------|------------------|
+| Sudoku 4×4 | 11 | 10 (10%) | 0.11 | 1.10 |
+| Sudoku 9×9 | 29 | 25 (25%) | 0.29 | 1.16 |
+| HexaSudoku | 240 | 90 (90%) | 2.40 | 2.67 |
+
+**Key Observations:**
+- **Sudoku 4×4/9×9**: Most errors are single-digit (1 error), making correction feasible
+- **HexaSudoku**: 90% of puzzles have errors, with most having 2-3 errors simultaneously
+- The high multi-error rate in HexaSudoku explains why correction is difficult
+
+#### HexaSudoku Error Distribution by Correctability
+
+| Final Status | 0 err | 1 err | 2 err | 3 err | 4 err | 5 err | 6 err |
+|--------------|-------|-------|-------|-------|-------|-------|-------|
+| Solved directly | 10 | - | - | - | - | - | - |
+| Single correction | - | 18 | 1 | - | - | - | - |
+| Two corrections | - | - | 12 | 4 | - | - | - |
+| Uncorrectable | - | 1 | 14 | 21 | 7 | 8 | 4 |
+
+**Why 3+ errors are uncorrectable**: With K=4 alternatives per error, the search space for 3 simultaneous errors is 4³ = 64 combinations. The current algorithm only tries up to 2-error corrections due to computational constraints.
+
 ### True Digit Rank Distribution
 
 | Puzzle Type | Total Misclassifications | Rank 2-4 | Rank 5-10 | Rank 11+ | Empty Detection |
