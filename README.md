@@ -109,26 +109,51 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 | **HexaSudoku 16×16** | 83-17 | 98.89% | 6% | 30% |
 | **HexaSudoku 16×16** | 90-10 | 99.06% | 10% | **37%** |
 
-**Error Correction Methods**:
+### Error Correction Methods
 
-1. **Confidence-Based** (90-10 split handwritten): Uses CNN confidence scores to guide error correction
-   - Sorts clues by confidence (lowest first = most likely errors)
-   - Tries single-error then two-error corrections
-   - Achieves 99% on Sudoku, 37% on HexaSudoku
+Two approaches were developed to handle CNN misclassifications that cause puzzles to become unsolvable:
 
-2. **Constraint-Based** (90-10 split detect errors): Uses Z3's unsat core analysis
-   - Identifies clues causing logical conflicts without checking ground truth
-   - 10-25x fewer solver calls than confidence-based approach
-   - Achieves 99% on Sudoku 4×4, 85% on 9×9, 36% on HexaSudoku
+#### 1. Confidence-Based ([90-10 split handwritten](90-10%20split%20handwritten/Handwritten_Error_Correction/))
+
+Uses CNN softmax probabilities to identify likely errors:
+- Sorts clues by confidence score (lowest first = most likely wrong)
+- Substitutes each suspect with its second-best CNN prediction
+- Tries single-error, then two-error corrections exhaustively
+
+#### 2. Constraint-Based ([90-10 split detect errors](90-10%20split%20detect%20handwritten%20digit%20errors/))
+
+Uses Z3's **unsat core** to identify clues causing logical conflicts:
+- Extracts the minimal set of constraints causing UNSAT
+- Only tests substitutions on clues involved in conflicts
+- Supports up to 5-error correction with targeted search
 
 ### Error Correction Comparison (90-10 Split)
 
-| Method | Sudoku 4×4 | Sudoku 9×9 | HexaSudoku | Avg Solve Calls |
-|--------|------------|------------|------------|-----------------|
-| **Confidence-Based** | 99% | **99%** | **37%** | ~50-500 |
-| **Unsat Core** | 99% | 85% | 36% | **2-20** |
+| Aspect | Confidence-Based | Constraint-Based (Unsat Core) |
+|--------|-----------------|------------------------------|
+| **Principle** | Statistical (low confidence = likely wrong) | Logical (constraint conflict = definitely involved) |
+| **Search Strategy** | Exhaustive over all clues | Targeted at conflict participants only |
+| **Max Errors** | 2 | 5 |
+| **Sudoku 4×4** | 99% | 99% |
+| **Sudoku 9×9** | **99%** | 85% |
+| **HexaSudoku** | **37%** | 36% |
+| **Avg Solve Calls** | 50-500 | **2-20** (10-25x faster) |
 
-**Key Finding**: Near-perfect character recognition (~99%) doesn't guarantee puzzle solving. Larger puzzles with more clues are highly sensitive to even rare misclassifications. The confidence-based approach achieves higher accuracy through exhaustive search, while the unsat core approach is significantly faster but may miss errors that don't cause logical conflicts.
+### When to Use Each Method
+
+| Scenario | Recommended Method | Why |
+|----------|-------------------|-----|
+| **Speed critical** | Unsat Core | 10-25x fewer solver calls |
+| **Maximum accuracy** | Confidence-Based | Catches errors that don't cause UNSAT |
+| **Small puzzles (4×4)** | Either | Both achieve 99% |
+| **Large puzzles (9×9+)** | Confidence-Based | Some errors enable wrong solutions rather than UNSAT |
+
+### Key Insights
+
+1. **~99% character recognition ≠ puzzle solving**: Even rare misclassifications break constraint satisfaction
+2. **Unsat core is faster but incomplete**: Only detects errors that directly cause logical conflicts
+3. **Some errors are "invisible"**: If a wrong digit enables a different valid solution (not the intended one), it won't cause UNSAT and the unsat core approach will miss it
+4. **Second-best prediction matters**: When the CNN's second-best guess is also wrong, neither method can correct the error
 
 ## Project Structure
 
