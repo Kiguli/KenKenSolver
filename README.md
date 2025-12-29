@@ -21,13 +21,14 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 
 ### Handwritten Puzzle Experiments
 
-Two train/test split configurations are available for handwritten digit recognition:
+Multiple train/test split configurations are available for handwritten digit recognition:
 
 | Folder | Split | Description |
 |--------|-------|-------------|
 | [83-17 split handwritten](83-17%20split%20handwritten/) | 5000/1000 per class | Original experiments |
 | [90-10 split handwritten](90-10%20split%20handwritten/) | 5400/600 per class | More training data |
 | [90-10 split detect errors](90-10%20split%20detect%20handwritten%20digit%20errors/) | - | Constraint-based error detection |
+| [95-5 split detect errors](95-5%20split%20detect%20handwritten%20digit%20errors/) | 5700/300 per class | Same augmentation, test set comparison |
 
 ## Architecture
 
@@ -200,6 +201,12 @@ KenKenSolver/
 ├── 90-10 split detect handwritten digit errors/  # Constraint-based error detection
 │   ├── detect_errors.py         # Unsat core analysis (2nd-best only)
 │   ├── predict_digits.py        # Top-K prediction (2nd-4th best)
+│   └── results/                 # Detection results
+├── 95-5 split detect handwritten digit errors/   # Test set comparison experiment
+│   ├── download_datasets.py     # 95-5 split (seed configurable)
+│   ├── train_cnn.py             # Same augmentation as 90-10
+│   ├── detect_errors.py         # Constraint-based correction
+│   ├── predict_digits.py        # Top-K prediction
 │   └── results/                 # Detection results
 ```
 

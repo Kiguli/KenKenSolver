@@ -1,0 +1,5 @@
+Constraint-Based Error Detection Summary (95-5 Split)
+(Using Z3 Unsat Core Analysis)
+==================================================
+
+hexasudoku_16x16: 29.0% success, avg 183.2 solve calls

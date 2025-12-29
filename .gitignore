@@ -8,6 +8,7 @@ __pycache__/
 # Datasets - too large for GitHub
 **/datasets/
 **/handwritten_data/
+**/data/*.npy
 
 # Large CSV files
 **/symbols/*.csv
