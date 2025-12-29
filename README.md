@@ -29,6 +29,7 @@ Multiple train/test split configurations are available for handwritten digit rec
 | [90-10 split handwritten](90-10%20split%20handwritten/) | 5400/600 per class | More training data |
 | [90-10 split detect errors](90-10%20split%20detect%20handwritten%20digit%20errors/) | - | Constraint-based error detection |
 | [95-5 split detect errors](95-5%20split%20detect%20handwritten%20digit%20errors/) | 5700/300 per class | Same augmentation, test set comparison |
+| [100-0 split detect errors](100-0%20split%20detect%20handwritten%20digit%20errors/) | ALL data for train | Upper bound: training data for board images |
 
 ## Architecture
 
@@ -156,12 +157,23 @@ Extends constraint-based approach by trying **2nd, 3rd, and 4th** best CNN predi
 | **Maximum accuracy (16×16)** | Top-K Prediction | Handles cases where 2nd-best is also wrong |
 | **Small puzzles (4×4)** | Any | All achieve 99% |
 
+### Train/Test Split Comparison (HexaSudoku 16x16)
+
+| Split | Training Data | Board Images Use | Top-K Solve Rate | Avg Errors/Puzzle |
+|-------|---------------|------------------|------------------|-------------------|
+| 90-10 | 5,400/class | Test (unseen) | 40% | ~2.5 |
+| 95-5  | 5,700/class | Test (unseen) | 37-42% | 2.5 |
+| **100-0** | ALL (~7,000) | **Training** | **68%** | **1.45** |
+
+**Key finding**: Even using training data (CNN has memorized digits), solve rate is only 68%, not 100%. Data augmentation during training creates variations that don't exactly match board images.
+
 ### Key Insights
 
 1. **~99% character recognition ≠ puzzle solving**: Even rare misclassifications break constraint satisfaction
 2. **Unsat core is faster but incomplete**: Only detects errors that directly cause logical conflicts
 3. **Some errors are "invisible"**: If a wrong digit enables a different valid solution (not the intended one), it won't cause UNSAT and the unsat core approach will miss it
 4. **Second-best prediction matters**: When the CNN's second-best guess is also wrong, trying 3rd/4th best helps (Top-K improves HexaSudoku by 4%)
+5. **Upper bound ~68%**: Even with perfect familiarity (100-0 split), character confusions limit performance
 
 ## Project Structure
 
@@ -208,6 +220,11 @@ KenKenSolver/
 │   ├── detect_errors.py         # Constraint-based correction
 │   ├── predict_digits.py        # Top-K prediction
 │   └── results/                 # Detection results
+├── 100-0 split detect handwritten digit errors/  # Upper bound experiment
+│   ├── download_datasets.py     # Combines ALL data for training
+│   ├── train_cnn.py             # Same augmentation
+│   ├── generate_images.py       # Uses TRAINING data (key difference)
+│   └── results/                 # Detection results (68% solve rate)
 ```
 
 ## License

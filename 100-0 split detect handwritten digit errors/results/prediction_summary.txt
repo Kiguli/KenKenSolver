@@ -1,0 +1,5 @@
+Extended Error Correction (Top-K CNN Predictions) - 100-0 Split
+Tries 2nd, 3rd, and 4th best predictions for each suspect
+============================================================
+
+hexasudoku_16x16: 68.0% success, avg 260.6 solve calls
