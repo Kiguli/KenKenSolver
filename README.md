@@ -27,6 +27,7 @@ Two train/test split configurations are available for handwritten digit recognit
 |--------|-------|-------------|
 | [83-17 split handwritten](83-17%20split%20handwritten/) | 5000/1000 per class | Original experiments |
 | [90-10 split handwritten](90-10%20split%20handwritten/) | 5400/600 per class | More training data |
+| [90-10 split detect errors](90-10%20split%20detect%20handwritten%20digit%20errors/) | - | Constraint-based error detection |
 
 ## Architecture
 
@@ -108,11 +109,26 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 | **HexaSudoku 16×16** | 83-17 | 98.89% | 6% | 30% |
 | **HexaSudoku 16×16** | 90-10 | 99.06% | 10% | **37%** |
 
-**Error Correction**: When CNN misclassifies digits causing UNSAT, the system attempts:
-1. **Single-error correction**: Substitute low-confidence predictions with second-best alternatives (O(n))
-2. **Two-error correction**: If single fails, try pairs of low-confidence clues (O(n²))
+**Error Correction Methods**:
 
-**Key Finding**: Near-perfect character recognition (~99%) doesn't guarantee puzzle solving. Larger puzzles with more clues are highly sensitive to even rare misclassifications. Two-error correction significantly improves solve rates, achieving 99% on Sudoku and 37% on HexaSudoku.
+1. **Confidence-Based** (90-10 split handwritten): Uses CNN confidence scores to guide error correction
+   - Sorts clues by confidence (lowest first = most likely errors)
+   - Tries single-error then two-error corrections
+   - Achieves 99% on Sudoku, 37% on HexaSudoku
+
+2. **Constraint-Based** (90-10 split detect errors): Uses Z3's unsat core analysis
+   - Identifies clues causing logical conflicts without checking ground truth
+   - 10-25x fewer solver calls than confidence-based approach
+   - Achieves 99% on Sudoku 4×4, 85% on 9×9, 36% on HexaSudoku
+
+### Error Correction Comparison (90-10 Split)
+
+| Method | Sudoku 4×4 | Sudoku 9×9 | HexaSudoku | Avg Solve Calls |
+|--------|------------|------------|------------|-----------------|
+| **Confidence-Based** | 99% | **99%** | **37%** | ~50-500 |
+| **Unsat Core** | 99% | 85% | 36% | **2-20** |
+
+**Key Finding**: Near-perfect character recognition (~99%) doesn't guarantee puzzle solving. Larger puzzles with more clues are highly sensitive to even rare misclassifications. The confidence-based approach achieves higher accuracy through exhaustive search, while the unsat core approach is significantly faster but may miss errors that don't cause logical conflicts.
 
 ## Project Structure
 
@@ -149,6 +165,9 @@ KenKenSolver/
 │   ├── Handwritten_Sudoku/
 │   ├── Handwritten_HexaSudoku/
 │   └── Handwritten_Error_Correction/
+├── 90-10 split detect handwritten digit errors/  # Constraint-based error detection
+│   ├── detect_errors.py         # Unsat core analysis
+│   └── results/                 # Detection results
 ```
 
 ## License

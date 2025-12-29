@@ -35,29 +35,43 @@ When a Sudoku puzzle is UNSAT (unsolvable due to contradictory constraints), Z3 
 | Avg solve calls (16x16) | ~500 | **20.9** |
 | Speed | Slower | **10-25x faster** |
 
-## Results (90-10 Split)
+## Results (90-10 Split, Up to 5-Error Correction)
 
 | Puzzle Type | Success Rate | Detection Accuracy | Avg Suspects | Avg Solve Calls |
 |-------------|--------------|-------------------|--------------|-----------------|
 | Sudoku 4x4 | **99%** | 98% | 0.1 | 2.1 |
-| Sudoku 9x9 | **85%** | 89% | 0.9 | 2.7 |
-| HexaSudoku 16x16 | **36%** | 56% | 24.5 | 20.9 |
+| Sudoku 9x9 | **85%** | 89% | 0.9 | 2.8 |
+| HexaSudoku 16x16 | **36%** | 56% | 24.8 | 306.6 |
+
+### Correction Breakdown
+
+| Puzzle Type | Direct Solve | 1-Error | 2-Error | 3-Error | 4-Error | 5-Error | Uncorrectable |
+|-------------|--------------|---------|---------|---------|---------|---------|---------------|
+| Sudoku 4x4 | 92 | 6 | 1 | 0 | 0 | 0 | 1 |
+| Sudoku 9x9 | 85 | 11 | 3 | 0 | 0 | 0 | 1 |
+| HexaSudoku | 10 | 18 | 12 | 0 | 0 | 0 | 60 |
 
 ### Comparison with Confidence-Based (90-10 split)
 
-| Puzzle Type | Confidence-Based | Unsat Core | Speedup |
-|-------------|-----------------|------------|---------|
-| Sudoku 4x4 | 99% | **99%** | ~5x fewer solve calls |
-| Sudoku 9x9 | 99% | 85% | ~20x fewer solve calls |
-| HexaSudoku | 37% | **36%** | ~25x fewer solve calls |
+| Puzzle Type | Confidence-Based | Unsat Core | Notes |
+|-------------|-----------------|------------|-------|
+| Sudoku 4x4 | 99% | **99%** | Same accuracy |
+| Sudoku 9x9 | 99% | 85% | Lower accuracy (errors don't cause UNSAT) |
+| HexaSudoku | 37% | **36%** | Similar accuracy |
 
 ### Key Observations
 
-1. **4x4 Sudoku**: Same accuracy, much faster
-2. **9x9 Sudoku**: Lower accuracy but dramatically fewer solve calls
-3. **HexaSudoku**: Similar accuracy, 25x fewer solve calls
+1. **4x4 Sudoku**: Same accuracy with much faster detection
+2. **9x9 Sudoku**: Lower accuracy (85% vs 99%) because some errors don't cause UNSAT - they enable wrong solutions rather than making the puzzle unsolvable
+3. **HexaSudoku**: Similar accuracy despite trying up to 5-error correction
 
-The lower 9x9 accuracy suggests some errors don't directly participate in constraint conflicts (they enable wrong solutions rather than causing UNSAT). The confidence-based approach can catch these through exhaustive search.
+### Why Extended Error Correction Didn't Help HexaSudoku
+
+Even with 5-error correction capability, HexaSudoku stayed at 36%. Analysis shows:
+- No puzzles needed 3, 4, or 5 error corrections
+- 60% of puzzles remain uncorrectable
+- The issue is that for many errors, the **second-best CNN prediction is also wrong**
+- The unsat core approach correctly identifies suspect clues, but substituting second-best predictions doesn't fix them
 
 ## Advantages
 

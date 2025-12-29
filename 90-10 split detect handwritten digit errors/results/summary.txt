@@ -2,6 +2,6 @@ Constraint-Based Error Detection Summary
 (Using Z3 Unsat Core Analysis)
 ==================================================
 
-hexasudoku_16x16: 36.0% success, avg 20.9 solve calls
+hexasudoku_16x16: 36.0% success, avg 306.6 solve calls
 sudoku_4x4: 99.0% success, avg 2.1 solve calls
-sudoku_9x9: 85.0% success, avg 2.7 solve calls
+sudoku_9x9: 85.0% success, avg 2.8 solve calls

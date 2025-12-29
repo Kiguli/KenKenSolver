@@ -428,7 +428,7 @@ def detect_errors_via_unsat_core(
 class CorrectionResult:
     """Result of correction attempt."""
     success: bool
-    correction_type: str  # "none", "single", "two", "uncorrectable"
+    correction_type: str  # "none", "single", "two", "three", ..., "uncorrectable"
     num_errors_corrected: int
     positions_corrected: List[Tuple[int, int]]
     original_values: List[int]
@@ -444,15 +444,40 @@ def attempt_correction_with_detection(
     size: int,
     tracking_solver_fn,
     regular_solver_fn,
-    max_single_attempts: int = 15,
-    max_pair_attempts: int = 45
+    max_errors: int = 5,
+    max_suspects_per_level: int = 20,
+    max_attempts_per_level: Optional[List[int]] = None
 ) -> Tuple[DetectionResult, CorrectionResult]:
     """
     Use unsat core detection to guide correction attempts.
 
+    Supports correcting 1, 2, 3, 4, 5+ errors by trying combinations of suspects.
+    The unsat core approach makes this feasible by limiting the search space
+    to only clues that participate in constraint conflicts.
+
+    Args:
+        puzzle: Extracted puzzle values
+        alternatives: CNN probability info for each clue position
+        size: Puzzle size (4, 9, or 16)
+        tracking_solver_fn: Solver that returns unsat core suspects
+        regular_solver_fn: Fast solver for correction attempts
+        max_errors: Maximum number of errors to try correcting (default 5)
+        max_suspects_per_level: Max suspects to consider at each error level
+        max_attempts_per_level: Max correction attempts per error level
+            Default: [20, 100, 300, 500, 800] for 1-5 errors
+
     Returns:
         (DetectionResult, CorrectionResult)
     """
+    if max_attempts_per_level is None:
+        # Default limits: more attempts for higher error counts since
+        # combinations grow but the search space is still constrained
+        max_attempts_per_level = [20, 100, 300, 500, 800]
+
+    # Extend if needed
+    while len(max_attempts_per_level) < max_errors:
+        max_attempts_per_level.append(max_attempts_per_level[-1] * 2)
+
     # Step 1: Detect suspects via unsat core
     detection = detect_errors_via_unsat_core(
         puzzle, size, tracking_solver_fn
@@ -488,68 +513,60 @@ def attempt_correction_with_detection(
     suspects = detection.suspects
     correction_attempts = 0
 
-    # Step 2: Try single substitutions on suspects only
-    for pos in suspects[:max_single_attempts]:
-        if pos not in alternatives:
-            continue
+    # Filter suspects to only those with valid alternatives
+    valid_suspects = []
+    for pos in suspects[:max_suspects_per_level]:
+        if pos in alternatives:
+            second_best = alternatives[pos]['second_best']
+            if second_best != 0:
+                valid_suspects.append(pos)
 
-        second_best = alternatives[pos]['second_best']
-        if second_best == 0:
-            continue
+    # Error level names
+    error_names = ["single", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
 
-        modified = given_cells.copy()
-        modified[pos] = second_best
+    # Try correcting 1, 2, 3, ... up to max_errors
+    for num_errors in range(1, max_errors + 1):
+        if num_errors > len(valid_suspects):
+            # Not enough suspects to try this many errors
+            break
 
-        solution = regular_solver_fn(modified)
-        total_solve_calls += 1
-        correction_attempts += 1
+        max_attempts = max_attempts_per_level[num_errors - 1]
+        error_name = error_names[num_errors - 1] if num_errors <= len(error_names) else f"{num_errors}"
 
-        if solution is not None:
-            return detection, CorrectionResult(
-                success=True,
-                correction_type="single",
-                num_errors_corrected=1,
-                positions_corrected=[pos],
-                original_values=[given_cells[pos]],
-                corrected_values=[second_best],
-                solution=solution,
-                correction_attempts=correction_attempts,
-                total_solve_calls=total_solve_calls
-            )
+        # Generate combinations of suspects
+        combos = list(combinations(valid_suspects, num_errors))
 
-    # Step 3: Try pairs of suspects
-    suspect_pairs = list(combinations(suspects[:15], 2))[:max_pair_attempts]
+        # Limit number of attempts
+        combos = combos[:max_attempts]
 
-    for pos1, pos2 in suspect_pairs:
-        if pos1 not in alternatives or pos2 not in alternatives:
-            continue
+        for positions in combos:
+            # Build modified puzzle with second-best predictions
+            modified = given_cells.copy()
+            corrected_values = []
+            original_values = []
 
-        second_best1 = alternatives[pos1]['second_best']
-        second_best2 = alternatives[pos2]['second_best']
+            for pos in positions:
+                original_values.append(given_cells[pos])
+                second_best = alternatives[pos]['second_best']
+                modified[pos] = second_best
+                corrected_values.append(second_best)
 
-        if second_best1 == 0 or second_best2 == 0:
-            continue
+            solution = regular_solver_fn(modified)
+            total_solve_calls += 1
+            correction_attempts += 1
 
-        modified = given_cells.copy()
-        modified[pos1] = second_best1
-        modified[pos2] = second_best2
-
-        solution = regular_solver_fn(modified)
-        total_solve_calls += 1
-        correction_attempts += 1
-
-        if solution is not None:
-            return detection, CorrectionResult(
-                success=True,
-                correction_type="two",
-                num_errors_corrected=2,
-                positions_corrected=[pos1, pos2],
-                original_values=[given_cells[pos1], given_cells[pos2]],
-                corrected_values=[second_best1, second_best2],
-                solution=solution,
-                correction_attempts=correction_attempts,
-                total_solve_calls=total_solve_calls
-            )
+            if solution is not None:
+                return detection, CorrectionResult(
+                    success=True,
+                    correction_type=error_name,
+                    num_errors_corrected=num_errors,
+                    positions_corrected=list(positions),
+                    original_values=original_values,
+                    corrected_values=corrected_values,
+                    solution=solution,
+                    correction_attempts=correction_attempts,
+                    total_solve_calls=total_solve_calls
+                )
 
     # Could not correct
     return detection, CorrectionResult(
@@ -748,16 +765,14 @@ def main():
             # Summary
             success_count = sum(1 for r in results if r['final_success'])
             detection_found_actual = sum(1 for r in results if r['suspects_include_all_actual'])
-            single_corrected = sum(1 for r in results if r['correction_type'] == 'single')
-            two_corrected = sum(1 for r in results if r['correction_type'] == 'two')
+            correction_counts = Counter(r['correction_type'] for r in results)
             avg_suspects = sum(r['num_suspects_detected'] for r in results) / len(results)
             avg_solve_calls = sum(r['total_solve_calls'] for r in results) / len(results)
 
             print(f"\n{size}x{size} Summary:")
             print(f"  Success rate: {success_count}/{len(results)} ({success_count/len(results)*100:.1f}%)")
             print(f"  Detection found actual errors: {detection_found_actual}/{len(results)}")
-            print(f"  Single corrections: {single_corrected}")
-            print(f"  Two-error corrections: {two_corrected}")
+            print(f"  Corrections by error count: {dict(correction_counts)}")
             print(f"  Avg suspects detected: {avg_suspects:.1f}")
             print(f"  Avg solve calls: {avg_solve_calls:.1f}")
     else:
@@ -798,16 +813,14 @@ def main():
             # Summary
             success_count = sum(1 for r in results if r['final_success'])
             detection_found_actual = sum(1 for r in results if r['suspects_include_all_actual'])
-            single_corrected = sum(1 for r in results if r['correction_type'] == 'single')
-            two_corrected = sum(1 for r in results if r['correction_type'] == 'two')
+            correction_counts = Counter(r['correction_type'] for r in results)
             avg_suspects = sum(r['num_suspects_detected'] for r in results) / len(results)
             avg_solve_calls = sum(r['total_solve_calls'] for r in results) / len(results)
 
             print(f"\n16x16 Summary:")
             print(f"  Success rate: {success_count}/{len(results)} ({success_count/len(results)*100:.1f}%)")
             print(f"  Detection found actual errors: {detection_found_actual}/{len(results)}")
-            print(f"  Single corrections: {single_corrected}")
-            print(f"  Two-error corrections: {two_corrected}")
+            print(f"  Corrections by error count: {dict(correction_counts)}")
             print(f"  Avg suspects detected: {avg_suspects:.1f}")
             print(f"  Avg solve calls: {avg_solve_calls:.1f}")
     else:
@@ -835,10 +848,16 @@ def main():
         n = len(results)
 
         success_count = sum(1 for r in results if r['final_success'])
-        no_errors = sum(1 for r in results if r['correction_type'] == 'none')
-        single_corrected = sum(1 for r in results if r['correction_type'] == 'single')
-        two_corrected = sum(1 for r in results if r['correction_type'] == 'two')
-        uncorrectable = sum(1 for r in results if r['correction_type'] == 'uncorrectable')
+
+        # Count by correction type
+        correction_counts = Counter(r['correction_type'] for r in results)
+        no_errors = correction_counts.get('none', 0)
+        single_corrected = correction_counts.get('single', 0)
+        two_corrected = correction_counts.get('two', 0)
+        three_corrected = correction_counts.get('three', 0)
+        four_corrected = correction_counts.get('four', 0)
+        five_corrected = correction_counts.get('five', 0)
+        uncorrectable = correction_counts.get('uncorrectable', 0)
 
         detection_accuracy = sum(1 for r in results if r['suspects_include_all_actual']) / n
         avg_suspects = sum(r['num_suspects_detected'] for r in results) / n
@@ -847,7 +866,14 @@ def main():
 
         print(f"\n{pt}:")
         print(f"  Final success: {success_count}/{n} ({success_count/n*100:.1f}%)")
-        print(f"  Breakdown: none={no_errors}, single={single_corrected}, two={two_corrected}, uncorrectable={uncorrectable}")
+        print(f"  Breakdown:")
+        print(f"    - No errors (direct solve): {no_errors}")
+        print(f"    - 1-error corrections: {single_corrected}")
+        print(f"    - 2-error corrections: {two_corrected}")
+        print(f"    - 3-error corrections: {three_corrected}")
+        print(f"    - 4-error corrections: {four_corrected}")
+        print(f"    - 5-error corrections: {five_corrected}")
+        print(f"    - Uncorrectable: {uncorrectable}")
         print(f"  Detection found actual errors: {detection_accuracy*100:.1f}%")
         print(f"  Avg suspects per puzzle: {avg_suspects:.1f}")
         print(f"  Avg solve calls: {avg_solve_calls:.1f}")
