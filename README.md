@@ -107,7 +107,7 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 | **Sudoku 9×9** | 83-17 | 99.67% | 79% | 91% |
 | **Sudoku 9×9** | 90-10 | 99.64% | 75% | **99%** |
 | **HexaSudoku 16×16** | 83-17 | 98.89% | 6% | 30% |
-| **HexaSudoku 16×16** | 90-10 | 99.06% | 10% | **37%** |
+| **HexaSudoku 16×16** | 90-10 | 99.06% | 10% | **40%** |
 
 ### Error Correction Methods
 
@@ -127,33 +127,40 @@ Uses Z3's **unsat core** to identify clues causing logical conflicts:
 - Only tests substitutions on clues involved in conflicts
 - Supports up to 5-error correction with targeted search
 
+#### 3. Top-K Prediction ([90-10 split detect errors](90-10%20split%20detect%20handwritten%20digit%20errors/))
+
+Extends constraint-based approach by trying **2nd, 3rd, and 4th** best CNN predictions:
+- When second-best prediction is also wrong, tries additional alternatives
+- Improves HexaSudoku from 36% → **40%**
+- Trade-off: More solver calls needed
+
 ### Error Correction Comparison (90-10 Split)
 
-| Aspect | Confidence-Based | Constraint-Based (Unsat Core) |
-|--------|-----------------|------------------------------|
-| **Principle** | Statistical (low confidence = likely wrong) | Logical (constraint conflict = definitely involved) |
-| **Search Strategy** | Exhaustive over all clues | Targeted at conflict participants only |
-| **Max Errors** | 2 | 5 |
-| **Sudoku 4×4** | 99% | 99% |
-| **Sudoku 9×9** | **99%** | 85% |
-| **HexaSudoku** | **37%** | 36% |
-| **Avg Solve Calls** | 50-500 | **2-20** (10-25x faster) |
+| Aspect | Confidence-Based | Constraint-Based | + Top-K (2nd-4th) |
+|--------|-----------------|------------------|-------------------|
+| **Principle** | Statistical | Logical (unsat core) | Logical + multi-prediction |
+| **Search Strategy** | Exhaustive | Targeted | Targeted + alternatives |
+| **Max Errors** | 2 | 5 | 5 |
+| **Sudoku 4×4** | 99% | 99% | 99% |
+| **Sudoku 9×9** | **99%** | 85% | 84% |
+| **HexaSudoku** | 37% | 36% | **40%** |
+| **Avg Solve Calls** | 50-500 | **2-20** | 2-800 |
 
 ### When to Use Each Method
 
 | Scenario | Recommended Method | Why |
 |----------|-------------------|-----|
 | **Speed critical** | Unsat Core | 10-25x fewer solver calls |
-| **Maximum accuracy** | Confidence-Based | Catches errors that don't cause UNSAT |
-| **Small puzzles (4×4)** | Either | Both achieve 99% |
-| **Large puzzles (9×9+)** | Confidence-Based | Some errors enable wrong solutions rather than UNSAT |
+| **Maximum accuracy (9×9)** | Confidence-Based | Catches errors that don't cause UNSAT |
+| **Maximum accuracy (16×16)** | Top-K Prediction | Handles cases where 2nd-best is also wrong |
+| **Small puzzles (4×4)** | Any | All achieve 99% |
 
 ### Key Insights
 
 1. **~99% character recognition ≠ puzzle solving**: Even rare misclassifications break constraint satisfaction
 2. **Unsat core is faster but incomplete**: Only detects errors that directly cause logical conflicts
 3. **Some errors are "invisible"**: If a wrong digit enables a different valid solution (not the intended one), it won't cause UNSAT and the unsat core approach will miss it
-4. **Second-best prediction matters**: When the CNN's second-best guess is also wrong, neither method can correct the error
+4. **Second-best prediction matters**: When the CNN's second-best guess is also wrong, trying 3rd/4th best helps (Top-K improves HexaSudoku by 4%)
 
 ## Project Structure
 
@@ -191,7 +198,8 @@ KenKenSolver/
 │   ├── Handwritten_HexaSudoku/
 │   └── Handwritten_Error_Correction/
 ├── 90-10 split detect handwritten digit errors/  # Constraint-based error detection
-│   ├── detect_errors.py         # Unsat core analysis
+│   ├── detect_errors.py         # Unsat core analysis (2nd-best only)
+│   ├── predict_digits.py        # Top-K prediction (2nd-4th best)
 │   └── results/                 # Detection results
 ```
 

@@ -73,6 +73,40 @@ Even with 5-error correction capability, HexaSudoku stayed at 36%. Analysis show
 - The issue is that for many errors, the **second-best CNN prediction is also wrong**
 - The unsat core approach correctly identifies suspect clues, but substituting second-best predictions doesn't fix them
 
+## Extended Correction: Top-K Predictions
+
+To address the limitation where the second-best CNN prediction is also wrong, `predict_digits.py` extends the approach to try the **2nd, 3rd, and 4th** best CNN predictions for each suspect cell.
+
+### Top-K Results (90-10 Split)
+
+| Puzzle Type | 2nd-Best Only | Top-4 Predictions | Improvement |
+|-------------|---------------|-------------------|-------------|
+| Sudoku 4×4 | 99% | **99%** | - |
+| Sudoku 9×9 | 85% | **84%** | -1% |
+| HexaSudoku | 36% | **40%** | **+4%** |
+
+### Correction Breakdown (Top-K)
+
+| Puzzle Type | Direct Solve | 1-Error | 2-Error | 3-Error | Uncorrectable |
+|-------------|--------------|---------|---------|---------|---------------|
+| Sudoku 4×4 | 92 | 7 | 1 | 0 | 0 |
+| Sudoku 9×9 | 85 | 12 | 2 | 1 | 0 |
+| HexaSudoku | 10 | 19 | 16 | 0 | 55 |
+
+### Key Findings
+
+1. **HexaSudoku improved from 36% → 40%**: The additional predictions helped correct 4 more puzzles
+2. **9×9 Sudoku achieved a 3-error correction**: One puzzle needed swapping 3 digits to the 3rd/4th best predictions
+3. **Trade-off**: More solve attempts needed (avg 805 for HexaSudoku vs 307 with 2nd-best only)
+4. **Still limited**: 55% of HexaSudoku puzzles remain uncorrectable because even the 4th-best prediction isn't the correct digit
+
+### Usage
+
+```bash
+cd "90-10 split detect handwritten digit errors"
+python predict_digits.py
+```
+
 ## Advantages
 
 1. **Much faster**: 10-25x fewer solver calls on average
@@ -98,13 +132,16 @@ python detect_errors.py
 ```
 90-10 split detect handwritten digit errors/
 ├── README.md                 # This file
-├── detect_errors.py          # Main implementation
+├── detect_errors.py          # Unsat core detection (2nd-best only)
+├── predict_digits.py         # Extended correction (top-4 predictions)
 ├── puzzles/
 │   ├── puzzles_dict.json         # Sudoku puzzles (4x4 and 9x9)
 │   └── unique_puzzles_dict.json  # HexaSudoku puzzles (16x16)
 └── results/
-    ├── detection_results.csv     # Detailed per-puzzle results
-    └── summary.txt               # Summary statistics
+    ├── detection_results.csv     # Results from detect_errors.py
+    ├── prediction_results.csv    # Results from predict_digits.py
+    ├── summary.txt               # detect_errors.py summary
+    └── prediction_summary.txt    # predict_digits.py summary
 ```
 
 ## Technical Details
