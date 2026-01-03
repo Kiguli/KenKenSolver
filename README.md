@@ -184,7 +184,7 @@ An alternative approach renders values 10-16 as two-digit numbers (e.g., "16" in
 - **Ones digit constrained to 0-6**: Values 17-19 don't exist in HexaSudoku
 - **Alternative filtering**: Error correction only considers valid values {10-16}
 
-**Error Detection & Correction Pipeline**:
+## **Error Detection & Correction Pipeline**:
 
 1. **Cell Classification** (single vs double digit):
    - Calculate ink density in center 50% of cell vs total cell
@@ -223,7 +223,7 @@ An alternative approach renders values 10-16 as two-digit numbers (e.g., "16" in
 - Constraint-based solve rate improved from 22% → 49% (+123%)
 - The remaining gap vs letters (58% vs 40%) is due to ones digit confusion, which is harder to constrain
 
-### Key Insights
+## Key Insights
 
 1. **~99% character recognition ≠ puzzle solving**: Even rare misclassifications break constraint satisfaction
 2. **Unsat core is faster but incomplete**: Only detects errors that directly cause logical conflicts
