@@ -1,0 +1,4 @@
+Constraint-Based Error Detection Summary (Digits Only)
+==================================================
+
+hexasudoku_16x16_digits: 49.0% success

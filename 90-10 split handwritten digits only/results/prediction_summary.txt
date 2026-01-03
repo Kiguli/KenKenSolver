@@ -1,0 +1,7 @@
+Extended Error Correction (Top-K CNN Predictions) - Digits Only
+Tries 2nd, 3rd, and 4th best predictions for each suspect
+Values 10-16 rendered as two-digit numbers
+============================================================
+
+Final success: 58/100 (58.0%)
+Avg solve calls: 1385.9

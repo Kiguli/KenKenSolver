@@ -28,6 +28,7 @@ Multiple train/test split configurations are available for handwritten digit rec
 | [83-17 split handwritten](83-17%20split%20handwritten/) | 5000/1000 per class | Original experiments |
 | [90-10 split handwritten](90-10%20split%20handwritten/) | 5400/600 per class | More training data |
 | [90-10 split detect errors](90-10%20split%20detect%20handwritten%20digit%20errors/) | - | Constraint-based error detection |
+| [90-10 split digits only](90-10%20split%20handwritten%20digits%20only/) | 5400/600 per class | Two-digit rendering + domain constraints (58%) |
 | [95-5 split detect errors](95-5%20split%20detect%20handwritten%20digit%20errors/) | 5700/300 per class | Same augmentation, test set comparison |
 | [100-0 split detect errors](100-0%20split%20detect%20handwritten%20digit%20errors/) | ALL data for train | Upper bound: training data for board images |
 
@@ -162,10 +163,31 @@ Extends constraint-based approach by trying **2nd, 3rd, and 4th** best CNN predi
 | Split | Training Data | Board Images Use | Top-K Solve Rate | Avg Errors/Puzzle |
 |-------|---------------|------------------|------------------|-------------------|
 | 90-10 | 5,400/class | Test (unseen) | 40% | ~2.5 |
+| 90-10 (digits only) | 5,400/class | Test (unseen) | 34% → **58%** (constrained) | 3.1 → ~1.5 |
 | 95-5  | 5,700/class | Test (unseen) | 37-42% | 2.5 |
 | **100-0** | ALL (~7,000) | **Training** | **68%** | **1.45** |
 
 **Key finding**: Even using training data (CNN has memorized digits), solve rate is only 68%, not 100%. Data augmentation during training creates variations that don't exactly match board images.
+
+### Digits-Only Experiment (90-10 Split)
+
+An alternative approach renders values 10-16 as two-digit numbers (e.g., "16" instead of letter "G"):
+
+| Aspect | Letters (A-G) | Digits Only (baseline) | + Domain Constraints |
+|--------|---------------|------------------------|---------------------|
+| Top-K Solve Rate | 40% | 34% | **58%** |
+| Constraint-Based Solve | 36% | 22% | **49%** |
+| Cell Error Rate (10-16) | ~1% | 4.7% | ~1.5% (estimated) |
+
+**Domain Constraints Applied**:
+- **Tens digit forced to 1**: All values 10-16 start with "1", eliminating 1→7 confusion (64% of errors)
+- **Ones digit constrained to 0-6**: Values 17-19 don't exist in HexaSudoku
+- **Alternative filtering**: Error correction only considers valid values {10-16}
+
+**Finding**: Domain knowledge significantly improves the digits-only approach:
+- Top-K solve rate improved from 34% → 58% (+71%)
+- Constraint-based solve rate improved from 22% → 49% (+123%)
+- The remaining gap vs letters (58% vs 40%) is due to ones digit confusion, which is harder to constrain
 
 ### Key Insights
 
@@ -174,6 +196,7 @@ Extends constraint-based approach by trying **2nd, 3rd, and 4th** best CNN predi
 3. **Some errors are "invisible"**: If a wrong digit enables a different valid solution (not the intended one), it won't cause UNSAT and the unsat core approach will miss it
 4. **Second-best prediction matters**: When the CNN's second-best guess is also wrong, trying 3rd/4th best helps (Top-K improves HexaSudoku by 4%)
 5. **Upper bound ~68%**: Even with perfect familiarity (100-0 split), character confusions limit performance
+6. **Domain constraints dramatically help**: Forcing tens digit=1 for two-digit cells eliminates 64% of errors, improving solve rate from 34% → 58%
 
 ## Project Structure
 
@@ -225,6 +248,13 @@ KenKenSolver/
 │   ├── train_cnn.py             # Same augmentation
 │   ├── generate_images.py       # Uses TRAINING data (key difference)
 │   └── results/                 # Detection results (68% solve rate)
+├── 90-10 split handwritten digits only/  # Digits-only experiment (no letters)
+│   ├── download_datasets.py     # MNIST only (0-9)
+│   ├── train_cnn.py             # 11 classes (0-9 + empty)
+│   ├── generate_images.py       # Two-digit rendering for 10-16
+│   ├── detect_errors.py         # Constraint-based + domain constraints
+│   ├── predict_digits.py        # Top-K + domain constraints
+│   └── results/                 # 58% solve rate (with domain constraints)
 ```
 
 ## License
