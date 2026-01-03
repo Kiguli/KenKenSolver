@@ -184,6 +184,40 @@ An alternative approach renders values 10-16 as two-digit numbers (e.g., "16" in
 - **Ones digit constrained to 0-6**: Values 17-19 don't exist in HexaSudoku
 - **Alternative filtering**: Error correction only considers valid values {10-16}
 
+**Error Detection & Correction Pipeline**:
+
+1. **Cell Classification** (single vs double digit):
+   - Calculate ink density in center 50% of cell vs total cell
+   - If center_ratio > 1.7 → single digit (values 1-9)
+   - If center_ratio ≤ 1.7 → double digit (values 10-16)
+   - Empty cells detected when total ink < 0.02
+
+2. **Digit Recognition**:
+   - Single digits: Extract full cell, resize to 28×28, run through CNN
+   - Double digits: Split cell into left/right halves, recognize each independently
+   - CNN outputs probability distribution over classes 0-9 (plus empty class 10)
+
+3. **Domain Constraint Enforcement** (applied during recognition):
+   - **Tens digit → always 1**: For double-digit cells, ignore CNN prediction for left digit and force to 1
+   - **Ones digit → must be 0-6**: If CNN predicts 7/8/9, use next-best prediction ≤ 6 from top-K
+   - Result: All double-digit values guaranteed to be in {10, 11, 12, 13, 14, 15, 16}
+
+4. **Error Detection** (unsat core analysis):
+   - Attempt to solve puzzle with Z3; if UNSAT, puzzle has errors
+   - Use `assert_and_track()` to label each clue constraint
+   - Extract unsat core = minimal set of clues causing the conflict
+   - For each suspect clue, temporarily remove it and re-solve:
+     - If solvable without it → strong indicator this clue is wrong
+     - If still UNSAT → check which clues appear in new unsat core
+   - Rank suspects by frequency across probes
+
+5. **Error Correction** (substitute alternatives):
+   - For each suspect position, generate alternatives from CNN's top-K predictions
+   - Single digits: Try 2nd, 3rd, 4th best predictions
+   - Double digits: Only vary the ones digit (try 0-6 alternatives), tens stays 1
+   - Try single-error corrections first, then two-error, up to max 4 errors
+   - Accept correction if puzzle becomes solvable
+
 **Finding**: Domain knowledge significantly improves the digits-only approach:
 - Top-K solve rate improved from 34% → 58% (+71%)
 - Constraint-based solve rate improved from 22% → 49% (+123%)
