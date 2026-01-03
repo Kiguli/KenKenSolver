@@ -4,15 +4,15 @@ A neuro-symbolic AI system that solves KenKen puzzles by combining computer visi
 
 ## Key Results
 
-| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | Avg Time |
-|--------|-----|-----|-----|-----|-----|----------|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 93% | ~5s |
-| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | ~238s |
-| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | ~24s |
-| Qwen 2.5 VL | 10% | 0% | 0% | 0% | 0% | ~46s |
-| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | ~4s |
+| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 | Avg Time |
+|--------|-----|-----|-----|-----|-----|-----|----------|
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 91% | 62% | ~0.4s |
+| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | - | ~238s |
+| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | - | ~24s |
+| Qwen 2.5 VL | 10% | 0% | 0% | 0% | 0% | - | ~46s |
+| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | - | ~4s |
 
-**Finding:** All LLMs fail on puzzles 5×5 and larger. The neuro-symbolic approach maintains near-perfect accuracy across all sizes.
+**Finding:** All LLMs fail on puzzles 5×5 and larger. The neuro-symbolic approach maintains high accuracy across all sizes, with 9×9 accuracy limited by CNN character recognition (not Z3 solver capability).
 
 ## Project Structure
 
@@ -30,8 +30,8 @@ KenKenSolver/
 │   ├── character_recognition_v2_model_weights.pth
 │   └── grid_detection_model_weights.pth
 ├── puzzles/
-│   └── puzzles_dict.json          # 290 puzzles (3×3 to 7×7)
-├── board_images/                  # 430+ generated puzzle PNGs
+│   └── puzzles_dict.json          # 600 puzzles (3×3 to 9×9)
+├── board_images/                  # 600 generated puzzle PNGs
 ├── symbols/
 │   ├── TMNIST_NotoSans.csv        # Character training data
 │   └── operators/                 # +, -, ×, ÷ symbol images
@@ -87,7 +87,7 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 ```
 
 **Pipeline overview:**
-1. **Grid Detection (CNN)** → Determines puzzle size (3-7)
+1. **Grid Detection (CNN)** → Determines puzzle size (3-9)
 2. **Border Detection (OpenCV)** → Identifies cage boundaries
 3. **Character Recognition (CNN)** → Reads targets and operators
 4. **Constraint Solving (Z3)** → Computes valid solution
@@ -152,7 +152,7 @@ jupyter notebook AnalyzingResults.ipynb
 ```
 Image (900×900)
     ↓
-Grid_CNN → Size (3-7)
+Grid_CNN → Size (3-9)
     ↓
 OpenCV (Canny + HoughLines) → Cage boundaries
     ↓
@@ -165,8 +165,8 @@ Z3 Solver → Valid solution
 
 **Grid Detection CNN:**
 - Input: 128×128 grayscale
-- Output: 5 classes (sizes 3-7)
-- Architecture: Conv(1→32→64) → FC(262144→128→5)
+- Output: 6 classes (sizes 3-7, 9)
+- Architecture: Conv(1→32→64) → FC(262144→128→6)
 
 **Character Recognition CNN:**
 - Input: 28×28 grayscale
@@ -197,9 +197,10 @@ max(a/b, b/a) == target  # Division
 | 4×4 | 100 | Standard puzzles |
 | 5×5 | 100 | Medium puzzles |
 | 6×6 | 100 | Hard puzzles |
-| 7×7 | 30 | Expert puzzles |
+| 7×7 | 100 | Expert puzzles |
+| 9×9 | 100 | Large puzzles (generated from Sudoku solutions) |
 
-**Total:** 430 puzzles with validated solutions
+**Total:** 600 puzzles with validated solutions
 
 ## Troubleshooting
 

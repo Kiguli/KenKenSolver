@@ -90,16 +90,18 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 
 ## Benchmark Results
 
-### KenKen (430 puzzles, sizes 3×3 to 7×7)
+### KenKen (600 puzzles, sizes 3×3 to 9×9)
 
-| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 |
-|--------|-----|-----|-----|-----|-----|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 93% |
-| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% |
-| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% |
-| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% |
+| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 |
+|--------|-----|-----|-----|-----|-----|-----|
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 91% | 62% |
+| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | - |
+| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | - |
+| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | - |
 
 **Key Finding**: All LLMs fail completely on puzzles 5×5 and larger.
+
+**9×9 Note**: The 62% solve rate on 9×9 puzzles is limited by CNN character recognition accuracy (not Z3 solver capability). The optimized Z3 solver achieves ~0.36s per puzzle with tactics like singleton pre-filling, integer-only division, and constraint propagation.
 
 ### Handwritten Digit Recognition (MNIST/EMNIST)
 
@@ -184,7 +186,7 @@ An alternative approach renders values 10-16 as two-digit numbers (e.g., "16" in
 - **Ones digit constrained to 0-6**: Values 17-19 don't exist in HexaSudoku
 - **Alternative filtering**: Error correction only considers valid values {10-16}
 
-## **Error Detection & Correction Pipeline**:
+**Error Detection & Correction Pipeline**:
 
 1. **Cell Classification** (single vs double digit):
    - Calculate ink density in center 50% of cell vs total cell
@@ -223,7 +225,7 @@ An alternative approach renders values 10-16 as two-digit numbers (e.g., "16" in
 - Constraint-based solve rate improved from 22% → 49% (+123%)
 - The remaining gap vs letters (58% vs 40%) is due to ones digit confusion, which is harder to constrain
 
-## Key Insights
+### Key Insights
 
 1. **~99% character recognition ≠ puzzle solving**: Even rare misclassifications break constraint satisfaction
 2. **Unsat core is faster but incomplete**: Only detects errors that directly cause logical conflicts

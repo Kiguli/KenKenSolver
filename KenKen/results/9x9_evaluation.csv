@@ -1,0 +1,101 @@
+size,puzzle_index,filename,size_detected,size_correct,solved,solve_time_ms,error_type,error_message
+9,0,./board_images/board9_0.png,9,True,False,833.4951400756836,z3_unsolvable,Z3 could not satisfy constraints
+9,1,./board_images/board9_1.png,9,True,True,548.2351779937744,none,
+9,2,./board_images/board9_2.png,9,True,True,2468.696117401123,none,
+9,3,./board_images/board9_3.png,9,True,False,320.15204429626465,z3_unsolvable,Z3 could not satisfy constraints
+9,4,./board_images/board9_4.png,9,True,True,1189.4350051879883,none,
+9,5,./board_images/board9_5.png,9,True,True,1994.7929382324219,none,
+9,6,./board_images/board9_6.png,9,True,False,316.20192527770996,z3_unsolvable,Z3 could not satisfy constraints
+9,7,./board_images/board9_7.png,9,True,False,385.41698455810547,z3_unsolvable,Z3 could not satisfy constraints
+9,8,./board_images/board9_8.png,9,True,True,965.4459953308105,none,
+9,9,./board_images/board9_9.png,9,True,True,1549.0901470184326,none,
+9,10,./board_images/board9_10.png,9,True,True,1741.4250373840332,none,
+9,11,./board_images/board9_11.png,9,True,False,347.25499153137207,z3_unsolvable,Z3 could not satisfy constraints
+9,12,./board_images/board9_12.png,9,True,False,759.558916091919,z3_unsolvable,Z3 could not satisfy constraints
+9,13,./board_images/board9_13.png,9,True,False,426.0869026184082,z3_unsolvable,Z3 could not satisfy constraints
+9,14,./board_images/board9_14.png,9,True,True,2666.703939437866,none,
+9,15,./board_images/board9_15.png,9,True,True,2782.866954803467,none,
+9,16,./board_images/board9_16.png,9,True,True,5429.203033447266,none,
+9,17,./board_images/board9_17.png,9,True,False,453.06396484375,z3_unsolvable,Z3 could not satisfy constraints
+9,18,./board_images/board9_18.png,9,True,True,787.3368263244629,none,
+9,19,./board_images/board9_19.png,9,True,False,280.96795082092285,exception,"Unsupported operation or malformed block: {'cells': [[5, 1], [6, 1], [7, 1], [8, 1]], 'op': 'sub', 'target': 1}"
+9,20,./board_images/board9_20.png,9,True,False,967.2801494598389,z3_unsolvable,Z3 could not satisfy constraints
+9,21,./board_images/board9_21.png,9,True,True,1415.8878326416016,none,
+9,22,./board_images/board9_22.png,9,True,True,1887.4471187591553,none,
+9,23,./board_images/board9_23.png,9,True,True,14864.841938018799,none,
+9,24,./board_images/board9_24.png,9,True,True,4626.979112625122,none,
+9,25,./board_images/board9_25.png,9,True,False,451.84779167175293,z3_unsolvable,Z3 could not satisfy constraints
+9,26,./board_images/board9_26.png,9,True,True,4257.443189620972,none,
+9,27,./board_images/board9_27.png,9,True,True,2227.213144302368,none,
+9,28,./board_images/board9_28.png,9,True,True,782.9809188842773,none,
+9,29,./board_images/board9_29.png,9,True,True,1221.210241317749,none,
+9,30,./board_images/board9_30.png,9,True,False,1497.0059394836426,z3_unsolvable,Z3 could not satisfy constraints
+9,31,./board_images/board9_31.png,9,True,True,816.0662651062012,none,
+9,32,./board_images/board9_32.png,9,True,False,1927.0951747894287,z3_unsolvable,Z3 could not satisfy constraints
+9,33,./board_images/board9_33.png,9,True,True,1412.3120307922363,none,
+9,34,./board_images/board9_34.png,9,True,False,331.8042755126953,z3_unsolvable,Z3 could not satisfy constraints
+9,35,./board_images/board9_35.png,9,True,True,4117.6300048828125,none,
+9,36,./board_images/board9_36.png,9,True,True,1350.5918979644775,none,
+9,37,./board_images/board9_37.png,9,True,True,1388.2689476013184,none,
+9,38,./board_images/board9_38.png,9,True,False,322.5407600402832,z3_unsolvable,Z3 could not satisfy constraints
+9,39,./board_images/board9_39.png,9,True,True,1144.8521614074707,none,
+9,40,./board_images/board9_40.png,9,True,True,6126.994848251343,none,
+9,41,./board_images/board9_41.png,9,True,True,1256.5429210662842,none,
+9,42,./board_images/board9_42.png,9,True,True,1309.1750144958496,none,
+9,43,./board_images/board9_43.png,9,True,True,2033.811330795288,none,
+9,44,./board_images/board9_44.png,9,True,True,2745.7568645477295,none,
+9,45,./board_images/board9_45.png,9,True,True,780.7779312133789,none,
+9,46,./board_images/board9_46.png,9,True,False,60310.271978378296,z3_unsolvable,Z3 could not satisfy constraints
+9,47,./board_images/board9_47.png,9,True,False,468.8689708709717,z3_unsolvable,Z3 could not satisfy constraints
+9,48,./board_images/board9_48.png,9,True,True,1027.0609855651855,none,
+9,49,./board_images/board9_49.png,9,True,False,613.4588718414307,z3_unsolvable,Z3 could not satisfy constraints
+9,50,./board_images/board9_50.png,9,True,False,355.1652431488037,z3_unsolvable,Z3 could not satisfy constraints
+9,51,./board_images/board9_51.png,9,True,True,1785.2580547332764,none,
+9,52,./board_images/board9_52.png,9,True,True,4104.954957962036,none,
+9,53,./board_images/board9_53.png,9,True,True,2212.324857711792,none,
+9,54,./board_images/board9_54.png,9,True,True,4059.69500541687,none,
+9,55,./board_images/board9_55.png,9,True,False,349.80297088623047,z3_unsolvable,Z3 could not satisfy constraints
+9,56,./board_images/board9_56.png,9,True,False,343.3542251586914,z3_unsolvable,Z3 could not satisfy constraints
+9,57,./board_images/board9_57.png,9,True,False,751.9760131835938,z3_unsolvable,Z3 could not satisfy constraints
+9,58,./board_images/board9_58.png,9,True,True,1017.4858570098877,none,
+9,59,./board_images/board9_59.png,9,True,True,4013.5958194732666,none,
+9,60,./board_images/board9_60.png,9,True,True,1898.6141681671143,none,
+9,61,./board_images/board9_61.png,9,True,True,4194.037199020386,none,
+9,62,./board_images/board9_62.png,9,True,True,1869.028091430664,none,
+9,63,./board_images/board9_63.png,9,True,True,4882.283926010132,none,
+9,64,./board_images/board9_64.png,9,True,False,790.3389930725098,z3_unsolvable,Z3 could not satisfy constraints
+9,65,./board_images/board9_65.png,9,True,False,307.74402618408203,z3_unsolvable,Z3 could not satisfy constraints
+9,66,./board_images/board9_66.png,9,True,False,408.8737964630127,z3_unsolvable,Z3 could not satisfy constraints
+9,67,./board_images/board9_67.png,9,True,False,1004.3840408325195,z3_unsolvable,Z3 could not satisfy constraints
+9,68,./board_images/board9_68.png,9,True,False,1127.9239654541016,z3_unsolvable,Z3 could not satisfy constraints
+9,69,./board_images/board9_69.png,9,True,True,1749.2311000823975,none,
+9,70,./board_images/board9_70.png,9,True,True,1452.9337882995605,none,
+9,71,./board_images/board9_71.png,9,True,True,1675.5990982055664,none,
+9,72,./board_images/board9_72.png,9,True,True,1187.1869564056396,none,
+9,73,./board_images/board9_73.png,9,True,False,2314.98122215271,z3_unsolvable,Z3 could not satisfy constraints
+9,74,./board_images/board9_74.png,9,True,True,1188.1368160247803,none,
+9,75,./board_images/board9_75.png,9,True,True,3646.97003364563,none,
+9,76,./board_images/board9_76.png,9,True,True,3224.5020866394043,none,
+9,77,./board_images/board9_77.png,9,True,False,357.47599601745605,z3_unsolvable,Z3 could not satisfy constraints
+9,78,./board_images/board9_78.png,9,True,True,2152.442216873169,none,
+9,79,./board_images/board9_79.png,9,True,False,309.002161026001,z3_unsolvable,Z3 could not satisfy constraints
+9,80,./board_images/board9_80.png,9,True,True,1336.9617462158203,none,
+9,81,./board_images/board9_81.png,9,True,True,1317.5930976867676,none,
+9,82,./board_images/board9_82.png,9,True,False,1558.4521293640137,z3_unsolvable,Z3 could not satisfy constraints
+9,83,./board_images/board9_83.png,9,True,False,335.2320194244385,z3_unsolvable,Z3 could not satisfy constraints
+9,84,./board_images/board9_84.png,9,True,False,334.5069885253906,z3_unsolvable,Z3 could not satisfy constraints
+9,85,./board_images/board9_85.png,9,True,False,2735.307216644287,z3_unsolvable,Z3 could not satisfy constraints
+9,86,./board_images/board9_86.png,9,True,False,584.5191478729248,z3_unsolvable,Z3 could not satisfy constraints
+9,87,./board_images/board9_87.png,9,True,False,490.6179904937744,z3_unsolvable,Z3 could not satisfy constraints
+9,88,./board_images/board9_88.png,9,True,False,2777.0588397979736,z3_unsolvable,Z3 could not satisfy constraints
+9,89,./board_images/board9_89.png,9,True,True,3105.9048175811768,none,
+9,90,./board_images/board9_90.png,9,True,True,3160.3121757507324,none,
+9,91,./board_images/board9_91.png,9,True,False,4022.0320224761963,z3_unsolvable,Z3 could not satisfy constraints
+9,92,./board_images/board9_92.png,9,True,True,6865.243911743164,none,
+9,93,./board_images/board9_93.png,9,True,True,1136.4970207214355,none,
+9,94,./board_images/board9_94.png,9,True,True,3456.2129974365234,none,
+9,95,./board_images/board9_95.png,9,True,True,2659.5561504364014,none,
+9,96,./board_images/board9_96.png,9,True,True,1187.8516674041748,none,
+9,97,./board_images/board9_97.png,9,True,True,1545.1948642730713,none,
+9,98,./board_images/board9_98.png,9,True,True,1797.0311641693115,none,
+9,99,./board_images/board9_99.png,9,True,True,1415.0938987731934,none,
