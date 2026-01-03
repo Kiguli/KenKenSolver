@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
-Run the NeuroSymbolic KenKen solver on all puzzles (sizes 3-9) and generate detailed results.
+Full evaluation of optimized KenKen solver on 3x3-7x7 puzzles.
+Uses the same optimizations as the 9x9 solver:
+1. Pre-filled singletons
+2. Integer-only division
+3. Domain tightening
+4. Solver tactics
 """
 
 import torch
@@ -12,6 +17,7 @@ import cv2 as cv
 import pandas as pd
 from z3 import *
 from torchvision import transforms
+import json
 import time
 import sys
 import os
@@ -22,7 +28,7 @@ IMG_SIZE = 28
 SCALE_FACTOR = 2
 
 # ============================================================
-# MODEL DEFINITIONS
+# CNN MODELS
 # ============================================================
 
 class Grid_CNN(nn.Module):
@@ -66,7 +72,7 @@ class CNN_v2(nn.Module):
 
 
 # ============================================================
-# LOAD MODELS
+# IMAGE PROCESSING
 # ============================================================
 
 transform = transforms.Compose([
@@ -76,35 +82,14 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-# Load character recognition model
-character_model = CNN_v2(output_dim=14)
-state_dict = torch.load('./models/character_recognition_v2_model_weights.pth', weights_only=False)
-character_model.load_state_dict(state_dict)
-character_model.eval()
 
-# Load grid detection model
-grid_detection = Grid_CNN(output_dim=5)
-state_dict = torch.load('./models/grid_detection_model_weights.pth', weights_only=False)
-grid_detection.load_state_dict(state_dict)
-grid_detection.eval()
-
-
-# ============================================================
-# SIZE DETECTION
-# ============================================================
-
-def get_size(filename):
-    """Detect board size using Grid_CNN (only works for sizes 3-7)."""
+def get_size(filename, grid_model):
     im = Image.open(filename).convert("RGBA")
     im = transform(im).unsqueeze(0)
-    output = grid_detection(im)
+    output = grid_model(im)
     prediction = torch.argmax(output, dim=1).item()
     return prediction + 3
 
-
-# ============================================================
-# BORDER DETECTION (OpenCV)
-# ============================================================
 
 def find_h_borders(h_lines, size, epsilon, delta):
     cell_size = ((BOARD_SIZE * SCALE_FACTOR) // size)
@@ -202,8 +187,7 @@ def get_border_thickness(lines):
     return min(v_lines['x1'])
 
 
-def find_size_and_borders(filename):
-    """Original function - uses Grid_CNN to detect size."""
+def find_size_and_borders(filename, grid_model):
     src = cv.imread(filename)
     resized = cv.resize(src, (BOARD_SIZE * SCALE_FACTOR, BOARD_SIZE * SCALE_FACTOR))
     filtered = cv.pyrMeanShiftFiltering(resized, sp=5, sr=40)
@@ -215,27 +199,7 @@ def find_size_and_borders(filename):
     v_lines = lines_df[abs(lines_df['x1'] - lines_df['x2']) < 2]
     border_thickness = get_border_thickness(lines_df)
 
-    size = get_size(filename)
-    cages = construct_cages(
-        find_h_borders(h_lines, size, border_thickness, border_thickness),
-        find_v_borders(v_lines, size, border_thickness, border_thickness)
-    )
-    return size, cages, border_thickness // SCALE_FACTOR
-
-
-def find_size_and_borders_with_size(filename, size):
-    """Modified function - uses provided size instead of Grid_CNN."""
-    src = cv.imread(filename)
-    resized = cv.resize(src, (BOARD_SIZE * SCALE_FACTOR, BOARD_SIZE * SCALE_FACTOR))
-    filtered = cv.pyrMeanShiftFiltering(resized, sp=5, sr=40)
-    dst = cv.Canny(filtered, 50, 200, None, 3)
-    linesP = cv.HoughLinesP(dst, 1, np.pi / 360, 75, None, 50, 15)
-    linesP = np.squeeze(linesP, axis=1)
-    lines_df = pd.DataFrame(linesP, columns=['x1', 'y1', 'x2', 'y2'])
-    h_lines = lines_df[abs(lines_df['y1'] - lines_df['y2']) < 2]
-    v_lines = lines_df[abs(lines_df['x1'] - lines_df['x2']) < 2]
-    border_thickness = get_border_thickness(lines_df)
-
+    size = get_size(filename, grid_model)
     cages = construct_cages(
         find_h_borders(h_lines, size, border_thickness, border_thickness),
         find_v_borders(v_lines, size, border_thickness, border_thickness)
@@ -244,19 +208,17 @@ def find_size_and_borders_with_size(filename, size):
 
 
 # ============================================================
-# IMAGE SEGMENTATION
+# CHARACTER RECOGNITION
 # ============================================================
 
 def get_contours(img):
     img = (img * 255).astype(np.uint8)
     _, inp = cv.threshold(img, 127, 255, cv.THRESH_BINARY_INV)
-
     e_kernel = np.ones((1, 1), np.uint8)
     inp = cv.erode(inp, e_kernel, iterations=1)
     d_kernel = np.ones((3, 3), np.uint8)
     inp = cv.dilate(inp, d_kernel, iterations=1)
-
-    ctrs, hierarchy = cv.findContours(inp.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    ctrs, _ = cv.findContours(inp.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     ctrs = sorted(ctrs, key=lambda cnt: cv.boundingRect(cnt)[0])
 
     boxes = [cv.boundingRect(ctrs[0])]
@@ -272,7 +234,6 @@ def get_contours(img):
         else:
             boxes.append((x2, y2, w2, h2))
         count += 1
-
     return boxes
 
 
@@ -294,9 +255,7 @@ def get_character(img, box):
     paste_x = (IMG_SIZE - new_w) // 2
     paste_y = (IMG_SIZE - new_h) // 2
     canvas.paste(resized_img, (paste_x, paste_y))
-
-    result = np.array(canvas).astype(np.float32) / 255.0
-    return result
+    return np.array(canvas).astype(np.float32) / 255.0
 
 
 def segment_cell(grid, size, border_thickness, row, col):
@@ -311,16 +270,12 @@ def segment_cell(grid, size, border_thickness, row, col):
     return characters
 
 
-# ============================================================
-# CHARACTER CLASSIFICATION
-# ============================================================
-
-def get_predictions(characters):
+def get_predictions(characters, char_model):
     predictions = []
     with torch.no_grad():
         for c in characters:
             im = torch.tensor(c, dtype=torch.float32).unsqueeze(0).unsqueeze(0)
-            output = character_model(im)
+            output = char_model(im)
             predictions.append(torch.argmax(output, dim=1).item())
     return predictions
 
@@ -348,62 +303,154 @@ def update_puzzle(puzzle, predictions):
     return puzzle
 
 
-def make_puzzle(size, border_thickness, cages, filename):
+def make_puzzle(size, border_thickness, cages, filename, char_model):
     img = Image.open(filename).convert('L')
     grid = np.array(img)
     puzzle = []
     for cage in cages:
         puzzle.append({"cells": cage, "op": "", "target": 0})
         characters = segment_cell(grid, size, border_thickness + 5, cage[0][0], cage[0][1])
-        predictions = get_predictions(characters)
+        predictions = get_predictions(characters, char_model)
         puzzle[-1] = update_puzzle(puzzle[-1], predictions)
     return puzzle
 
 
 # ============================================================
-# Z3 SOLVER
+# OPTIMIZED Z3 SOLVER
 # ============================================================
 
-def parse_block_constraints(puzzle, cells):
+def parse_block_constraints_optimized(puzzle, cells, size, known_values):
+    """
+    Optimized constraint generation with:
+    1. Pre-filled singletons (skip constraint, use known_values)
+    2. Integer-only division (avoid Real arithmetic)
+    3. Domain tightening from cage arithmetic
+    """
     constraints = []
+
     for block in puzzle:
         op = block["op"]
         target = block["target"]
-        vars_in_block = [cells[i][j] for i, j in block["cells"]]
+        block_cells = block["cells"]
+
+        # Get variables, substituting known values
+        vars_in_block = []
+        for i, j in block_cells:
+            if (i, j) in known_values:
+                vars_in_block.append(known_values[(i, j)])
+            else:
+                vars_in_block.append(cells[i][j])
+
         if op == "":
-            constraints.append(vars_in_block[0] == target)
+            # Singleton - already handled via known_values, but add constraint for safety
+            if len(block_cells) == 1:
+                i, j = block_cells[0]
+                if (i, j) not in known_values:
+                    constraints.append(cells[i][j] == target)
         elif op == "add":
             constraints.append(Sum(vars_in_block) == target)
+            # Domain tightening: each cell <= target - (n-1)
+            n = len(block_cells)
+            if n > 1:
+                max_val = min(size, target - (n - 1))
+                for i, j in block_cells:
+                    if (i, j) not in known_values and max_val < size:
+                        constraints.append(cells[i][j] <= max_val)
         elif op == "mul":
-            product = vars_in_block[0]
-            for v in vars_in_block[1:]:
-                product *= v
-            constraints.append(product == target)
+            if len(vars_in_block) == 1:
+                constraints.append(vars_in_block[0] == target)
+            else:
+                product = vars_in_block[0]
+                for v in vars_in_block[1:]:
+                    product = product * v
+                constraints.append(product == target)
+            # Domain tightening: each cell must divide target
+            for i, j in block_cells:
+                if (i, j) not in known_values:
+                    valid_divisors = [d for d in range(1, size + 1) if target % d == 0]
+                    if len(valid_divisors) < size:
+                        constraints.append(Or([cells[i][j] == d for d in valid_divisors]))
         elif op == "sub" and len(vars_in_block) == 2:
             a, b = vars_in_block
             constraints.append(Or(a - b == target, b - a == target))
         elif op == "div" and len(vars_in_block) == 2:
             a, b = vars_in_block
-            constraints.append(Or(a / b == target, b / a == target))
+            # Integer-only division: avoid Real arithmetic
+            int_target = int(target)
+            constraints.append(Or(a == b * int_target, b == a * int_target))
         else:
             raise ValueError(f"Unsupported operation or malformed block: {block}")
+
     return constraints
 
 
 def evaluate_puzzle(puzzle, size):
-    X = [[Int("x_%s_%s" % (i + 1, j + 1)) for j in range(size)] for i in range(size)]
-    cells_c = [And(1 <= X[i][j], X[i][j] <= size) for i in range(size) for j in range(size)]
-    rows_c = [Distinct(X[i]) for i in range(size)]
-    cols_c = [Distinct([X[i][j] for i in range(size)]) for j in range(size)]
-    constraints = cells_c + rows_c + cols_c + parse_block_constraints(puzzle, X)
-    instance = [[0] * size] * size
-    instance = [If(instance[i][j] == 0, True, X[i][j] == instance[i][j]) for i in range(size) for j in range(size)]
-    s = Solver()
-    problem = constraints + instance
-    s.add(problem)
+    """
+    Optimized KenKen solver with:
+    1. Pre-filled singletons
+    2. Integer-only constraints
+    3. Solver tactics for better propagation
+    4. Timeout to avoid infinite solving
+    """
+    # Step 1: Extract known values from singletons
+    known_values = {}
+    for block in puzzle:
+        if block["op"] == "" and len(block["cells"]) == 1:
+            i, j = block["cells"][0]
+            known_values[(i, j)] = block["target"]
+
+    # Step 2: Create variables only for unknown cells
+    X = [[None for _ in range(size)] for _ in range(size)]
+    for i in range(size):
+        for j in range(size):
+            if (i, j) in known_values:
+                X[i][j] = known_values[(i, j)]  # Use integer directly
+            else:
+                X[i][j] = Int(f"x_{i+1}_{j+1}")
+
+    # Step 3: Build constraints
+    constraints = []
+
+    # Cell range constraints (only for unknowns)
+    for i in range(size):
+        for j in range(size):
+            if (i, j) not in known_values:
+                constraints.append(And(1 <= X[i][j], X[i][j] <= size))
+
+    # Row distinctness
+    for i in range(size):
+        constraints.append(Distinct(X[i]))
+
+    # Column distinctness
+    for j in range(size):
+        constraints.append(Distinct([X[i][j] for i in range(size)]))
+
+    # Cage constraints (optimized)
+    constraints.extend(parse_block_constraints_optimized(puzzle, X, size, known_values))
+
+    # Step 4: Create solver with tactics
+    try:
+        tactic = Then('simplify', 'propagate-values', 'solve-eqs', 'smt')
+        s = tactic.solver()
+    except:
+        s = Solver()
+
+    # Set timeout (60 seconds)
+    s.set("timeout", 60000)
+
+    s.add(constraints)
+
     if s.check() == sat:
         m = s.model()
-        solution = [[m.evaluate(X[i][j]) for j in range(size)] for i in range(size)]
+        solution = []
+        for i in range(size):
+            row = []
+            for j in range(size):
+                if (i, j) in known_values:
+                    row.append(known_values[(i, j)])
+                else:
+                    row.append(m.evaluate(X[i][j]))
+            solution.append(row)
         return solution
     else:
         return None
@@ -413,139 +460,110 @@ def evaluate_puzzle(puzzle, size):
 # MAIN EVALUATION
 # ============================================================
 
-def run_evaluation():
-    results = []
-    csv_path = './results/detailed_evaluation.csv'
-
+def main():
     print("=" * 70)
-    print("KENKEN NEUROSYMBOLIC SOLVER - FULL EVALUATION")
+    print("KenKen Solver Full Evaluation (3x3 to 7x7) - Optimized Z3")
     print("=" * 70)
     print()
-    sys.stdout.flush()
 
-    for size in range(3, 10):
-        print(f"[Size {size}x{size}] Evaluating 100 puzzles...")
-        sys.stdout.flush()
+    # Change to script directory
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+    # Load models
+    print("Loading models...")
+    character_model = CNN_v2(output_dim=14)
+    state_dict = torch.load('./models/character_recognition_v2_model_weights.pth', weights_only=False)
+    character_model.load_state_dict(state_dict)
+    character_model.eval()
+
+    grid_detection = Grid_CNN(output_dim=5)
+    state_dict = torch.load('./models/grid_detection_model_weights.pth', weights_only=False)
+    grid_detection.load_state_dict(state_dict)
+    grid_detection.eval()
+    print("  Models loaded successfully")
+    print()
+
+    # Load puzzle data
+    with open("./puzzles/puzzles_dict.json", "r") as f:
+        puzzles_ds = json.load(f)
+
+    # Results tracking
+    results = []
+    accuracy = {}
+    avg_time = {}
+
+    # Run evaluation for sizes 3-7
+    for size in range(3, 8):
+        print(f"Evaluating {size}x{size} puzzles...")
         size_start = time.time()
         solved_count = 0
-        size_correct_count = 0
+        puzzle_count = len(puzzles_ds[str(size)])
 
-        for i in range(100):
-            filename = f"./board_images/board{size}_{i}.png"
-
-            start_time = time.time()
-            size_detected = None
-            size_correct = False
-            solved = False
-            error_type = "none"
-            error_message = ""
+        for i in range(puzzle_count):
+            filepath = f"./board_images/board{size}_{i}.png"
+            start = time.time()
 
             try:
-                if size <= 7:
-                    # Use Grid_CNN for size detection
-                    size_detected, cages, border = find_size_and_borders(filename)
-                    size_correct = (size_detected == size)
-                    if not size_correct:
-                        error_type = "size_detection"
-                        error_message = f"Expected {size}, detected {size_detected}"
-                else:
-                    # Bypass Grid_CNN for sizes 8-9
-                    size_detected, cages, border = find_size_and_borders_with_size(filename, size)
-                    size_correct = True  # N/A - we provided the size
+                s, cages, b_t = find_size_and_borders(filepath, grid_detection)
+                puzzle = make_puzzle(s, b_t, cages, filepath, character_model)
+                solution = evaluate_puzzle(puzzle, s)
 
-                puzzle = make_puzzle(size_detected, border, cages, filename)
-                solution = evaluate_puzzle(puzzle, size_detected)
-
-                if solution is None:
-                    if error_type == "none":
-                        error_type = "z3_unsolvable"
-                        error_message = "Z3 could not satisfy constraints"
-                else:
+                if solution:
+                    solved_count += 1
                     solved = True
-
+                else:
+                    solved = False
             except Exception as e:
-                if error_type == "none":
-                    error_type = "exception"
-                    error_message = str(e)
+                solved = False
 
-            end_time = time.time()
-            time_ms = (end_time - start_time) * 1000
-
-            if solved:
-                solved_count += 1
-            if size_correct:
-                size_correct_count += 1
+            end = time.time()
+            time_ms = (end - start) * 1000
 
             results.append({
                 'size': size,
                 'puzzle_index': i,
-                'filename': filename,
-                'size_detected': size_detected,
-                'size_correct': size_correct,
                 'solved': solved,
-                'solve_time_ms': time_ms,
-                'error_type': error_type,
-                'error_message': error_message
+                'solve_time_ms': time_ms
             })
 
-            # Save CSV after every puzzle for monitoring
-            df = pd.DataFrame(results)
-            df.to_csv(csv_path, index=False)
-
-            # Progress indicator
-            if (i + 1) % 20 == 0:
-                print(f"  Processed {i + 1}/100...")
+            # Progress indicator every 10 puzzles
+            if (i + 1) % 10 == 0 or i == puzzle_count - 1:
+                print(f"  [{i+1}/{puzzle_count}] solved: {solved_count}")
                 sys.stdout.flush()
 
         size_end = time.time()
         size_time = size_end - size_start
-        avg_time = size_time / 100 * 1000
 
-        size_detection_str = f"{size_correct_count}/100" if size <= 7 else "N/A (bypassed)"
-        print(f"  Done: {solved_count}/100 solved ({solved_count}%) - Size detection: {size_detection_str} - Avg time: {avg_time:.0f}ms")
+        accuracy[size] = solved_count / puzzle_count * 100
+        avg_time[size] = size_time / puzzle_count * 1000
+
+        print(f"  Done: {solved_count}/{puzzle_count} ({accuracy[size]:.1f}%) - Avg time: {avg_time[size]:.0f}ms")
         print()
-        sys.stdout.flush()
 
-    print(f"Results saved to {csv_path}")
-    print()
+    # Save results
+    df = pd.DataFrame(results)
+    df.to_csv('./results/optimized_evaluation.csv', index=False)
 
-    # Print summary
+    # Save summary
+    summary_df = pd.DataFrame({
+        'size': list(accuracy.keys()),
+        'accuracy': [accuracy[s] for s in accuracy.keys()],
+        'avg_time_ms': [avg_time[s] for s in avg_time.keys()]
+    })
+    summary_df.to_csv('./results/optimized_summary.csv', index=False)
+
     print("=" * 70)
     print("SUMMARY")
     print("=" * 70)
     print()
-
-    print("=== RESULTS BY SIZE ===")
-    for size in range(3, 10):
-        size_df = df[df['size'] == size]
-        solved = size_df['solved'].sum()
-        total = len(size_df)
-        avg_time = size_df['solve_time_ms'].mean()
-
-        if size <= 7:
-            size_correct = size_df['size_correct'].sum()
-            print(f"Size {size}: {solved}/{total} solved ({solved/total*100:.1f}%) - avg {avg_time:.0f}ms")
-            print(f"  - Size detection: {size_correct}/{total} correct")
-        else:
-            print(f"Size {size}: {solved}/{total} solved ({solved/total*100:.1f}%) - avg {avg_time:.0f}ms")
-            print(f"  - Size detection: N/A (bypassed)")
-
+    print(f"{'Size':<6} {'Accuracy':<12} {'Avg Time':<12}")
+    print("-" * 30)
+    for size in range(3, 8):
+        print(f"{size}x{size:<4} {accuracy[size]:.1f}%{'':<6} {avg_time[size]:.0f}ms")
     print()
-    print("=== ERROR BREAKDOWN ===")
-    error_counts = df[df['error_type'] != 'none']['error_type'].value_counts()
-    for error_type, count in error_counts.items():
-        print(f"{error_type}: {count} failures")
-
-    if len(error_counts) == 0:
-        print("No errors!")
-
-    print()
-    print("=" * 70)
-    print("EVALUATION COMPLETE")
-    print("=" * 70)
-    sys.stdout.flush()
+    print(f"Results saved to ./results/optimized_evaluation.csv")
+    print(f"Summary saved to ./results/optimized_summary.csv")
 
 
 if __name__ == "__main__":
-    run_evaluation()
+    main()

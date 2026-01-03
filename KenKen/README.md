@@ -6,7 +6,7 @@ A neuro-symbolic AI system that solves KenKen puzzles by combining computer visi
 
 | Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 | Avg Time |
 |--------|-----|-----|-----|-----|-----|-----|----------|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 91% | 62% | ~0.4s |
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 95% | 62% | ~0.3s |
 | Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | - | ~238s |
 | Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | - | ~24s |
 | Qwen 2.5 VL | 10% | 0% | 0% | 0% | 0% | - | ~46s |

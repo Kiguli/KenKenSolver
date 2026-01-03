@@ -94,14 +94,14 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 
 | Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 |
 |--------|-----|-----|-----|-----|-----|-----|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 91% | 62% |
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 95% | 62% |
 | Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | - |
 | Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | - |
 | GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | - |
 
 **Key Finding**: All LLMs fail completely on puzzles 5×5 and larger.
 
-**9×9 Note**: The 62% solve rate on 9×9 puzzles is limited by CNN character recognition accuracy (not Z3 solver capability). The optimized Z3 solver achieves ~0.36s per puzzle with tactics like singleton pre-filling, integer-only division, and constraint propagation.
+**Solver Optimizations**: The Z3 solver uses optimized constraint generation including singleton pre-filling, integer-only division (avoiding Real arithmetic), domain tightening, and solver tactics for faster propagation. Average solve time is ~0.2-0.5s per puzzle.
 
 ### Handwritten Digit Recognition (MNIST/EMNIST)
 
