@@ -13,20 +13,20 @@ All puzzle images are available in [`benchmark_files/`](benchmark_files/):
 
 ## Results
 
-| Puzzle | Size | Computer | Handwritten |
-|--------|------|----------|-------------|
-| **KenKen** | 3×3 | 100% | - |
-| **KenKen** | 4×4 | 100% | - |
-| **KenKen** | 5×5 | 100% | - |
-| **KenKen** | 6×6 | 100% | - |
-| **KenKen** | 7×7 | 95% | - |
-| **KenKen** | 9×9 | 62% | - |
-| **Sudoku** | 4×4 | 100% | 99% |
-| **Sudoku** | 9×9 | 100% | 99% |
-| **HexaSudoku** | 16×16 (Hex) | 100% | 40% |
-| **HexaSudoku** | 16×16 (Numeric) | 100% | 58% |
+| Puzzle | Size | Computer | Handwritten Baseline | Handwritten Corrected |
+|--------|------|----------|----------------------|-----------------------|
+| **KenKen** | 3×3 | 100% | 79% | - |
+| **KenKen** | 4×4 | 100% | 29% | - |
+| **KenKen** | 5×5 | 100% | 5% | - |
+| **KenKen** | 6×6 | 100% | 0% | - |
+| **KenKen** | 7×7 | 95% | 0% | - |
+| **KenKen** | 9×9 | 62% | 90% | - |
+| **Sudoku** | 4×4 | 100% | 92% | 99% |
+| **Sudoku** | 9×9 | 100% | 75% | 99% |
+| **HexaSudoku** | 16×16 (Hex) | 100% | 10% | 40% |
+| **HexaSudoku** | 16×16 (Numeric) | 100% | 34% | 58% |
 
-*Handwritten results use 90-10 train/test split with error correction. KenKen handwritten not yet evaluated.*
+*Handwritten results use 90-10 train/test split. KenKen handwritten uses MNIST-trained CNN; error correction not yet applied.*
 
 ## Why Neuro-Symbolic?
 
