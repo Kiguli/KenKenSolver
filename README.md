@@ -17,7 +17,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 |--------|--------|----------|-------------|
 | [KenKen](KenKen/) | Complete | 93-100% | Latin square + arithmetic cages |
 | [Sudoku](Sudoku/) | Complete | 100% | Latin square + box constraints (4×4, 9×9) |
-| [HexaSudoku](HexaSudoku/) | Complete | 100% | 16×16 Sudoku with digits 1-9 and letters A-G |
+| [HexaSudoku](HexaSudoku/) | Complete | 100% | 16×16 Sudoku with hex notation (A-G) or numeric (10-16) |
 
 ### Handwritten Puzzle Experiments
 
