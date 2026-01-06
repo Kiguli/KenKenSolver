@@ -1,0 +1,501 @@
+puzzle_id,size,image_path,size_detected,size_correct,num_cages_expected,num_cages_detected,solved,solve_time_ms,error_type,error_message
+0,4,./board_images/board4_0.png,4,True,7,7,True,262.90202140808105,,
+1,4,./board_images/board4_1.png,4,True,8,8,False,156.07213973999023,unsat,Z3 returned UNSAT
+2,4,./board_images/board4_2.png,4,True,7,7,False,148.68688583374023,unsat,Z3 returned UNSAT
+3,4,./board_images/board4_3.png,4,True,8,8,True,155.8058261871338,,
+4,4,./board_images/board4_4.png,4,True,7,7,False,157.15789794921875,unsat,Z3 returned UNSAT
+5,4,./board_images/board4_5.png,4,True,7,7,True,155.02595901489258,,
+6,4,./board_images/board4_6.png,4,True,6,6,False,150.71988105773926,unsat,Z3 returned UNSAT
+7,4,./board_images/board4_7.png,4,True,7,7,True,157.059907913208,,
+8,4,./board_images/board4_8.png,4,True,8,8,False,163.69390487670898,unsat,Z3 returned UNSAT
+9,4,./board_images/board4_9.png,4,True,7,7,False,195.40691375732422,unsat,Z3 returned UNSAT
+10,4,./board_images/board4_10.png,4,True,7,7,True,169.6939468383789,,
+11,4,./board_images/board4_11.png,4,True,7,7,False,223.76203536987305,unsat,Z3 returned UNSAT
+12,4,./board_images/board4_12.png,4,True,7,7,True,170.2888011932373,,
+13,4,./board_images/board4_13.png,4,True,7,7,True,153.96499633789062,,
+14,4,./board_images/board4_14.png,4,True,8,8,False,152.51994132995605,unsat,Z3 returned UNSAT
+15,4,./board_images/board4_15.png,4,True,6,6,False,158.34689140319824,unsat,Z3 returned UNSAT
+16,4,./board_images/board4_16.png,4,True,7,7,True,151.19004249572754,,
+17,4,./board_images/board4_17.png,4,True,7,7,True,152.91905403137207,,
+18,4,./board_images/board4_18.png,4,True,7,7,False,154.30784225463867,unsat,Z3 returned UNSAT
+19,4,./board_images/board4_19.png,4,True,7,7,False,148.1177806854248,unsat,Z3 returned UNSAT
+20,4,./board_images/board4_20.png,4,True,6,6,False,150.93111991882324,unsat,Z3 returned UNSAT
+21,4,./board_images/board4_21.png,4,True,7,7,False,153.05590629577637,unsat,Z3 returned UNSAT
+22,4,./board_images/board4_22.png,4,True,7,7,True,155.7021141052246,,
+23,4,./board_images/board4_23.png,4,True,8,8,True,153.24020385742188,,
+24,4,./board_images/board4_24.png,4,True,7,7,True,157.00697898864746,,
+25,4,./board_images/board4_25.png,4,True,7,7,False,156.6019058227539,unsat,Z3 returned UNSAT
+26,4,./board_images/board4_26.png,4,True,8,8,False,154.7219753265381,unsat,Z3 returned UNSAT
+27,4,./board_images/board4_27.png,4,True,6,6,True,152.47583389282227,,
+28,4,./board_images/board4_28.png,4,True,8,8,False,157.53483772277832,unsat,Z3 returned UNSAT
+29,4,./board_images/board4_29.png,4,True,8,8,False,171.62394523620605,unsat,Z3 returned UNSAT
+30,4,./board_images/board4_30.png,4,True,8,8,True,182.79790878295898,,
+31,4,./board_images/board4_31.png,4,True,8,8,True,165.74478149414062,,
+32,4,./board_images/board4_32.png,4,True,8,8,True,156.17012977600098,,
+33,4,./board_images/board4_33.png,4,True,8,8,True,154.87265586853027,,
+34,4,./board_images/board4_34.png,4,True,9,9,True,161.9410514831543,,
+35,4,./board_images/board4_35.png,4,True,7,7,False,155.3020477294922,unsat,Z3 returned UNSAT
+36,4,./board_images/board4_36.png,4,True,7,7,True,146.97504043579102,,
+37,4,./board_images/board4_37.png,4,True,8,8,False,155.41720390319824,unsat,Z3 returned UNSAT
+38,4,./board_images/board4_38.png,4,True,8,8,True,150.31814575195312,,
+39,4,./board_images/board4_39.png,4,True,8,8,True,154.96516227722168,,
+40,4,./board_images/board4_40.png,4,True,7,7,True,152.20284461975098,,
+41,4,./board_images/board4_41.png,4,True,7,7,False,147.85504341125488,unsat,Z3 returned UNSAT
+42,4,./board_images/board4_42.png,4,True,7,7,False,152.02021598815918,unsat,Z3 returned UNSAT
+43,4,./board_images/board4_43.png,4,True,7,7,True,148.99587631225586,,
+44,4,./board_images/board4_44.png,4,True,8,8,True,151.1709690093994,,
+45,4,./board_images/board4_45.png,4,True,7,7,True,155.09605407714844,,
+46,4,./board_images/board4_46.png,4,True,8,8,True,152.5571346282959,,
+47,4,./board_images/board4_47.png,4,True,6,6,False,148.4370231628418,unsat,Z3 returned UNSAT
+48,4,./board_images/board4_48.png,4,True,7,7,True,150.97689628601074,,
+49,4,./board_images/board4_49.png,4,True,7,7,True,157.97805786132812,,
+50,4,./board_images/board4_50.png,4,True,7,7,True,165.27414321899414,,
+51,4,./board_images/board4_51.png,4,True,8,8,True,157.44590759277344,,
+52,4,./board_images/board4_52.png,4,True,7,7,False,154.7870635986328,unsat,Z3 returned UNSAT
+53,4,./board_images/board4_53.png,4,True,8,8,False,153.0909538269043,unsat,Z3 returned UNSAT
+54,4,./board_images/board4_54.png,4,True,7,7,True,153.0592441558838,,
+55,4,./board_images/board4_55.png,4,True,7,7,True,159.51919555664062,,
+56,4,./board_images/board4_56.png,4,True,8,8,True,157.3631763458252,,
+57,4,./board_images/board4_57.png,4,True,7,7,True,201.61724090576172,,
+58,4,./board_images/board4_58.png,4,True,7,7,False,152.252197265625,unsat,Z3 returned UNSAT
+59,4,./board_images/board4_59.png,4,True,8,8,False,147.92919158935547,unsat,Z3 returned UNSAT
+60,4,./board_images/board4_60.png,4,True,7,7,True,159.7921848297119,,
+61,4,./board_images/board4_61.png,4,True,8,8,True,156.00299835205078,,
+62,4,./board_images/board4_62.png,4,True,7,7,False,152.10914611816406,unsat,Z3 returned UNSAT
+63,4,./board_images/board4_63.png,4,True,8,8,True,147.72319793701172,,
+64,4,./board_images/board4_64.png,4,True,7,7,True,150.0389575958252,,
+65,4,./board_images/board4_65.png,4,True,7,7,True,149.19114112854004,,
+66,4,./board_images/board4_66.png,4,True,8,8,True,151.85809135437012,,
+67,4,./board_images/board4_67.png,4,True,8,8,True,151.8409252166748,,
+68,4,./board_images/board4_68.png,4,True,8,8,True,156.49104118347168,,
+69,4,./board_images/board4_69.png,4,True,7,7,True,151.86285972595215,,
+70,4,./board_images/board4_70.png,4,True,6,6,True,150.91896057128906,,
+71,4,./board_images/board4_71.png,4,True,8,8,True,149.41692352294922,,
+72,4,./board_images/board4_72.png,4,True,8,8,True,152.6026725769043,,
+73,4,./board_images/board4_73.png,4,True,7,7,True,151.4301300048828,,
+74,4,./board_images/board4_74.png,4,True,7,7,False,150.8040428161621,unsat,Z3 returned UNSAT
+75,4,./board_images/board4_75.png,4,True,8,8,True,152.53305435180664,,
+76,4,./board_images/board4_76.png,4,True,7,7,True,149.48606491088867,,
+77,4,./board_images/board4_77.png,4,True,7,7,True,151.5939235687256,,
+78,4,./board_images/board4_78.png,4,True,9,9,False,164.154052734375,unsat,Z3 returned UNSAT
+79,4,./board_images/board4_79.png,4,True,7,7,False,161.0579490661621,unsat,Z3 returned UNSAT
+80,4,./board_images/board4_80.png,4,True,7,7,True,156.68702125549316,,
+81,4,./board_images/board4_81.png,4,True,8,8,True,150.55012702941895,,
+82,4,./board_images/board4_82.png,4,True,6,6,True,149.01399612426758,,
+83,4,./board_images/board4_83.png,4,True,7,7,False,149.34086799621582,unsat,Z3 returned UNSAT
+84,4,./board_images/board4_84.png,4,True,8,8,True,152.04286575317383,,
+85,4,./board_images/board4_85.png,4,True,7,7,True,156.80885314941406,,
+86,4,./board_images/board4_86.png,4,True,7,7,True,165.08197784423828,,
+87,4,./board_images/board4_87.png,4,True,8,8,True,160.72392463684082,,
+88,4,./board_images/board4_88.png,4,True,7,7,True,151.6129970550537,,
+89,4,./board_images/board4_89.png,4,True,8,8,True,158.71477127075195,,
+90,4,./board_images/board4_90.png,4,True,7,7,True,157.35697746276855,,
+91,4,./board_images/board4_91.png,4,True,7,7,True,150.66790580749512,,
+92,4,./board_images/board4_92.png,4,True,8,8,False,147.89891242980957,unsat,Z3 returned UNSAT
+93,4,./board_images/board4_93.png,4,True,6,6,True,148.98681640625,,
+94,4,./board_images/board4_94.png,4,True,9,9,True,161.87000274658203,,
+95,4,./board_images/board4_95.png,4,True,8,8,True,185.3339672088623,,
+96,4,./board_images/board4_96.png,4,True,8,8,True,176.7098903656006,,
+97,4,./board_images/board4_97.png,4,True,7,7,True,178.86114120483398,,
+98,4,./board_images/board4_98.png,4,True,7,7,True,162.01186180114746,,
+99,4,./board_images/board4_99.png,4,True,7,7,True,151.6740322113037,,
+0,5,./board_images/board5_0.png,5,True,9,9,False,237.29825019836426,unsat,Z3 returned UNSAT
+1,5,./board_images/board5_1.png,5,True,9,9,False,240.0503158569336,unsat,Z3 returned UNSAT
+2,5,./board_images/board5_2.png,5,True,10,10,False,220.05891799926758,unsat,Z3 returned UNSAT
+3,5,./board_images/board5_3.png,5,True,9,9,False,226.2859344482422,unsat,Z3 returned UNSAT
+4,5,./board_images/board5_4.png,5,True,10,10,False,230.58485984802246,unsat,Z3 returned UNSAT
+5,5,./board_images/board5_5.png,5,True,10,10,False,230.9739589691162,unsat,Z3 returned UNSAT
+6,5,./board_images/board5_6.png,5,True,9,9,False,224.11203384399414,unsat,Z3 returned UNSAT
+7,5,./board_images/board5_7.png,5,True,9,9,False,224.52592849731445,unsat,Z3 returned UNSAT
+8,5,./board_images/board5_8.png,5,True,8,8,True,233.5379123687744,,
+9,5,./board_images/board5_9.png,5,True,10,10,False,229.2780876159668,unsat,Z3 returned UNSAT
+10,5,./board_images/board5_10.png,5,True,9,9,True,233.52909088134766,,
+11,5,./board_images/board5_11.png,5,True,9,9,False,242.25401878356934,unsat,Z3 returned UNSAT
+12,5,./board_images/board5_12.png,5,True,10,10,False,239.4721508026123,unsat,Z3 returned UNSAT
+13,5,./board_images/board5_13.png,5,True,9,9,True,233.16287994384766,,
+14,5,./board_images/board5_14.png,5,True,10,10,False,235.11886596679688,unsat,Z3 returned UNSAT
+15,5,./board_images/board5_15.png,5,True,9,9,False,228.7139892578125,unsat,Z3 returned UNSAT
+16,5,./board_images/board5_16.png,5,True,9,9,False,256.82902336120605,unsat,Z3 returned UNSAT
+17,5,./board_images/board5_17.png,5,True,9,9,False,229.1891574859619,unsat,Z3 returned UNSAT
+18,5,./board_images/board5_18.png,5,True,8,8,False,227.1568775177002,unsat,Z3 returned UNSAT
+19,5,./board_images/board5_19.png,5,True,10,10,False,230.6058406829834,unsat,Z3 returned UNSAT
+20,5,./board_images/board5_20.png,5,True,9,9,True,246.4280128479004,,
+21,5,./board_images/board5_21.png,5,True,9,9,False,224.63512420654297,unsat,Z3 returned UNSAT
+22,5,./board_images/board5_22.png,5,True,9,9,False,231.81414604187012,unsat,Z3 returned UNSAT
+23,5,./board_images/board5_23.png,5,True,10,10,False,228.04880142211914,unsat,Z3 returned UNSAT
+24,5,./board_images/board5_24.png,5,True,9,9,False,223.8452434539795,unsat,Z3 returned UNSAT
+25,5,./board_images/board5_25.png,5,True,9,9,False,222.86319732666016,unsat,Z3 returned UNSAT
+26,5,./board_images/board5_26.png,5,True,8,8,True,237.54096031188965,,
+27,5,./board_images/board5_27.png,5,True,8,8,False,234.04598236083984,unsat,Z3 returned UNSAT
+28,5,./board_images/board5_28.png,5,True,9,9,False,228.8219928741455,unsat,Z3 returned UNSAT
+29,5,./board_images/board5_29.png,5,True,10,10,False,229.02727127075195,unsat,Z3 returned UNSAT
+30,5,./board_images/board5_30.png,5,True,10,10,False,237.40124702453613,unsat,Z3 returned UNSAT
+31,5,./board_images/board5_31.png,5,True,8,8,False,242.45119094848633,unsat,Z3 returned UNSAT
+32,5,./board_images/board5_32.png,5,True,11,11,False,235.25118827819824,unsat,Z3 returned UNSAT
+33,5,./board_images/board5_33.png,5,True,9,9,False,234.10606384277344,unsat,Z3 returned UNSAT
+34,5,./board_images/board5_34.png,5,True,9,9,True,336.212158203125,,
+35,5,./board_images/board5_35.png,5,True,9,9,False,233.32810401916504,unsat,Z3 returned UNSAT
+36,5,./board_images/board5_36.png,5,True,9,9,False,233.77513885498047,unsat,Z3 returned UNSAT
+37,5,./board_images/board5_37.png,5,True,7,7,False,231.12893104553223,unsat,Z3 returned UNSAT
+38,5,./board_images/board5_38.png,5,True,10,10,True,273.5269069671631,,
+39,5,./board_images/board5_39.png,5,True,9,9,False,260.93006134033203,unsat,Z3 returned UNSAT
+40,5,./board_images/board5_40.png,5,True,10,10,True,254.39906120300293,,
+41,5,./board_images/board5_41.png,5,True,9,9,False,252.42066383361816,unsat,Z3 returned UNSAT
+42,5,./board_images/board5_42.png,5,True,10,10,False,227.47278213500977,unsat,Z3 returned UNSAT
+43,5,./board_images/board5_43.png,5,True,10,10,False,230.34000396728516,unsat,Z3 returned UNSAT
+44,5,./board_images/board5_44.png,5,True,9,9,False,233.15787315368652,unsat,Z3 returned UNSAT
+45,5,./board_images/board5_45.png,5,True,8,8,False,227.55098342895508,unsat,Z3 returned UNSAT
+46,5,./board_images/board5_46.png,5,True,10,10,True,247.71690368652344,,
+47,5,./board_images/board5_47.png,5,True,10,10,False,249.13311004638672,unsat,Z3 returned UNSAT
+48,5,./board_images/board5_48.png,5,True,9,9,True,232.44905471801758,,
+49,5,./board_images/board5_49.png,5,True,8,8,False,221.7857837677002,unsat,Z3 returned UNSAT
+50,5,./board_images/board5_50.png,5,True,9,9,False,223.14000129699707,unsat,Z3 returned UNSAT
+51,5,./board_images/board5_51.png,5,True,9,9,False,226.1979579925537,unsat,Z3 returned UNSAT
+52,5,./board_images/board5_52.png,5,True,10,10,False,231.26912117004395,unsat,Z3 returned UNSAT
+53,5,./board_images/board5_53.png,5,True,10,10,False,282.34386444091797,unsat,Z3 returned UNSAT
+54,5,./board_images/board5_54.png,5,True,8,8,False,269.85788345336914,unsat,Z3 returned UNSAT
+55,5,./board_images/board5_55.png,5,True,10,10,False,273.38314056396484,unsat,Z3 returned UNSAT
+56,5,./board_images/board5_56.png,5,True,10,10,False,240.91601371765137,unsat,Z3 returned UNSAT
+57,5,./board_images/board5_57.png,5,True,10,10,False,293.35784912109375,unsat,Z3 returned UNSAT
+58,5,./board_images/board5_58.png,5,True,10,10,False,240.56601524353027,unsat,Z3 returned UNSAT
+59,5,./board_images/board5_59.png,5,True,8,8,True,248.12793731689453,,
+60,5,./board_images/board5_60.png,5,True,9,9,False,233.96706581115723,unsat,Z3 returned UNSAT
+61,5,./board_images/board5_61.png,5,True,9,9,False,230.74102401733398,unsat,Z3 returned UNSAT
+62,5,./board_images/board5_62.png,5,True,10,10,False,232.85198211669922,unsat,Z3 returned UNSAT
+63,5,./board_images/board5_63.png,5,True,12,12,False,233.69503021240234,unsat,Z3 returned UNSAT
+64,5,./board_images/board5_64.png,5,True,10,10,False,228.2087802886963,unsat,Z3 returned UNSAT
+65,5,./board_images/board5_65.png,5,True,9,9,True,226.1791229248047,,
+66,5,./board_images/board5_66.png,5,True,9,9,False,229.84910011291504,unsat,Z3 returned UNSAT
+67,5,./board_images/board5_67.png,5,True,10,10,False,269.1190242767334,unsat,Z3 returned UNSAT
+68,5,./board_images/board5_68.png,5,True,8,8,True,239.3779754638672,,
+69,5,./board_images/board5_69.png,5,True,10,10,False,226.22179985046387,unsat,Z3 returned UNSAT
+70,5,./board_images/board5_70.png,5,True,9,9,True,229.74634170532227,,
+71,5,./board_images/board5_71.png,5,True,9,9,True,237.65301704406738,,
+72,5,./board_images/board5_72.png,5,True,9,9,True,228.17373275756836,,
+73,5,./board_images/board5_73.png,5,True,8,8,True,279.25992012023926,,
+74,5,./board_images/board5_74.png,5,True,8,8,True,259.7770690917969,,
+75,5,./board_images/board5_75.png,5,True,11,11,False,230.86810111999512,unsat,Z3 returned UNSAT
+76,5,./board_images/board5_76.png,5,True,9,9,False,242.89703369140625,unsat,Z3 returned UNSAT
+77,5,./board_images/board5_77.png,5,True,9,9,False,234.22884941101074,unsat,Z3 returned UNSAT
+78,5,./board_images/board5_78.png,5,True,9,9,False,232.36608505249023,unsat,Z3 returned UNSAT
+79,5,./board_images/board5_79.png,5,True,11,11,False,234.6632480621338,unsat,Z3 returned UNSAT
+80,5,./board_images/board5_80.png,5,True,9,9,False,234.177827835083,unsat,Z3 returned UNSAT
+81,5,./board_images/board5_81.png,5,True,9,9,False,232.40089416503906,unsat,Z3 returned UNSAT
+82,5,./board_images/board5_82.png,5,True,10,10,True,242.27404594421387,,
+83,5,./board_images/board5_83.png,5,True,9,9,False,227.86927223205566,unsat,Z3 returned UNSAT
+84,5,./board_images/board5_84.png,5,True,10,10,True,231.31918907165527,,
+85,5,./board_images/board5_85.png,5,True,10,10,False,222.50699996948242,unsat,Z3 returned UNSAT
+86,5,./board_images/board5_86.png,5,True,8,8,False,222.5191593170166,unsat,Z3 returned UNSAT
+87,5,./board_images/board5_87.png,5,True,8,8,False,229.6450138092041,unsat,Z3 returned UNSAT
+88,5,./board_images/board5_88.png,5,True,8,8,True,310.10985374450684,,
+89,5,./board_images/board5_89.png,5,True,10,10,False,236.2980842590332,unsat,Z3 returned UNSAT
+90,5,./board_images/board5_90.png,5,True,9,9,False,229.2497158050537,unsat,Z3 returned UNSAT
+91,5,./board_images/board5_91.png,5,True,10,10,False,228.64985466003418,unsat,Z3 returned UNSAT
+92,5,./board_images/board5_92.png,5,True,8,8,False,229.35009002685547,unsat,Z3 returned UNSAT
+93,5,./board_images/board5_93.png,5,True,10,10,True,230.38172721862793,,
+94,5,./board_images/board5_94.png,5,True,9,9,False,228.32298278808594,unsat,Z3 returned UNSAT
+95,5,./board_images/board5_95.png,5,True,10,10,False,234.3919277191162,unsat,Z3 returned UNSAT
+96,5,./board_images/board5_96.png,5,True,9,9,False,234.4982624053955,unsat,Z3 returned UNSAT
+97,5,./board_images/board5_97.png,5,True,9,9,True,245.93615531921387,,
+98,5,./board_images/board5_98.png,5,True,10,10,True,232.03372955322266,,
+99,5,./board_images/board5_99.png,5,True,9,9,False,239.40706253051758,unsat,Z3 returned UNSAT
+0,6,./board_images/board6_0.png,6,True,13,13,False,328.1521797180176,unsat,Z3 returned UNSAT
+1,6,./board_images/board6_1.png,6,True,11,11,False,315.5021667480469,unsat,Z3 returned UNSAT
+2,6,./board_images/board6_2.png,6,True,14,14,False,331.21395111083984,unsat,Z3 returned UNSAT
+3,6,./board_images/board6_3.png,6,True,13,13,False,322.79396057128906,unsat,Z3 returned UNSAT
+4,6,./board_images/board6_4.png,6,True,14,14,False,329.48923110961914,unsat,Z3 returned UNSAT
+5,6,./board_images/board6_5.png,6,True,13,13,False,319.1220760345459,unsat,Z3 returned UNSAT
+6,6,./board_images/board6_6.png,6,True,12,12,False,331.6516876220703,unsat,Z3 returned UNSAT
+7,6,./board_images/board6_7.png,6,True,15,15,False,325.286865234375,unsat,Z3 returned UNSAT
+8,6,./board_images/board6_8.png,6,True,13,13,False,329.2410373687744,unsat,Z3 returned UNSAT
+9,6,./board_images/board6_9.png,6,True,14,14,False,324.47099685668945,unsat,Z3 returned UNSAT
+10,6,./board_images/board6_10.png,6,True,12,12,True,494.77291107177734,,
+11,6,./board_images/board6_11.png,6,True,13,13,False,329.72002029418945,unsat,Z3 returned UNSAT
+12,6,./board_images/board6_12.png,6,True,14,14,True,375.7460117340088,,
+13,6,./board_images/board6_13.png,6,True,13,13,False,345.94106674194336,unsat,Z3 returned UNSAT
+14,6,./board_images/board6_14.png,6,True,14,14,False,320.89972496032715,unsat,Z3 returned UNSAT
+15,6,./board_images/board6_15.png,6,True,13,13,False,334.28502082824707,unsat,Z3 returned UNSAT
+16,6,./board_images/board6_16.png,6,True,13,13,False,416.6901111602783,unsat,Z3 returned UNSAT
+17,6,./board_images/board6_17.png,6,True,13,13,True,1116.0202026367188,,
+18,6,./board_images/board6_18.png,6,True,13,13,False,325.3440856933594,unsat,Z3 returned UNSAT
+19,6,./board_images/board6_19.png,6,True,13,13,False,345.9751605987549,unsat,Z3 returned UNSAT
+20,6,./board_images/board6_20.png,6,True,13,13,False,332.7360153198242,unsat,Z3 returned UNSAT
+21,6,./board_images/board6_21.png,6,True,13,13,False,324.7518539428711,unsat,Z3 returned UNSAT
+22,6,./board_images/board6_22.png,6,True,14,14,False,331.2079906463623,unsat,Z3 returned UNSAT
+23,6,./board_images/board6_23.png,6,True,14,14,False,322.63708114624023,unsat,Z3 returned UNSAT
+24,6,./board_images/board6_24.png,6,True,14,14,False,332.29994773864746,unsat,Z3 returned UNSAT
+25,6,./board_images/board6_25.png,6,True,13,13,False,341.10522270202637,unsat,Z3 returned UNSAT
+26,6,./board_images/board6_26.png,6,True,15,15,True,410.3991985321045,,
+27,6,./board_images/board6_27.png,6,True,12,12,False,346.4648723602295,unsat,Z3 returned UNSAT
+28,6,./board_images/board6_28.png,6,True,14,14,False,340.01684188842773,unsat,Z3 returned UNSAT
+29,6,./board_images/board6_29.png,6,True,13,13,False,326.5500068664551,unsat,Z3 returned UNSAT
+30,6,./board_images/board6_30.png,6,True,16,16,True,443.09401512145996,,
+31,6,./board_images/board6_31.png,6,True,15,15,False,332.66472816467285,unsat,Z3 returned UNSAT
+32,6,./board_images/board6_32.png,6,True,14,14,False,326.6642093658447,unsat,Z3 returned UNSAT
+33,6,./board_images/board6_33.png,6,True,16,16,False,338.23609352111816,unsat,Z3 returned UNSAT
+34,6,./board_images/board6_34.png,6,True,12,12,False,323.991060256958,unsat,Z3 returned UNSAT
+35,6,./board_images/board6_35.png,6,True,13,13,False,322.8480815887451,unsat,Z3 returned UNSAT
+36,6,./board_images/board6_36.png,6,True,14,14,False,321.321964263916,unsat,Z3 returned UNSAT
+37,6,./board_images/board6_37.png,6,True,15,15,False,330.19495010375977,unsat,Z3 returned UNSAT
+38,6,./board_images/board6_38.png,6,True,12,12,False,357.91492462158203,unsat,Z3 returned UNSAT
+39,6,./board_images/board6_39.png,6,True,15,15,False,335.50000190734863,unsat,Z3 returned UNSAT
+40,6,./board_images/board6_40.png,6,True,12,12,False,335.2539539337158,unsat,Z3 returned UNSAT
+41,6,./board_images/board6_41.png,6,True,13,13,False,357.94591903686523,unsat,Z3 returned UNSAT
+42,6,./board_images/board6_42.png,6,True,13,13,False,330.2180767059326,unsat,Z3 returned UNSAT
+43,6,./board_images/board6_43.png,6,True,14,14,False,333.0271244049072,unsat,Z3 returned UNSAT
+44,6,./board_images/board6_44.png,6,True,14,14,True,345.78514099121094,,
+45,6,./board_images/board6_45.png,6,True,12,12,False,331.28976821899414,unsat,Z3 returned UNSAT
+46,6,./board_images/board6_46.png,6,True,13,13,False,319.02098655700684,unsat,Z3 returned UNSAT
+47,6,./board_images/board6_47.png,6,True,13,13,False,326.08699798583984,unsat,Z3 returned UNSAT
+48,6,./board_images/board6_48.png,6,True,13,13,False,324.39208030700684,unsat,Z3 returned UNSAT
+49,6,./board_images/board6_49.png,6,True,13,13,False,323.18997383117676,unsat,Z3 returned UNSAT
+50,6,./board_images/board6_50.png,6,True,12,12,False,453.1693458557129,unsat,Z3 returned UNSAT
+51,6,./board_images/board6_51.png,6,True,11,11,False,320.36566734313965,unsat,Z3 returned UNSAT
+52,6,./board_images/board6_52.png,6,True,13,13,False,327.9547691345215,unsat,Z3 returned UNSAT
+53,6,./board_images/board6_53.png,6,True,14,14,False,329.3461799621582,unsat,Z3 returned UNSAT
+54,6,./board_images/board6_54.png,6,True,13,13,False,336.6563320159912,unsat,Z3 returned UNSAT
+55,6,./board_images/board6_55.png,6,True,14,14,False,329.8497200012207,unsat,Z3 returned UNSAT
+56,6,./board_images/board6_56.png,6,True,15,15,False,324.95689392089844,unsat,Z3 returned UNSAT
+57,6,./board_images/board6_57.png,6,True,14,14,False,321.4890956878662,unsat,Z3 returned UNSAT
+58,6,./board_images/board6_58.png,6,True,12,12,False,324.6901035308838,unsat,Z3 returned UNSAT
+59,6,./board_images/board6_59.png,6,True,14,14,False,346.34995460510254,unsat,Z3 returned UNSAT
+60,6,./board_images/board6_60.png,6,True,12,12,False,328.49884033203125,unsat,Z3 returned UNSAT
+61,6,./board_images/board6_61.png,6,True,13,13,False,328.5849094390869,unsat,Z3 returned UNSAT
+62,6,./board_images/board6_62.png,6,True,12,12,False,322.94392585754395,unsat,Z3 returned UNSAT
+63,6,./board_images/board6_63.png,6,True,13,13,False,334.824800491333,unsat,Z3 returned UNSAT
+64,6,./board_images/board6_64.png,6,True,12,12,False,352.9798984527588,unsat,Z3 returned UNSAT
+65,6,./board_images/board6_65.png,6,True,13,13,False,374.4077682495117,unsat,Z3 returned UNSAT
+66,6,./board_images/board6_66.png,6,True,13,13,False,380.4800510406494,unsat,Z3 returned UNSAT
+67,6,./board_images/board6_67.png,6,True,12,12,False,387.4928951263428,unsat,Z3 returned UNSAT
+68,6,./board_images/board6_68.png,6,True,14,14,False,336.82894706726074,unsat,Z3 returned UNSAT
+69,6,./board_images/board6_69.png,6,True,14,14,False,329.4520378112793,unsat,Z3 returned UNSAT
+70,6,./board_images/board6_70.png,6,True,13,13,False,343.8401222229004,unsat,Z3 returned UNSAT
+71,6,./board_images/board6_71.png,6,True,13,13,True,370.7859516143799,,
+72,6,./board_images/board6_72.png,6,True,14,14,False,352.5888919830322,unsat,Z3 returned UNSAT
+73,6,./board_images/board6_73.png,6,True,13,13,False,330.2879333496094,unsat,Z3 returned UNSAT
+74,6,./board_images/board6_74.png,6,True,14,14,False,335.02912521362305,unsat,Z3 returned UNSAT
+75,6,./board_images/board6_75.png,6,True,12,12,False,338.44709396362305,unsat,Z3 returned UNSAT
+76,6,./board_images/board6_76.png,6,True,12,12,False,338.50598335266113,unsat,Z3 returned UNSAT
+77,6,./board_images/board6_77.png,6,True,14,14,False,361.2051010131836,unsat,Z3 returned UNSAT
+78,6,./board_images/board6_78.png,6,True,15,15,False,329.617977142334,unsat,Z3 returned UNSAT
+79,6,./board_images/board6_79.png,6,True,13,13,False,323.8651752471924,unsat,Z3 returned UNSAT
+80,6,./board_images/board6_80.png,6,True,13,13,False,328.0031681060791,unsat,Z3 returned UNSAT
+81,6,./board_images/board6_81.png,6,True,13,13,False,354.57611083984375,unsat,Z3 returned UNSAT
+82,6,./board_images/board6_82.png,6,True,14,14,False,336.2281322479248,unsat,Z3 returned UNSAT
+83,6,./board_images/board6_83.png,6,True,12,12,True,585.8850479125977,,
+84,6,./board_images/board6_84.png,6,True,14,14,False,326.14779472351074,unsat,Z3 returned UNSAT
+85,6,./board_images/board6_85.png,6,True,13,13,False,324.76210594177246,unsat,Z3 returned UNSAT
+86,6,./board_images/board6_86.png,6,True,12,12,False,325.2270221710205,unsat,Z3 returned UNSAT
+87,6,./board_images/board6_87.png,6,True,13,13,False,322.5080966949463,unsat,Z3 returned UNSAT
+88,6,./board_images/board6_88.png,6,True,14,14,False,329.0057182312012,unsat,Z3 returned UNSAT
+89,6,./board_images/board6_89.png,6,True,13,13,False,339.73026275634766,unsat,Z3 returned UNSAT
+90,6,./board_images/board6_90.png,6,True,13,13,True,542.2101020812988,,
+91,6,./board_images/board6_91.png,6,True,11,11,False,373.4862804412842,unsat,Z3 returned UNSAT
+92,6,./board_images/board6_92.png,6,True,12,12,True,631.5510272979736,,
+93,6,./board_images/board6_93.png,6,True,14,14,False,322.3550319671631,unsat,Z3 returned UNSAT
+94,6,./board_images/board6_94.png,6,True,14,14,False,337.5732898712158,unsat,Z3 returned UNSAT
+95,6,./board_images/board6_95.png,6,True,15,15,False,331.01892471313477,unsat,Z3 returned UNSAT
+96,6,./board_images/board6_96.png,6,True,14,14,False,341.65310859680176,unsat,Z3 returned UNSAT
+97,6,./board_images/board6_97.png,6,True,13,13,False,331.0880661010742,unsat,Z3 returned UNSAT
+98,6,./board_images/board6_98.png,6,True,15,15,False,337.8901481628418,unsat,Z3 returned UNSAT
+99,6,./board_images/board6_99.png,6,True,12,12,False,341.9010639190674,unsat,Z3 returned UNSAT
+0,7,./board_images/board7_0.png,7,True,17,17,False,464.1571044921875,unsat,Z3 returned UNSAT
+1,7,./board_images/board7_1.png,7,True,17,17,False,471.78077697753906,unsat,Z3 returned UNSAT
+2,7,./board_images/board7_2.png,7,True,19,19,False,465.4819965362549,unsat,Z3 returned UNSAT
+3,7,./board_images/board7_3.png,7,True,16,16,False,466.5567874908447,unsat,Z3 returned UNSAT
+4,7,./board_images/board7_4.png,7,True,18,18,False,445.39880752563477,unsat,Z3 returned UNSAT
+5,7,./board_images/board7_5.png,7,True,18,18,False,456.30431175231934,unsat,Z3 returned UNSAT
+6,7,./board_images/board7_6.png,7,True,18,18,False,454.4050693511963,unsat,Z3 returned UNSAT
+7,7,./board_images/board7_7.png,7,True,18,18,False,470.2730178833008,unsat,Z3 returned UNSAT
+8,7,./board_images/board7_8.png,7,True,17,17,False,438.25483322143555,unsat,Z3 returned UNSAT
+9,7,./board_images/board7_9.png,7,True,19,19,True,628.6890506744385,,
+10,7,./board_images/board7_10.png,7,True,20,20,False,444.7031021118164,unsat,Z3 returned UNSAT
+11,7,./board_images/board7_11.png,7,True,17,17,False,440.84930419921875,unsat,Z3 returned UNSAT
+12,7,./board_images/board7_12.png,7,True,18,18,False,438.86780738830566,unsat,Z3 returned UNSAT
+13,7,./board_images/board7_13.png,7,True,18,18,False,477.5080680847168,unsat,Z3 returned UNSAT
+14,7,./board_images/board7_14.png,7,True,18,18,False,518.7609195709229,unsat,Z3 returned UNSAT
+15,7,./board_images/board7_15.png,7,True,16,16,False,458.6529731750488,unsat,Z3 returned UNSAT
+16,7,./board_images/board7_16.png,7,True,18,18,False,456.5250873565674,unsat,Z3 returned UNSAT
+17,7,./board_images/board7_17.png,7,True,16,16,False,452.4681568145752,unsat,Z3 returned UNSAT
+18,7,./board_images/board7_18.png,7,True,16,16,False,448.4119415283203,unsat,Z3 returned UNSAT
+19,7,./board_images/board7_19.png,7,True,18,18,False,453.6929130554199,unsat,Z3 returned UNSAT
+20,7,./board_images/board7_20.png,7,True,20,20,False,465.18921852111816,unsat,Z3 returned UNSAT
+21,7,./board_images/board7_21.png,7,True,18,18,False,446.93803787231445,unsat,Z3 returned UNSAT
+22,7,./board_images/board7_22.png,7,True,18,18,False,438.60602378845215,unsat,Z3 returned UNSAT
+23,7,./board_images/board7_23.png,7,True,19,19,False,491.58501625061035,unsat,Z3 returned UNSAT
+24,7,./board_images/board7_24.png,7,True,17,17,False,469.64097023010254,unsat,Z3 returned UNSAT
+25,7,./board_images/board7_25.png,7,True,20,20,False,465.00182151794434,unsat,Z3 returned UNSAT
+26,7,./board_images/board7_26.png,7,True,15,15,False,450.8087635040283,unsat,Z3 returned UNSAT
+27,7,./board_images/board7_27.png,7,True,16,16,False,449.5580196380615,unsat,Z3 returned UNSAT
+28,7,./board_images/board7_28.png,7,True,19,19,False,459.7299098968506,unsat,Z3 returned UNSAT
+29,7,./board_images/board7_29.png,7,True,19,19,False,499.24302101135254,unsat,Z3 returned UNSAT
+30,7,./board_images/board7_30.png,7,True,19,19,False,467.64206886291504,unsat,Z3 returned UNSAT
+31,7,./board_images/board7_31.png,7,True,18,18,False,440.97089767456055,unsat,Z3 returned UNSAT
+32,7,./board_images/board7_32.png,7,True,17,17,False,445.95789909362793,unsat,Z3 returned UNSAT
+33,7,./board_images/board7_33.png,7,True,17,17,False,453.45091819763184,unsat,Z3 returned UNSAT
+34,7,./board_images/board7_34.png,7,True,18,18,False,443.18628311157227,unsat,Z3 returned UNSAT
+35,7,./board_images/board7_35.png,7,True,17,17,False,464.0340805053711,unsat,Z3 returned UNSAT
+36,7,./board_images/board7_36.png,7,True,16,16,False,467.00024604797363,unsat,Z3 returned UNSAT
+37,7,./board_images/board7_37.png,7,True,17,17,False,464.4467830657959,unsat,Z3 returned UNSAT
+38,7,./board_images/board7_38.png,7,True,17,17,False,456.73489570617676,unsat,Z3 returned UNSAT
+39,7,./board_images/board7_39.png,7,True,17,17,False,473.0219841003418,unsat,Z3 returned UNSAT
+40,7,./board_images/board7_40.png,7,True,17,17,False,522.9010581970215,unsat,Z3 returned UNSAT
+41,7,./board_images/board7_41.png,7,True,19,19,False,493.8359260559082,unsat,Z3 returned UNSAT
+42,7,./board_images/board7_42.png,7,True,16,16,False,452.1780014038086,unsat,Z3 returned UNSAT
+43,7,./board_images/board7_43.png,7,True,19,19,False,449.9051570892334,unsat,Z3 returned UNSAT
+44,7,./board_images/board7_44.png,7,True,18,18,False,567.1098232269287,unsat,Z3 returned UNSAT
+45,7,./board_images/board7_45.png,7,True,16,16,False,456.49218559265137,unsat,Z3 returned UNSAT
+46,7,./board_images/board7_46.png,7,True,16,15,False,469.15602684020996,unsat,Z3 returned UNSAT
+47,7,./board_images/board7_47.png,7,True,17,17,False,447.83806800842285,unsat,Z3 returned UNSAT
+48,7,./board_images/board7_48.png,7,True,19,19,False,468.2118892669678,unsat,Z3 returned UNSAT
+49,7,./board_images/board7_49.png,7,True,18,18,False,456.5081596374512,unsat,Z3 returned UNSAT
+50,7,./board_images/board7_50.png,7,True,18,18,False,449.56374168395996,unsat,Z3 returned UNSAT
+51,7,./board_images/board7_51.png,7,True,19,19,False,457.9477310180664,unsat,Z3 returned UNSAT
+52,7,./board_images/board7_52.png,7,True,16,16,False,511.4860534667969,unsat,Z3 returned UNSAT
+53,7,./board_images/board7_53.png,7,True,18,18,True,774.9252319335938,,
+54,7,./board_images/board7_54.png,7,True,17,17,False,443.9697265625,unsat,Z3 returned UNSAT
+55,7,./board_images/board7_55.png,7,True,18,18,False,448.7428665161133,unsat,Z3 returned UNSAT
+56,7,./board_images/board7_56.png,7,True,17,17,False,448.1937885284424,unsat,Z3 returned UNSAT
+57,7,./board_images/board7_57.png,7,True,18,18,False,445.92905044555664,unsat,Z3 returned UNSAT
+58,7,./board_images/board7_58.png,7,True,17,17,False,460.892915725708,unsat,Z3 returned UNSAT
+59,7,./board_images/board7_59.png,7,True,16,16,False,443.82596015930176,unsat,Z3 returned UNSAT
+60,7,./board_images/board7_60.png,7,True,17,17,False,459.183931350708,unsat,Z3 returned UNSAT
+61,7,./board_images/board7_61.png,7,True,17,17,False,470.48020362854004,unsat,Z3 returned UNSAT
+62,7,./board_images/board7_62.png,7,True,18,18,False,448.33874702453613,unsat,Z3 returned UNSAT
+63,7,./board_images/board7_63.png,7,True,18,18,False,458.11986923217773,unsat,Z3 returned UNSAT
+64,7,./board_images/board7_64.png,7,True,17,17,False,440.02485275268555,unsat,Z3 returned UNSAT
+65,7,./board_images/board7_65.png,7,True,18,18,False,447.45707511901855,unsat,Z3 returned UNSAT
+66,7,./board_images/board7_66.png,7,True,18,18,False,450.52480697631836,unsat,Z3 returned UNSAT
+67,7,./board_images/board7_67.png,7,True,17,17,False,444.5042610168457,unsat,Z3 returned UNSAT
+68,7,./board_images/board7_68.png,7,True,19,19,False,482.2120666503906,unsat,Z3 returned UNSAT
+69,7,./board_images/board7_69.png,7,True,19,19,False,447.5221633911133,unsat,Z3 returned UNSAT
+70,7,./board_images/board7_70.png,7,True,17,17,False,437.2239112854004,unsat,Z3 returned UNSAT
+71,7,./board_images/board7_71.png,7,True,18,18,False,460.1452350616455,unsat,Z3 returned UNSAT
+72,7,./board_images/board7_72.png,7,True,19,19,False,466.6178226470947,unsat,Z3 returned UNSAT
+73,7,./board_images/board7_73.png,7,True,18,18,False,445.2931880950928,unsat,Z3 returned UNSAT
+74,7,./board_images/board7_74.png,7,True,18,18,False,454.7607898712158,unsat,Z3 returned UNSAT
+75,7,./board_images/board7_75.png,7,True,17,17,False,446.77138328552246,unsat,Z3 returned UNSAT
+76,7,./board_images/board7_76.png,7,True,17,17,False,438.38000297546387,unsat,Z3 returned UNSAT
+77,7,./board_images/board7_77.png,7,True,17,17,False,437.3319149017334,unsat,Z3 returned UNSAT
+78,7,./board_images/board7_78.png,7,True,17,17,False,447.39699363708496,unsat,Z3 returned UNSAT
+79,7,./board_images/board7_79.png,7,True,17,17,False,453.81975173950195,unsat,Z3 returned UNSAT
+80,7,./board_images/board7_80.png,7,True,19,19,False,444.1070556640625,unsat,Z3 returned UNSAT
+81,7,./board_images/board7_81.png,7,True,17,17,False,450.41394233703613,unsat,Z3 returned UNSAT
+82,7,./board_images/board7_82.png,7,True,16,16,False,474.3008613586426,unsat,Z3 returned UNSAT
+83,7,./board_images/board7_83.png,7,True,17,17,False,483.01219940185547,unsat,Z3 returned UNSAT
+84,7,./board_images/board7_84.png,7,True,21,21,False,515.3639316558838,unsat,Z3 returned UNSAT
+85,7,./board_images/board7_85.png,7,True,15,15,False,455.34682273864746,unsat,Z3 returned UNSAT
+86,7,./board_images/board7_86.png,7,True,21,21,False,457.05699920654297,unsat,Z3 returned UNSAT
+87,7,./board_images/board7_87.png,7,True,17,17,False,456.1278820037842,unsat,Z3 returned UNSAT
+88,7,./board_images/board7_88.png,7,True,20,20,False,460.986852645874,unsat,Z3 returned UNSAT
+89,7,./board_images/board7_89.png,7,True,18,18,False,449.0079879760742,unsat,Z3 returned UNSAT
+90,7,./board_images/board7_90.png,7,True,18,18,False,479.3088436126709,unsat,Z3 returned UNSAT
+91,7,./board_images/board7_91.png,7,True,17,17,False,471.79293632507324,unsat,Z3 returned UNSAT
+92,7,./board_images/board7_92.png,7,True,18,18,False,454.53691482543945,unsat,Z3 returned UNSAT
+93,7,./board_images/board7_93.png,7,True,18,18,False,440.14978408813477,unsat,Z3 returned UNSAT
+94,7,./board_images/board7_94.png,7,True,17,17,False,449.2971897125244,unsat,Z3 returned UNSAT
+95,7,./board_images/board7_95.png,7,True,18,18,False,442.8417682647705,unsat,Z3 returned UNSAT
+96,7,./board_images/board7_96.png,7,True,18,18,True,4947.021961212158,,
+97,7,./board_images/board7_97.png,7,True,18,18,False,581.7711353302002,unsat,Z3 returned UNSAT
+98,7,./board_images/board7_98.png,7,True,18,18,False,518.9669132232666,unsat,Z3 returned UNSAT
+99,7,./board_images/board7_99.png,7,True,18,18,False,443.2201385498047,unsat,Z3 returned UNSAT
+0,9,./board_images/board9_0.png,9,True,29,29,False,1986.7520332336426,unsat,Z3 returned UNSAT
+1,9,./board_images/board9_1.png,9,True,32,32,False,805.840015411377,unsat,Z3 returned UNSAT
+2,9,./board_images/board9_2.png,9,True,29,29,False,749.600887298584,unsat,Z3 returned UNSAT
+3,9,./board_images/board9_3.png,9,True,29,29,False,742.0811653137207,unsat,Z3 returned UNSAT
+4,9,./board_images/board9_4.png,9,True,31,31,False,825.3498077392578,unsat,Z3 returned UNSAT
+5,9,./board_images/board9_5.png,9,True,31,31,False,737.2128963470459,unsat,Z3 returned UNSAT
+6,9,./board_images/board9_6.png,9,True,29,29,False,743.779182434082,unsat,Z3 returned UNSAT
+7,9,./board_images/board9_7.png,9,True,28,28,False,733.0710887908936,unsat,Z3 returned UNSAT
+8,9,./board_images/board9_8.png,9,True,32,32,False,791.9907569885254,unsat,Z3 returned UNSAT
+9,9,./board_images/board9_9.png,9,True,29,29,False,768.4118747711182,unsat,Z3 returned UNSAT
+10,9,./board_images/board9_10.png,9,True,30,30,False,735.4869842529297,unsat,Z3 returned UNSAT
+11,9,./board_images/board9_11.png,9,True,30,30,False,732.8660488128662,unsat,Z3 returned UNSAT
+12,9,./board_images/board9_12.png,9,True,30,30,False,728.2440662384033,unsat,Z3 returned UNSAT
+13,9,./board_images/board9_13.png,9,True,27,27,False,726.4838218688965,unsat,Z3 returned UNSAT
+14,9,./board_images/board9_14.png,9,True,30,30,False,742.5861358642578,unsat,Z3 returned UNSAT
+15,9,./board_images/board9_15.png,9,True,29,29,False,752.0880699157715,unsat,Z3 returned UNSAT
+16,9,./board_images/board9_16.png,9,True,30,30,False,745.2490329742432,unsat,Z3 returned UNSAT
+17,9,./board_images/board9_17.png,9,True,28,28,False,739.3028736114502,unsat,Z3 returned UNSAT
+18,9,./board_images/board9_18.png,9,True,32,32,False,739.030122756958,unsat,Z3 returned UNSAT
+19,9,./board_images/board9_19.png,9,True,31,31,False,720.6449508666992,unsat,Z3 returned UNSAT
+20,9,./board_images/board9_20.png,9,True,29,29,False,722.2440242767334,unsat,Z3 returned UNSAT
+21,9,./board_images/board9_21.png,9,True,30,30,False,749.7179508209229,unsat,Z3 returned UNSAT
+22,9,./board_images/board9_22.png,9,True,30,30,False,757.3802471160889,unsat,Z3 returned UNSAT
+23,9,./board_images/board9_23.png,9,True,30,30,False,747.5059032440186,unsat,Z3 returned UNSAT
+24,9,./board_images/board9_24.png,9,True,28,28,False,792.4079895019531,unsat,Z3 returned UNSAT
+25,9,./board_images/board9_25.png,9,True,29,29,False,743.1869506835938,unsat,Z3 returned UNSAT
+26,9,./board_images/board9_26.png,9,True,27,27,False,741.5027618408203,unsat,Z3 returned UNSAT
+27,9,./board_images/board9_27.png,9,True,29,29,False,766.2222385406494,unsat,Z3 returned UNSAT
+28,9,./board_images/board9_28.png,9,True,30,30,False,747.3337650299072,unsat,Z3 returned UNSAT
+29,9,./board_images/board9_29.png,9,True,31,31,False,767.6558494567871,unsat,Z3 returned UNSAT
+30,9,./board_images/board9_30.png,9,True,30,30,False,763.50998878479,unsat,Z3 returned UNSAT
+31,9,./board_images/board9_31.png,9,True,31,31,False,754.5781135559082,unsat,Z3 returned UNSAT
+32,9,./board_images/board9_32.png,9,True,27,27,False,762.9849910736084,unsat,Z3 returned UNSAT
+33,9,./board_images/board9_33.png,9,True,29,29,False,764.9741172790527,unsat,Z3 returned UNSAT
+34,9,./board_images/board9_34.png,9,True,29,29,False,747.448205947876,unsat,Z3 returned UNSAT
+35,9,./board_images/board9_35.png,9,True,31,31,False,736.3021373748779,unsat,Z3 returned UNSAT
+36,9,./board_images/board9_36.png,9,True,29,29,False,739.7072315216064,unsat,Z3 returned UNSAT
+37,9,./board_images/board9_37.png,9,True,35,35,False,872.9991912841797,unsat,Z3 returned UNSAT
+38,9,./board_images/board9_38.png,9,True,30,30,False,763.8840675354004,unsat,Z3 returned UNSAT
+39,9,./board_images/board9_39.png,9,True,30,30,False,742.7141666412354,unsat,Z3 returned UNSAT
+40,9,./board_images/board9_40.png,9,True,27,27,False,744.5981502532959,unsat,Z3 returned UNSAT
+41,9,./board_images/board9_41.png,9,True,29,29,False,741.8889999389648,unsat,Z3 returned UNSAT
+42,9,./board_images/board9_42.png,9,True,31,31,False,728.3051013946533,unsat,Z3 returned UNSAT
+43,9,./board_images/board9_43.png,9,True,29,29,False,771.9860076904297,unsat,Z3 returned UNSAT
+44,9,./board_images/board9_44.png,9,True,31,31,False,745.6331253051758,unsat,Z3 returned UNSAT
+45,9,./board_images/board9_45.png,9,True,30,30,False,749.2718696594238,unsat,Z3 returned UNSAT
+46,9,./board_images/board9_46.png,9,True,24,24,False,723.4971523284912,unsat,Z3 returned UNSAT
+47,9,./board_images/board9_47.png,9,True,30,30,False,749.129056930542,unsat,Z3 returned UNSAT
+48,9,./board_images/board9_48.png,9,True,29,29,False,730.2210330963135,unsat,Z3 returned UNSAT
+49,9,./board_images/board9_49.png,9,True,32,32,False,742.63596534729,unsat,Z3 returned UNSAT
+50,9,./board_images/board9_50.png,9,True,32,32,False,740.8082485198975,unsat,Z3 returned UNSAT
+51,9,./board_images/board9_51.png,9,True,31,31,False,742.7027225494385,unsat,Z3 returned UNSAT
+52,9,./board_images/board9_52.png,9,True,29,29,False,743.3619499206543,unsat,Z3 returned UNSAT
+53,9,./board_images/board9_53.png,9,True,31,31,False,761.0409259796143,unsat,Z3 returned UNSAT
+54,9,./board_images/board9_54.png,9,True,28,28,False,850.4619598388672,unsat,Z3 returned UNSAT
+55,9,./board_images/board9_55.png,9,True,28,28,False,749.2630481719971,unsat,Z3 returned UNSAT
+56,9,./board_images/board9_56.png,9,True,28,28,False,743.5660362243652,unsat,Z3 returned UNSAT
+57,9,./board_images/board9_57.png,9,True,28,28,False,790.8821105957031,unsat,Z3 returned UNSAT
+58,9,./board_images/board9_58.png,9,True,31,31,False,757.6639652252197,unsat,Z3 returned UNSAT
+59,9,./board_images/board9_59.png,9,True,30,30,False,739.9239540100098,unsat,Z3 returned UNSAT
+60,9,./board_images/board9_60.png,9,True,29,29,False,745.0129985809326,unsat,Z3 returned UNSAT
+61,9,./board_images/board9_61.png,9,True,29,29,False,767.8158283233643,unsat,Z3 returned UNSAT
+62,9,./board_images/board9_62.png,9,True,31,31,False,745.5911636352539,unsat,Z3 returned UNSAT
+63,9,./board_images/board9_63.png,9,True,28,28,False,737.2691631317139,unsat,Z3 returned UNSAT
+64,9,./board_images/board9_64.png,9,True,31,31,False,741.1408424377441,unsat,Z3 returned UNSAT
+65,9,./board_images/board9_65.png,9,True,32,32,False,759.2229843139648,unsat,Z3 returned UNSAT
+66,9,./board_images/board9_66.png,9,True,30,30,False,743.2682514190674,unsat,Z3 returned UNSAT
+67,9,./board_images/board9_67.png,9,True,32,32,False,750.5300045013428,unsat,Z3 returned UNSAT
+68,9,./board_images/board9_68.png,9,True,31,31,False,749.4630813598633,unsat,Z3 returned UNSAT
+69,9,./board_images/board9_69.png,9,True,29,29,False,735.1207733154297,unsat,Z3 returned UNSAT
+70,9,./board_images/board9_70.png,9,True,28,28,False,741.9593334197998,unsat,Z3 returned UNSAT
+71,9,./board_images/board9_71.png,9,True,30,30,False,756.3042640686035,unsat,Z3 returned UNSAT
+72,9,./board_images/board9_72.png,9,True,30,30,False,755.6769847869873,unsat,Z3 returned UNSAT
+73,9,./board_images/board9_73.png,9,True,30,30,False,736.14501953125,unsat,Z3 returned UNSAT
+74,9,./board_images/board9_74.png,9,True,27,27,False,744.1301345825195,unsat,Z3 returned UNSAT
+75,9,./board_images/board9_75.png,9,True,30,30,False,727.6909351348877,unsat,Z3 returned UNSAT
+76,9,./board_images/board9_76.png,9,True,30,30,False,717.5726890563965,unsat,Z3 returned UNSAT
+77,9,./board_images/board9_77.png,9,True,29,29,False,742.4461841583252,unsat,Z3 returned UNSAT
+78,9,./board_images/board9_78.png,9,True,31,31,False,733.7648868560791,unsat,Z3 returned UNSAT
+79,9,./board_images/board9_79.png,9,True,31,31,False,758.0499649047852,unsat,Z3 returned UNSAT
+80,9,./board_images/board9_80.png,9,True,30,30,False,747.1508979797363,unsat,Z3 returned UNSAT
+81,9,./board_images/board9_81.png,9,True,32,32,False,735.7711791992188,unsat,Z3 returned UNSAT
+82,9,./board_images/board9_82.png,9,True,31,31,False,730.9558391571045,unsat,Z3 returned UNSAT
+83,9,./board_images/board9_83.png,9,True,27,27,False,732.1999073028564,unsat,Z3 returned UNSAT
+84,9,./board_images/board9_84.png,9,True,31,31,False,735.0618839263916,unsat,Z3 returned UNSAT
+85,9,./board_images/board9_85.png,9,True,31,31,False,755.4967403411865,unsat,Z3 returned UNSAT
+86,9,./board_images/board9_86.png,9,True,30,30,False,748.4018802642822,unsat,Z3 returned UNSAT
+87,9,./board_images/board9_87.png,9,True,31,31,False,756.727933883667,unsat,Z3 returned UNSAT
+88,9,./board_images/board9_88.png,9,True,29,29,False,748.2311725616455,unsat,Z3 returned UNSAT
+89,9,./board_images/board9_89.png,9,True,26,26,False,724.783182144165,unsat,Z3 returned UNSAT
+90,9,./board_images/board9_90.png,9,True,29,29,False,739.7060394287109,unsat,Z3 returned UNSAT
+91,9,./board_images/board9_91.png,9,True,31,31,False,740.4260635375977,unsat,Z3 returned UNSAT
+92,9,./board_images/board9_92.png,9,True,30,30,False,742.0611381530762,unsat,Z3 returned UNSAT
+93,9,./board_images/board9_93.png,9,True,29,29,False,758.7320804595947,unsat,Z3 returned UNSAT
+94,9,./board_images/board9_94.png,9,True,31,31,False,743.798017501831,unsat,Z3 returned UNSAT
+95,9,./board_images/board9_95.png,9,True,30,30,False,722.4609851837158,unsat,Z3 returned UNSAT
+96,9,./board_images/board9_96.png,9,True,28,28,False,722.6691246032715,unsat,Z3 returned UNSAT
+97,9,./board_images/board9_97.png,9,True,30,30,False,799.4222640991211,unsat,Z3 returned UNSAT
+98,9,./board_images/board9_98.png,9,True,29,29,False,914.9439334869385,unsat,Z3 returned UNSAT
+99,9,./board_images/board9_99.png,9,True,32,32,False,808.7549209594727,unsat,Z3 returned UNSAT
