@@ -105,8 +105,59 @@ def augment_operator(img):
     return noisy.astype(np.float32)
 
 
+def augment_digit(img, scale_range=(0.33, 1.0)):
+    """
+    Apply multi-scale augmentation to simulate digits from different puzzle sizes.
+
+    Scale factors by puzzle size:
+    - 3x3: 75px digits → 28px = ~0.37 scale
+    - 4x4: 56px digits → 28px = ~0.50 scale
+    - 5x5: 45px digits → 28px = ~0.62 scale
+    - 6x6: 37px digits → 28px = ~0.76 scale
+    - 7x7: 32px digits → 28px = ~0.88 scale
+    - 9x9: 25px digits → 28px = ~1.12 scale (upscaled, quality loss)
+
+    Training with scales 0.33-1.0 covers the full range.
+    """
+    from scipy import ndimage
+    import cv2
+
+    # Random scale to simulate different puzzle sizes
+    scale = random.uniform(*scale_range)
+
+    if scale < 1.0:
+        new_size = max(9, int(28 * scale))  # Minimum 9px to preserve some structure
+
+        # Downscale the digit
+        # Use PIL for better quality downsampling
+        pil_img = Image.fromarray((img * 255).astype(np.uint8))
+        pil_small = pil_img.resize((new_size, new_size), Image.Resampling.LANCZOS)
+        small = np.array(pil_small).astype(np.float32) / 255.0
+
+        # Center on 28x28 white canvas
+        result = np.ones((28, 28), dtype=np.float32)
+        offset = (28 - new_size) // 2
+        result[offset:offset+new_size, offset:offset+new_size] = small
+        img = result
+
+    # Random rotation (-15 to 15 degrees for digits)
+    angle = random.uniform(-15, 15)
+    rotated = ndimage.rotate(img, angle, reshape=False, mode='constant', cval=1.0)
+
+    # Random shift (-3 to 3 pixels)
+    shift_x = random.randint(-3, 3)
+    shift_y = random.randint(-3, 3)
+    shifted = ndimage.shift(rotated, [shift_y, shift_x], mode='constant', cval=1.0)
+
+    # Random noise (slightly more for robustness)
+    noise = np.random.normal(0, 0.03, shifted.shape)
+    noisy = np.clip(shifted + noise, 0, 1)
+
+    return noisy.astype(np.float32)
+
+
 def prepare_data():
-    """Load MNIST digits and operators, prepare for training."""
+    """Load MNIST digits and operators, prepare for training with multi-scale augmentation."""
     print("Loading MNIST data...")
 
     # Load MNIST split
@@ -119,6 +170,22 @@ def prepare_data():
     # After inversion: background=1.0 (white), ink=0.0 (black)
     train_images = 255 - train_images  # Invert pixel values
     train_images = train_images.astype(np.float32) / 255.0  # Normalize to 0-1
+
+    # Apply multi-scale augmentation to simulate different puzzle sizes
+    print("Applying multi-scale augmentation to digits...")
+    augmented_digits = []
+    augmented_labels = []
+    for i, (img, label) in enumerate(zip(train_images, train_labels)):
+        # Apply scale augmentation (0.33 to 1.0 simulates 3x3 to 9x9 puzzles)
+        aug_img = augment_digit(img, scale_range=(0.33, 1.0))
+        augmented_digits.append(aug_img)
+        augmented_labels.append(label)
+
+        if (i + 1) % 10000 == 0:
+            print(f"  Augmented {i + 1}/{len(train_images)} digits")
+
+    train_images = np.array(augmented_digits)
+    train_labels = np.array(augmented_labels)
 
     print("Loading and augmenting operator templates...")
     operator_images, operator_labels = load_operator_templates()

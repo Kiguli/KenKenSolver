@@ -15,18 +15,18 @@ All puzzle images are available in [`benchmark_files/`](benchmark_files/):
 
 | Puzzle | Size | Computer Baseline | Computer Corrected | Handwritten Baseline | Handwritten Corrected |
 |--------|------|-------------------|--------------------|-----------------------|-----------------------|
-| **KenKen** | 3×3 | 100% | 100% | 65% | 87% |
-| **KenKen** | 4×4 | 100% | 100% | 23% | 60% |
-| **KenKen** | 5×5 | 100% | 100% | 11% | 33% |
-| **KenKen** | 6×6 | 100% | 100% | 2% | 11% |
-| **KenKen** | 7×7 | 95% | 100% | 0% | 1% |
+| **KenKen** | 3×3 | 100% | 100% | 69% | 87% |
+| **KenKen** | 4×4 | 100% | 100% | 41% | 72% |
+| **KenKen** | 5×5 | 100% | 100% | 18% | 41% |
+| **KenKen** | 6×6 | 100% | 100% | 2% | 14% |
+| **KenKen** | 7×7 | 95% | 100% | 0% | 4% |
 | **KenKen** | 9×9 | 96% | 100% | 0% | 0% |
 | **Sudoku** | 4×4 | 100% | 100% | 92% | 99% |
 | **Sudoku** | 9×9 | 100% | 100% | 75% | 99% |
 | **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 10% | 40% |
 | **HexaSudoku** | 16×16 (Numeric) | 100% | 100% | 34% | 58% |
 
-*Handwritten results use 90-10 train/test split with MNIST digits. Error correction uses unsat core detection, top-K alternatives, operator inference, and cage re-detection.*
+*Handwritten results use 90-10 train/test split with MNIST digits and multi-scale training augmentation (0.33-1.0 scale). Error correction uses unsat core detection, top-K alternatives, operator inference, and cage re-detection.*
 
 ## Why Neuro-Symbolic?
 

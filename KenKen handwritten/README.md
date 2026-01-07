@@ -6,24 +6,24 @@ Evaluation of the KenKen neuro-symbolic solver on puzzles rendered with **handwr
 
 | Size | Baseline | Corrected | Improvement |
 |------|----------|-----------|-------------|
-| 3x3  | 65%      | 87%       | +22%        |
-| 4x4  | 23%      | 60%       | +37%        |
-| 5x5  | 11%      | 33%       | +22%        |
-| 6x6  | 2%       | 11%       | +9%         |
-| 7x7  | 0%       | 1%        | +1%         |
+| 3x3  | 69%      | 87%       | +18%        |
+| 4x4  | 41%      | 72%       | +31%        |
+| 5x5  | 18%      | 41%       | +23%        |
+| 6x6  | 2%       | 14%       | +12%        |
+| 7x7  | 0%       | 4%        | +4%         |
 | 9x9  | 0%       | 0%        | +0%         |
 
-**Key Finding**: Error correction provides significant improvement for smaller puzzles but cannot fully recover from the high error rate of handwritten digit recognition on larger puzzles.
+**Key Finding**: Multi-scale training augmentation (0.33-1.0 scale) improves accuracy on medium-sized puzzles. Error correction provides additional recovery for puzzles with 1-3 errors.
 
 ## Comparison with Computer-Generated
 
 | Size | Computer Baseline | Handwritten Baseline | Handwritten Corrected |
 |------|-------------------|----------------------|-----------------------|
-| 3x3  | 100%              | 65%                  | 87%                   |
-| 4x4  | 100%              | 23%                  | 60%                   |
-| 5x5  | 100%              | 11%                  | 33%                   |
-| 6x6  | 100%              | 2%                   | 11%                   |
-| 7x7  | 100%              | 0%                   | 1%                    |
+| 3x3  | 100%              | 69%                  | 87%                   |
+| 4x4  | 100%              | 41%                  | 72%                   |
+| 5x5  | 100%              | 18%                  | 41%                   |
+| 6x6  | 100%              | 2%                   | 14%                   |
+| 7x7  | 100%              | 0%                   | 4%                    |
 | 9x9  | 100%              | 0%                   | 0%                    |
 
 ## Error Analysis
@@ -94,9 +94,10 @@ Error Correction --> Retry with alternatives if unsatisfiable
 ### Model Training
 - **Architecture**: CNN_v2 (14 classes: digits 0-9 + operators add/div/mul/sub)
 - **MNIST Preprocessing**: Inverted to match board convention (ink=LOW, background=HIGH)
+- **Multi-Scale Augmentation**: Scale range 0.33-1.0 to simulate different puzzle sizes (3×3 has 75px digits, 9×9 has 25px digits)
 - **Operator Augmentation**: 5,000 augmented samples per operator from PNG templates
 - **Training**: 30 epochs, batch size 64, Adam optimizer
-- **Validation Accuracy**: 99.39%
+- **Validation Accuracy**: 97.95% (with scale augmentation)
 
 ## Quick Start
 
@@ -153,12 +154,12 @@ KenKen handwritten/
 
 ## Key Insights
 
-1. **CNN accuracy matters significantly**: Even 99%+ character recognition leads to many unsolvable puzzles due to cumulative errors in larger puzzles.
+1. **Multi-scale training helps medium puzzles**: Training with scale augmentation (0.33-1.0) improved 4×4 from 60% → 72% and 5×5 from 33% → 41% with error correction.
 
-2. **Error correction helps but has limits**: Baseline accuracy drops dramatically for larger puzzles (0% for 7x7 and 9x9), and error correction can only partially recover.
+2. **Digit size varies 3× across puzzle sizes**: 3×3 cells are 300px (digits ~75px), 9×9 cells are 100px (digits ~25px). The CNN must handle this variation.
 
-3. **Target digits are the main error source**: 97%+ of errors are target digit misreads, not operator or cage boundary issues.
+3. **Error correction helps but has limits**: Baseline accuracy drops for larger puzzles, and error correction can only recover puzzles with 1-3 errors.
 
-4. **Handwritten 9 is problematic**: The digit 9 accounts for 219 confusions alone (100 as 4, 85 as 7, 34 as 1).
+4. **Target digits are the main error source**: 97%+ of errors are target digit misreads, not operator or cage boundary issues.
 
-5. **Puzzle size impacts correction feasibility**: Error correction works well for 3x3-4x4 (87%/60%) but fails for larger puzzles where too many errors accumulate.
+5. **9×9 puzzles remain challenging**: Even with multi-scale training, 9×9 puzzles have too many cells (81) for the error correction capacity (max 5 errors).
