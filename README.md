@@ -19,8 +19,8 @@ All puzzle images are available in [`benchmark_files/`](benchmark_files/):
 | **KenKen** | 4×4 | 100% | 100% | 29% | - |
 | **KenKen** | 5×5 | 100% | 100% | 5% | - |
 | **KenKen** | 6×6 | 100% | 100% | 0% | - |
-| **KenKen** | 7×7 | 95% | 95% | 0% | - |
-| **KenKen** | 9×9 | 95% | 99% | - | - |
+| **KenKen** | 7×7 | 95% | 96% | 0% | - |
+| **KenKen** | 9×9 | 96% | 100% | - | - |
 | **Sudoku** | 4×4 | 100% | 100% | 92% | 99% |
 | **Sudoku** | 9×9 | 100% | 100% | 75% | 99% |
 | **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 10% | 40% |
@@ -57,12 +57,12 @@ Image Input (900×900)
 
 | Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 |
 |--------|-----|-----|-----|-----|-----|-----|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 95% | 99% |
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 96% | 100% |
 | Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | 0% |
 | Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | 0% |
 | GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | 0% |
 
-*KenKen 9×9 achieves 95% baseline, 99% with error correction. 7×7 and remaining 9×9 failures are cage detection issues (see `KenKen/failure_analysis/` for error visualizations).
+*KenKen 9×9 achieves 96% baseline, 100% with error correction. 7×7 failures (4 remaining) are cage detection issues (see `KenKen/failure_analysis/` for error visualizations).
 
 **Key Finding**: All LLMs fail completely on puzzles 5×5 and larger.
 
@@ -86,6 +86,18 @@ Uses Z3's unsat core to identify clues causing logical conflicts:
 Extends constraint-based approach by trying 2nd, 3rd, and 4th best CNN predictions:
 - Handles cases where second-best prediction is also wrong
 - Improves HexaSudoku from 36% → 40%
+
+### 4. Cage Re-detection (KenKen)
+When cage detection fails validation (too many cages, too many single-cells), retry with stricter thresholds:
+- Uses threshold multipliers (1.5x, 2.0x, 2.5x) to filter thin grid lines misdetected as cage walls
+- Validates cages: cell count, single-cell count, total cage count
+- Fixes 7×7 puzzles where integer division rounding causes false cage walls
+
+### 5. Operator Inference (KenKen)
+For multi-cell cages with missing operators and target > grid size:
+- Subtraction max = size - 1, Division max = size → ruled out
+- Automatically tries addition and multiplication operators
+- Fixes 9×9 puzzles where multiplication symbol is truncated during character segmentation
 
 ### When to Use Each Method
 

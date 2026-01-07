@@ -208,6 +208,111 @@ def construct_cages(h_borders, v_borders):
     return cages
 
 
+def validate_cages(cages, size):
+    """
+    Validate detected cages for common detection errors.
+
+    Returns: (is_valid, issues_list)
+    """
+    issues = []
+
+    # 1. Total cells must equal grid area
+    total_cells = sum(len(c) for c in cages)
+    if total_cells != size * size:
+        issues.append(('cell_count', f"{total_cells} != {size*size}"))
+
+    # 2. Too many single-cell cages suggests fragmentation
+    single_cells = sum(1 for c in cages if len(c) == 1)
+    if single_cells > size:
+        issues.append(('too_many_singles', f"{single_cells} > {size}"))
+
+    # 3. Too many total cages suggests thin lines detected as cage walls
+    max_cages = (size * size) // 2 + size
+    if len(cages) > max_cages:
+        issues.append(('too_many_cages', f"{len(cages)} > {max_cages}"))
+
+    return (len(issues) == 0, issues)
+
+
+def find_h_borders_with_threshold(h_lines, size, epsilon, delta, threshold):
+    """Find horizontal borders with adjustable thickness threshold."""
+    cell_size = ((BOARD_SIZE * SCALE_FACTOR) // size)
+    vertical_window = (cell_size - delta, cell_size + delta)
+    h_borders = np.zeros((size - 1, size))
+    horizontal_window = (epsilon, cell_size - epsilon)
+
+    for i in range(size - 1):
+        window = h_lines[(h_lines['y1'] >= vertical_window[0]) & (h_lines['y1'] <= vertical_window[1])]
+        if len(window) == 0:
+            vertical_window = (vertical_window[0] + cell_size, vertical_window[1] + cell_size)
+            continue
+        max_val = (window[['y1', 'y2']].min(axis=1)).max()
+        min_val = (window[['y1', 'y2']].max(axis=1)).min()
+
+        if max_val - min_val > threshold:
+            for j in range(size):
+                y_vals = window[(np.maximum(window['x1'], window['x2']) >= horizontal_window[0]) &
+                               (np.minimum(window['x1'], window['x2']) <= horizontal_window[1])]['y1'].values
+                if max_val in y_vals or min_val in y_vals:
+                    h_borders[i][j] = 1
+                horizontal_window = (horizontal_window[0] + cell_size, horizontal_window[1] + cell_size)
+            horizontal_window = (epsilon, cell_size - epsilon)
+        vertical_window = (vertical_window[0] + cell_size, vertical_window[1] + cell_size)
+
+    return h_borders
+
+
+def find_v_borders_with_threshold(v_lines, size, epsilon, delta, threshold):
+    """Find vertical borders with adjustable thickness threshold."""
+    cell_size = ((BOARD_SIZE * SCALE_FACTOR) // size)
+    horizontal_window = (cell_size - delta, cell_size + delta)
+    v_borders = np.zeros((size, size - 1))
+    vertical_window = (epsilon, cell_size - epsilon)
+
+    for i in range(size - 1):
+        window = v_lines[(v_lines['x1'] >= horizontal_window[0]) & (v_lines['x1'] <= horizontal_window[1])]
+        if len(window) == 0:
+            horizontal_window = (horizontal_window[0] + cell_size, horizontal_window[1] + cell_size)
+            continue
+        max_val = (window[['x1', 'x2']].min(axis=1)).max()
+        min_val = (window[['x1', 'x2']].max(axis=1)).min()
+
+        if max_val - min_val > threshold:
+            for j in range(size):
+                x_vals = window[(np.maximum(window['y1'], window['y2']) >= vertical_window[0]) &
+                               (np.minimum(window['y1'], window['y2']) <= vertical_window[1])]['x1'].values
+                if max_val in x_vals or min_val in x_vals:
+                    v_borders[j][i] = 1
+                vertical_window = (vertical_window[0] + cell_size, vertical_window[1] + cell_size)
+            vertical_window = (epsilon, cell_size - epsilon)
+        horizontal_window = (horizontal_window[0] + cell_size, horizontal_window[1] + cell_size)
+
+    return v_borders
+
+
+def find_borders_with_threshold(h_lines, v_lines, size, border_thickness, threshold_multiplier=1.0):
+    """
+    Find borders with adjustable thickness threshold.
+
+    Args:
+        h_lines: Horizontal line segments
+        v_lines: Vertical line segments
+        size: Puzzle grid size
+        border_thickness: Detected border thickness
+        threshold_multiplier: >1.0 = stricter (only thick lines count as cage walls)
+
+    Returns:
+        (h_borders, v_borders) numpy arrays
+    """
+    base_threshold = int(11 * SCALE_FACTOR)  # 22 pixels at 2x scale
+    threshold = int(base_threshold * threshold_multiplier)
+
+    h_borders = find_h_borders_with_threshold(h_lines, size, border_thickness, border_thickness, threshold)
+    v_borders = find_v_borders_with_threshold(v_lines, size, border_thickness, border_thickness, threshold)
+
+    return h_borders, v_borders
+
+
 def get_border_thickness(lines):
     """Get border thickness from detected lines."""
     v_lines = lines[lines['x1'] == lines['x2']]
@@ -250,6 +355,89 @@ def find_size_and_borders(filename, grid_model=None, size_override=None):
         find_v_borders(v_lines, size, border_thickness, border_thickness)
     )
     return size, cages, border_thickness // SCALE_FACTOR
+
+
+def find_size_and_borders_with_retry(filename, grid_model=None, size_override=None, verbose=False):
+    """
+    Detect puzzle size and cage borders with automatic retry on validation failure.
+
+    If initial detection produces invalid cages (too many cages, too many single-cells),
+    retry with stricter thresholds to filter out thin grid lines misdetected as cage walls.
+
+    Returns: (size, cages, border_thickness, retry_info)
+    """
+    src = cv.imread(filename)
+    resized = cv.resize(src, (BOARD_SIZE * SCALE_FACTOR, BOARD_SIZE * SCALE_FACTOR))
+    filtered = cv.pyrMeanShiftFiltering(resized, sp=5, sr=40)
+    dst = cv.Canny(filtered, 50, 200, None, 3)
+    linesP = cv.HoughLinesP(dst, 1, np.pi / 360, 75, None, 50, 15)
+
+    if linesP is None:
+        size = size_override or (get_size(filename, grid_model) if grid_model else 9)
+        return size, [], 16, {'retries': 0, 'final_multiplier': 1.0}
+
+    linesP = np.squeeze(linesP, axis=1)
+    if linesP.ndim == 1:
+        linesP = linesP.reshape(1, -1)
+
+    lines_df = pd.DataFrame(linesP, columns=['x1', 'y1', 'x2', 'y2'])
+    h_lines = lines_df[abs(lines_df['y1'] - lines_df['y2']) < 2]
+    v_lines = lines_df[abs(lines_df['x1'] - lines_df['x2']) < 2]
+    border_thickness = get_border_thickness(lines_df)
+
+    # Use override if provided, otherwise detect with Grid_CNN
+    if size_override:
+        size = size_override
+    elif grid_model:
+        size = get_size(filename, grid_model)
+    else:
+        size = 9
+
+    # First attempt with default threshold
+    cages = construct_cages(
+        find_h_borders(h_lines, size, border_thickness, border_thickness),
+        find_v_borders(v_lines, size, border_thickness, border_thickness)
+    )
+
+    is_valid, issues = validate_cages(cages, size)
+
+    if is_valid:
+        return size, cages, border_thickness // SCALE_FACTOR, {'retries': 0, 'final_multiplier': 1.0}
+
+    # Check if issue suggests thin lines being misdetected as cage walls
+    issue_types = [i[0] for i in issues]
+    if 'too_many_cages' in issue_types or 'too_many_singles' in issue_types:
+        original_cage_count = len(cages)
+
+        if verbose:
+            print(f"    Cage validation failed: {issues}")
+            print(f"    Attempting re-detection with stricter thresholds...")
+
+        # Retry with stricter thresholds
+        for multiplier in [1.5, 2.0, 2.5]:
+            h_borders, v_borders = find_borders_with_threshold(
+                h_lines, v_lines, size, border_thickness, threshold_multiplier=multiplier
+            )
+            new_cages = construct_cages(h_borders, v_borders)
+            is_valid, new_issues = validate_cages(new_cages, size)
+
+            if verbose:
+                print(f"    Multiplier {multiplier}: {len(new_cages)} cages (was {original_cage_count})")
+
+            if is_valid:
+                return size, new_cages, border_thickness // SCALE_FACTOR, {
+                    'retries': 1,
+                    'final_multiplier': multiplier,
+                    'original_cages': original_cage_count,
+                    'fixed_cages': len(new_cages)
+                }
+
+            # Check if we're improving (fewer cages is better when we had too many)
+            if len(new_cages) >= original_cage_count:
+                break  # Not helping, stop trying
+
+    # Return best attempt even if not valid
+    return size, cages, border_thickness // SCALE_FACTOR, {'retries': 0, 'final_multiplier': 1.0, 'issues': issues}
 
 
 def get_contours(img, size=9):
@@ -694,6 +882,57 @@ def solve_kenken_with_tracking(puzzle, size):
     return None, suspect_indices
 
 
+def solve_with_operator_inference(puzzle, size):
+    """
+    Solve puzzle, trying inferred operators for cages with missing operators.
+
+    For multi-cell cages with target >= size (especially >= 10), the operator
+    must be addition or multiplication since:
+    - Subtraction: max result = size - 1 (e.g., 6 for 7x7)
+    - Division: max result = size (e.g., 7 for 7x7)
+
+    Returns: (solution, inferences_made) or (None, [])
+    """
+    import copy
+
+    # Find multi-cell cages with missing operators where target > size
+    # (These can only be add or mul based on KenKen rules)
+    missing_op_indices = []
+    for i, cage in enumerate(puzzle):
+        if cage['op'] == '' and len(cage['cells']) > 1:
+            # Multi-cell cage with no operator - must infer
+            # If target > size, it can only be add or mul
+            if cage['target'] > size:
+                missing_op_indices.append(i)
+
+    if not missing_op_indices:
+        # No inference needed, try normal solve
+        solution = solve_kenken(puzzle, size)
+        return solution, []
+
+    # Try combinations of add/mul for missing operators
+    ops_to_try = ['add', 'mul']
+
+    for op_combo in product(ops_to_try, repeat=len(missing_op_indices)):
+        test_puzzle = copy.deepcopy(puzzle)
+        inferences = []
+
+        for idx, op in zip(missing_op_indices, op_combo):
+            test_puzzle[idx]['op'] = op
+            inferences.append({
+                'cage_idx': idx,
+                'target': test_puzzle[idx]['target'],
+                'cells': test_puzzle[idx]['cells'],
+                'inferred_op': op
+            })
+
+        solution = solve_kenken(test_puzzle, size)
+        if solution is not None:
+            return solution, inferences
+
+    return None, []
+
+
 # =============================================================================
 # Error Correction
 # =============================================================================
@@ -876,11 +1115,16 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
     """
     start_time = time.time()
 
-    # Detect size and borders
-    size, cages, border_thickness = find_size_and_borders(filename, grid_model, size_override)
+    # Detect size and borders with automatic retry on validation failure
+    size, cages, border_thickness, retry_info = find_size_and_borders_with_retry(
+        filename, grid_model, size_override, verbose=verbose
+    )
 
     if verbose:
         print(f"  Size: {size}x{size}, Cages: {len(cages)}, Border: {border_thickness}")
+        if retry_info.get('retries', 0) > 0:
+            print(f"  Cage re-detection: {retry_info['original_cages']} -> {retry_info['fixed_cages']} cages "
+                  f"(multiplier {retry_info['final_multiplier']})")
 
     if not cages:
         return None, "no_cages", (time.time() - start_time) * 1000
@@ -896,9 +1140,22 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
     solution = solve_kenken(puzzle, size)
 
     if solution is not None:
-        return solution, "none", (time.time() - start_time) * 1000
+        correction_type = "none"
+        if retry_info.get('retries', 0) > 0:
+            correction_type = "cage_redetect"
+        return solution, correction_type, (time.time() - start_time) * 1000
 
-    # If direct solve failed and correction is enabled, try error correction
+    # Try operator inference for multi-cell cages with missing operators
+    solution, inferences = solve_with_operator_inference(puzzle, size)
+    if solution is not None:
+        correction_type = "inferred_op"
+        if retry_info.get('retries', 0) > 0:
+            correction_type = "cage_redetect+inferred_op"
+        if verbose and inferences:
+            print(f"  Inferred operators: {[(inf['target'], inf['inferred_op']) for inf in inferences]}")
+        return solution, correction_type, (time.time() - start_time) * 1000
+
+    # If direct solve and operator inference failed, try error correction
     if use_correction:
         puzzle, alternatives = make_puzzle_with_alternatives(
             size, border_thickness, cages, filename, char_model, k=4, invert=invert
@@ -909,7 +1166,10 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
         correction = attempt_error_correction(puzzle, alternatives, size, max_errors=max_errors, max_k=4)
 
         if correction.success:
-            return correction.solution, correction.correction_type, (time.time() - start_time) * 1000
+            correction_type = correction.correction_type
+            if retry_info.get('retries', 0) > 0:
+                correction_type = f"cage_redetect+{correction_type}"
+            return correction.solution, correction_type, (time.time() - start_time) * 1000
 
         return None, "uncorrectable", (time.time() - start_time) * 1000
 
