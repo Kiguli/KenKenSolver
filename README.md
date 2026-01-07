@@ -13,18 +13,18 @@ All puzzle images are available in [`benchmark_files/`](benchmark_files/):
 
 ## Results
 
-| Puzzle | Size | Computer | Handwritten Baseline | Handwritten Corrected |
-|--------|------|----------|----------------------|-----------------------|
-| **KenKen** | 3×3 | 100% | 79% | - |
-| **KenKen** | 4×4 | 100% | 29% | - |
-| **KenKen** | 5×5 | 100% | 5% | - |
-| **KenKen** | 6×6 | 100% | 0% | - |
-| **KenKen** | 7×7 | 95% | 0% | - |
-| **KenKen** | 9×9 | 62% | 90% | - |
-| **Sudoku** | 4×4 | 100% | 92% | 99% |
-| **Sudoku** | 9×9 | 100% | 75% | 99% |
-| **HexaSudoku** | 16×16 (Hex) | 100% | 10% | 40% |
-| **HexaSudoku** | 16×16 (Numeric) | 100% | 34% | 58% |
+| Puzzle | Size | Computer Baseline | Computer Corrected | Handwritten Baseline | Handwritten Corrected |
+|--------|------|-------------------|--------------------|-----------------------|-----------------------|
+| **KenKen** | 3×3 | 100% | 100% | 79% | - |
+| **KenKen** | 4×4 | 100% | 100% | 29% | - |
+| **KenKen** | 5×5 | 100% | 100% | 5% | - |
+| **KenKen** | 6×6 | 100% | 100% | 0% | - |
+| **KenKen** | 7×7 | 95% | 95% | 0% | - |
+| **KenKen** | 9×9 | 96% | 100% | - | - |
+| **Sudoku** | 4×4 | 100% | 100% | 92% | 99% |
+| **Sudoku** | 9×9 | 100% | 100% | 75% | 99% |
+| **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 10% | 40% |
+| **HexaSudoku** | 16×16 (Numeric) | 100% | 100% | 34% | 58% |
 
 *Handwritten results use 90-10 train/test split. KenKen handwritten uses MNIST-trained CNN; error correction not yet applied.*
 
@@ -55,12 +55,14 @@ Image Input (900×900)
 
 ## LLM Comparison (KenKen)
 
-| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 |
-|--------|-----|-----|-----|-----|-----|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 95% |
-| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% |
-| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% |
-| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% |
+| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 |
+|--------|-----|-----|-----|-----|-----|-----|
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 95% | 100% |
+| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | 0% |
+| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | 0% |
+| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | 0% |
+
+*KenKen 9×9 achieves 96% baseline, 100% with error correction. 7×7 failures are cage detection issues.
 
 **Key Finding**: All LLMs fail completely on puzzles 5×5 and larger.
 
@@ -154,7 +156,13 @@ pip install anthropic openai google-generativeai transformers python-dotenv
 
 ## Quick Start
 
-### KenKen Solver
+### KenKen Solver (Command Line)
+```bash
+cd KenKen
+python solve_all_sizes.py --sizes 3,4,5,6,7,9 --num 100
+```
+
+### KenKen Solver (Jupyter Notebook)
 ```bash
 cd KenKen
 jupyter notebook NeuroSymbolicSolver.ipynb
@@ -174,7 +182,9 @@ KenKenSolver/
 ├── CLAUDE.md                    # Development documentation
 ├── benchmark_files/             # All puzzle images organized by type
 ├── KenKen/                      # KenKen puzzle solver
+│   ├── solve_all_sizes.py      # Unified solver (3×3 to 9×9)
 │   ├── NeuroSymbolicSolver.ipynb
+│   ├── train_character_cnn.py  # CNN training script
 │   ├── models/                 # Pre-trained CNN weights
 │   ├── puzzles/                # Puzzle dataset (JSON)
 │   └── board_images/           # Generated puzzle images
