@@ -1,0 +1,175 @@
+7x7 KenKen Failure Analysis
+============================================================
+
+Base accuracy: 95%
+Corrected accuracy: 95%
+
+Base failures (5 puzzles):
+  Puzzle 13: Unsolvable
+    - {'type': 'cage_mismatch', 'cells': [[0, 0]], 'detected': {'cells': [[0, 0]], 'op': 'mul', 'target': 84}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 1], [0, 2], [0, 3]], 'detected': {'cells': [[0, 1], [0, 2], [0, 3]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 4], [0, 5], [0, 6]], 'detected': {'cells': [[0, 4], [0, 5], [0, 6]], 'op': 'mul', 'target': 60}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 0], [2, 0]], 'detected': {'cells': [[1, 0], [2, 0]], 'op': 'mul', 'target': 280}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 1], [2, 1]], 'detected': {'cells': [[1, 1], [2, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 2], [1, 3], [2, 3]], 'detected': {'cells': [[1, 2], [1, 3], [2, 3]], 'op': 'add', 'target': 13}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 4], [1, 5], [1, 6], [2, 6]], 'detected': {'cells': [[1, 4], [1, 5], [1, 6], [2, 6]], 'op': 'add', 'target': 13}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 5], [3, 5], [3, 6], [4, 5]], 'detected': {'cells': [[2, 5], [3, 5], [3, 6], [4, 5]], 'op': 'mul', 'target': 72}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 0], [4, 0]], 'detected': {'cells': [[3, 0], [4, 0]], 'op': 'mul', 'target': 216}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 1], [4, 1]], 'detected': {'cells': [[3, 1], [4, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 2], [4, 2], [5, 2], [5, 3]], 'detected': {'cells': [[3, 2], [4, 2], [5, 2], [5, 3]], 'op': 'mul', 'target': 8}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 3], [4, 3], [4, 4]], 'detected': {'cells': [[3, 3], [4, 3], [4, 4]], 'op': 'mul', 'target': 245}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 0]], 'detected': {'cells': [[5, 0]], 'op': 'mul', 'target': 10}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 1]], 'detected': {'cells': [[5, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 6], [6, 6]], 'detected': {'cells': [[5, 6], [6, 6]], 'op': 'add', 'target': 9}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[6, 0]], 'detected': {'cells': [[6, 0]], 'op': 'add', 'target': 8}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[6, 1]], 'detected': {'cells': [[6, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[6, 2], [6, 3]], 'detected': {'cells': [[6, 2], [6, 3]], 'op': 'mul', 'target': 18}, 'expected': None}
+    - {'type': 'missing_cage', 'cells': [[4, 3], [3, 3], [4, 4]], 'detected': None, 'expected': {'cells': [[4, 3], [3, 3], [4, 4]], 'op': 'mul', 'target': 245}}
+    - {'type': 'missing_cage', 'cells': [[2, 1], [2, 0], [1, 0], [1, 1]], 'detected': None, 'expected': {'cells': [[2, 1], [2, 0], [1, 0], [1, 1]], 'op': 'mul', 'target': 280}}
+    - {'type': 'missing_cage', 'cells': [[6, 3], [6, 2]], 'detected': None, 'expected': {'cells': [[6, 3], [6, 2]], 'op': 'mul', 'target': 18}}
+    - {'type': 'missing_cage', 'cells': [[1, 3], [1, 2], [2, 3]], 'detected': None, 'expected': {'cells': [[1, 3], [1, 2], [2, 3]], 'op': 'add', 'target': 13}}
+    - {'type': 'missing_cage', 'cells': [[6, 6], [5, 6]], 'detected': None, 'expected': {'cells': [[6, 6], [5, 6]], 'op': 'add', 'target': 9}}
+    - {'type': 'missing_cage', 'cells': [[3, 5], [4, 5], [3, 6], [2, 5]], 'detected': None, 'expected': {'cells': [[3, 5], [4, 5], [3, 6], [2, 5]], 'op': 'mul', 'target': 72}}
+    - {'type': 'missing_cage', 'cells': [[5, 0], [5, 1]], 'detected': None, 'expected': {'cells': [[5, 0], [5, 1]], 'op': 'mul', 'target': 10}}
+    - {'type': 'missing_cage', 'cells': [[0, 2], [0, 1], [0, 0], [0, 3]], 'detected': None, 'expected': {'cells': [[0, 2], [0, 1], [0, 0], [0, 3]], 'op': 'mul', 'target': 84}}
+    - {'type': 'missing_cage', 'cells': [[2, 6], [1, 6], [1, 5], [1, 4]], 'detected': None, 'expected': {'cells': [[2, 6], [1, 6], [1, 5], [1, 4]], 'op': 'add', 'target': 13}}
+    - {'type': 'missing_cage', 'cells': [[5, 3], [5, 2], [4, 2], [3, 2]], 'detected': None, 'expected': {'cells': [[5, 3], [5, 2], [4, 2], [3, 2]], 'op': 'mul', 'target': 8}}
+    - {'type': 'missing_cage', 'cells': [[0, 5], [0, 6], [0, 4]], 'detected': None, 'expected': {'cells': [[0, 5], [0, 6], [0, 4]], 'op': 'mul', 'target': 60}}
+    - {'type': 'missing_cage', 'cells': [[3, 1], [4, 1], [4, 0], [3, 0]], 'detected': None, 'expected': {'cells': [[3, 1], [4, 1], [4, 0], [3, 0]], 'op': 'mul', 'target': 216}}
+    - {'type': 'missing_cage', 'cells': [[6, 0], [6, 1]], 'detected': None, 'expected': {'cells': [[6, 0], [6, 1]], 'op': 'add', 'target': 8}}
+  Puzzle 14: Unsolvable
+    - {'type': 'cage_mismatch', 'cells': [[0, 0]], 'detected': {'cells': [[0, 0]], 'op': 'mul', 'target': 14}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 1]], 'detected': {'cells': [[0, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 3], [0, 4], [1, 3], [1, 4]], 'detected': {'cells': [[0, 3], [0, 4], [1, 3], [1, 4]], 'op': 'mul', 'target': 840}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 5], [0, 6], [1, 5]], 'detected': {'cells': [[0, 5], [0, 6], [1, 5]], 'op': 'mul', 'target': 30}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 0]], 'detected': {'cells': [[1, 0]], 'op': 'mul', 'target': 4}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 1]], 'detected': {'cells': [[1, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 0]], 'detected': {'cells': [[2, 0]], 'op': 'sub', 'target': 1}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 1]], 'detected': {'cells': [[2, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 0]], 'detected': {'cells': [[3, 0]], 'op': 'mul', 'target': 126}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 1], [3, 2]], 'detected': {'cells': [[3, 1], [3, 2]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 6], [4, 6], [4, 5], [4, 4]], 'detected': {'cells': [[3, 6], [4, 6], [4, 5], [4, 4]], 'op': 'mul', 'target': 90}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 0], [5, 0]], 'detected': {'cells': [[4, 0], [5, 0]], 'op': 'add', 'target': 15}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 1], [5, 1]], 'detected': {'cells': [[4, 1], [5, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 3], [5, 4], [6, 3], [6, 2]], 'detected': {'cells': [[5, 3], [5, 4], [6, 3], [6, 2]], 'op': 'mul', 'target': 630}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 5], [5, 6], [6, 5], [6, 4]], 'detected': {'cells': [[5, 5], [5, 6], [6, 5], [6, 4]], 'op': 'mul', 'target': 84}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[6, 0]], 'detected': {'cells': [[6, 0]], 'op': 'sub', 'target': 3}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[6, 1]], 'detected': {'cells': [[6, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'missing_cage', 'cells': [[1, 5], [0, 5], [0, 6]], 'detected': None, 'expected': {'cells': [[1, 5], [0, 5], [0, 6]], 'op': 'mul', 'target': 30}}
+    - {'type': 'missing_cage', 'cells': [[6, 5], [6, 4], [5, 5], [5, 6]], 'detected': None, 'expected': {'cells': [[6, 5], [6, 4], [5, 5], [5, 6]], 'op': 'mul', 'target': 84}}
+    - {'type': 'missing_cage', 'cells': [[2, 1], [2, 0]], 'detected': None, 'expected': {'cells': [[2, 1], [2, 0]], 'op': 'sub', 'target': 1}}
+    - {'type': 'missing_cage', 'cells': [[4, 1], [5, 1], [4, 0], [5, 0]], 'detected': None, 'expected': {'cells': [[4, 1], [5, 1], [4, 0], [5, 0]], 'op': 'add', 'target': 15}}
+    - {'type': 'missing_cage', 'cells': [[0, 4], [1, 4], [0, 3], [1, 3]], 'detected': None, 'expected': {'cells': [[0, 4], [1, 4], [0, 3], [1, 3]], 'op': 'mul', 'target': 840}}
+    - {'type': 'missing_cage', 'cells': [[1, 0], [1, 1]], 'detected': None, 'expected': {'cells': [[1, 0], [1, 1]], 'op': 'mul', 'target': 4}}
+    - {'type': 'missing_cage', 'cells': [[3, 0], [3, 1], [3, 2]], 'detected': None, 'expected': {'cells': [[3, 0], [3, 1], [3, 2]], 'op': 'mul', 'target': 126}}
+    - {'type': 'missing_cage', 'cells': [[6, 0], [6, 1]], 'detected': None, 'expected': {'cells': [[6, 0], [6, 1]], 'op': 'sub', 'target': 3}}
+    - {'type': 'missing_cage', 'cells': [[6, 2], [6, 3], [5, 3], [5, 4]], 'detected': None, 'expected': {'cells': [[6, 2], [6, 3], [5, 3], [5, 4]], 'op': 'mul', 'target': 630}}
+    - {'type': 'missing_cage', 'cells': [[4, 6], [3, 6], [4, 5], [4, 4]], 'detected': None, 'expected': {'cells': [[4, 6], [3, 6], [4, 5], [4, 4]], 'op': 'mul', 'target': 90}}
+    - {'type': 'missing_cage', 'cells': [[0, 1], [0, 0]], 'detected': None, 'expected': {'cells': [[0, 1], [0, 0]], 'op': 'mul', 'target': 14}}
+  Puzzle 31: Unsolvable
+    - {'type': 'cage_mismatch', 'cells': [[0, 0]], 'detected': {'cells': [[0, 0]], 'op': 'add', 'target': 4}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 1]], 'detected': {'cells': [[0, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 2], [1, 2], [2, 2]], 'detected': {'cells': [[0, 2], [1, 2], [2, 2]], 'op': 'mul', 'target': 60}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 3], [0, 4], [0, 5]], 'detected': {'cells': [[0, 3], [0, 4], [0, 5]], 'op': 'add', 'target': 17}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 6], [1, 6], [1, 5], [2, 6]], 'detected': {'cells': [[0, 6], [1, 6], [1, 5], [2, 6]], 'op': 'mul', 'target': 56}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 0]], 'detected': {'cells': [[1, 0]], 'op': 'add', 'target': 11}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 1]], 'detected': {'cells': [[1, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 0]], 'detected': {'cells': [[2, 0]], 'op': 'div', 'target': 3}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 1]], 'detected': {'cells': [[2, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 3], [2, 4], [2, 5], [3, 4]], 'detected': {'cells': [[2, 3], [2, 4], [2, 5], [3, 4]], 'op': 'mul', 'target': 40}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 0]], 'detected': {'cells': [[3, 0]], 'op': 'sub', 'target': 5}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 1]], 'detected': {'cells': [[3, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 5], [3, 6], [4, 5]], 'detected': {'cells': [[3, 5], [3, 6], [4, 5]], 'op': 'add', 'target': 16}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 0], [5, 0]], 'detected': {'cells': [[4, 0], [5, 0]], 'op': 'add', 'target': 18}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 1], [5, 1]], 'detected': {'cells': [[4, 1], [5, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 2], [4, 3], [5, 2], [4, 4]], 'detected': {'cells': [[4, 2], [4, 3], [5, 2], [4, 4]], 'op': 'mul', 'target': 84}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 6], [5, 6], [6, 6], [6, 5]], 'detected': {'cells': [[4, 6], [5, 6], [6, 6], [6, 5]], 'op': 'add', 'target': 14}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 3], [6, 3], [6, 2]], 'detected': {'cells': [[5, 3], [6, 3], [6, 2]], 'op': 'add', 'target': 10}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 4], [6, 4]], 'detected': {'cells': [[5, 4], [6, 4]], 'op': 'div', 'target': 3}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[6, 0]], 'detected': {'cells': [[6, 0]], 'op': 'mul', 'target': 24}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[6, 1]], 'detected': {'cells': [[6, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'missing_cage', 'cells': [[5, 1], [5, 0], [4, 0], [4, 1]], 'detected': None, 'expected': {'cells': [[5, 1], [5, 0], [4, 0], [4, 1]], 'op': 'add', 'target': 18}}
+    - {'type': 'missing_cage', 'cells': [[0, 4], [0, 3], [0, 5]], 'detected': None, 'expected': {'cells': [[0, 4], [0, 3], [0, 5]], 'op': 'add', 'target': 17}}
+    - {'type': 'missing_cage', 'cells': [[6, 3], [6, 2], [5, 3]], 'detected': None, 'expected': {'cells': [[6, 3], [6, 2], [5, 3]], 'op': 'add', 'target': 10}}
+    - {'type': 'missing_cage', 'cells': [[6, 6], [6, 5], [5, 6], [4, 6]], 'detected': None, 'expected': {'cells': [[6, 6], [6, 5], [5, 6], [4, 6]], 'op': 'add', 'target': 14}}
+    - {'type': 'missing_cage', 'cells': [[4, 3], [4, 2], [5, 2], [4, 4]], 'detected': None, 'expected': {'cells': [[4, 3], [4, 2], [5, 2], [4, 4]], 'op': 'mul', 'target': 84}}
+    - {'type': 'missing_cage', 'cells': [[6, 4], [5, 4]], 'detected': None, 'expected': {'cells': [[6, 4], [5, 4]], 'op': 'div', 'target': 3.0}}
+    - {'type': 'missing_cage', 'cells': [[0, 1], [0, 0]], 'detected': None, 'expected': {'cells': [[0, 1], [0, 0]], 'op': 'add', 'target': 4}}
+    - {'type': 'missing_cage', 'cells': [[2, 1], [2, 0]], 'detected': None, 'expected': {'cells': [[2, 1], [2, 0]], 'op': 'div', 'target': 3.0}}
+    - {'type': 'missing_cage', 'cells': [[1, 1], [1, 0]], 'detected': None, 'expected': {'cells': [[1, 1], [1, 0]], 'op': 'add', 'target': 11}}
+    - {'type': 'missing_cage', 'cells': [[2, 3], [2, 4], [3, 4], [2, 5]], 'detected': None, 'expected': {'cells': [[2, 3], [2, 4], [3, 4], [2, 5]], 'op': 'mul', 'target': 40}}
+    - {'type': 'missing_cage', 'cells': [[1, 2], [0, 2], [2, 2]], 'detected': None, 'expected': {'cells': [[1, 2], [0, 2], [2, 2]], 'op': 'mul', 'target': 60}}
+    - {'type': 'missing_cage', 'cells': [[3, 5], [4, 5], [3, 6]], 'detected': None, 'expected': {'cells': [[3, 5], [4, 5], [3, 6]], 'op': 'add', 'target': 16}}
+    - {'type': 'missing_cage', 'cells': [[1, 6], [0, 6], [2, 6], [1, 5]], 'detected': None, 'expected': {'cells': [[1, 6], [0, 6], [2, 6], [1, 5]], 'op': 'mul', 'target': 56}}
+    - {'type': 'missing_cage', 'cells': [[6, 0], [6, 1]], 'detected': None, 'expected': {'cells': [[6, 0], [6, 1]], 'op': 'mul', 'target': 24}}
+    - {'type': 'missing_cage', 'cells': [[3, 1], [3, 0]], 'detected': None, 'expected': {'cells': [[3, 1], [3, 0]], 'op': 'sub', 'target': 5}}
+  Puzzle 69: Unsolvable
+    - {'type': 'cage_mismatch', 'cells': [[0, 5]], 'detected': {'cells': [[0, 5]], 'op': 'mul', 'target': 10}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 6]], 'detected': {'cells': [[0, 6]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 3], [1, 4], [2, 3]], 'detected': {'cells': [[1, 3], [1, 4], [2, 3]], 'op': 'mul', 'target': 60}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 5], [2, 5]], 'detected': {'cells': [[1, 5], [2, 5]], 'op': 'mul', 'target': 42}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 6], [2, 6]], 'detected': {'cells': [[1, 6], [2, 6]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 4], [3, 4], [4, 4]], 'detected': {'cells': [[2, 4], [3, 4], [4, 4]], 'op': 'add', 'target': 13}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 3], [4, 3], [4, 2]], 'detected': {'cells': [[3, 3], [4, 3], [4, 2]], 'op': 'mul', 'target': 12}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 5]], 'detected': {'cells': [[3, 5]], 'op': 'sub', 'target': 2}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 6]], 'detected': {'cells': [[3, 6]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 0], [5, 0]], 'detected': {'cells': [[4, 0], [5, 0]], 'op': 'sub', 'target': 2}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 5]], 'detected': {'cells': [[4, 5]], 'op': 'add', 'target': 13}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 6]], 'detected': {'cells': [[4, 6]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 2], [6, 2], [6, 1], [6, 0]], 'detected': {'cells': [[5, 2], [6, 2], [6, 1], [6, 0]], 'op': 'mul', 'target': 84}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 4], [6, 4]], 'detected': {'cells': [[5, 4], [6, 4]], 'op': 'sub', 'target': 4}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 5], [6, 5]], 'detected': {'cells': [[5, 5], [6, 5]], 'op': 'add', 'target': 13}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 6], [6, 6]], 'detected': {'cells': [[5, 6], [6, 6]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'missing_cage', 'cells': [[6, 0], [6, 1], [6, 2], [5, 2]], 'detected': None, 'expected': {'cells': [[6, 0], [6, 1], [6, 2], [5, 2]], 'op': 'mul', 'target': 84}}
+    - {'type': 'missing_cage', 'cells': [[3, 4], [4, 4], [2, 4]], 'detected': None, 'expected': {'cells': [[3, 4], [4, 4], [2, 4]], 'op': 'add', 'target': 13}}
+    - {'type': 'missing_cage', 'cells': [[6, 4], [5, 4]], 'detected': None, 'expected': {'cells': [[6, 4], [5, 4]], 'op': 'sub', 'target': 4}}
+    - {'type': 'missing_cage', 'cells': [[4, 5], [4, 6]], 'detected': None, 'expected': {'cells': [[4, 5], [4, 6]], 'op': 'add', 'target': 13}}
+    - {'type': 'missing_cage', 'cells': [[1, 5], [1, 6], [2, 6], [2, 5]], 'detected': None, 'expected': {'cells': [[1, 5], [1, 6], [2, 6], [2, 5]], 'op': 'mul', 'target': 42}}
+    - {'type': 'missing_cage', 'cells': [[1, 4], [1, 3], [2, 3]], 'detected': None, 'expected': {'cells': [[1, 4], [1, 3], [2, 3]], 'op': 'mul', 'target': 60}}
+    - {'type': 'missing_cage', 'cells': [[4, 3], [4, 2], [3, 3]], 'detected': None, 'expected': {'cells': [[4, 3], [4, 2], [3, 3]], 'op': 'mul', 'target': 12}}
+    - {'type': 'missing_cage', 'cells': [[0, 6], [0, 5]], 'detected': None, 'expected': {'cells': [[0, 6], [0, 5]], 'op': 'mul', 'target': 10}}
+    - {'type': 'missing_cage', 'cells': [[5, 0], [4, 0]], 'detected': None, 'expected': {'cells': [[5, 0], [4, 0]], 'op': 'sub', 'target': 2}}
+    - {'type': 'missing_cage', 'cells': [[6, 5], [5, 5], [6, 6], [5, 6]], 'detected': None, 'expected': {'cells': [[6, 5], [5, 5], [6, 6], [5, 6]], 'op': 'add', 'target': 13}}
+    - {'type': 'missing_cage', 'cells': [[3, 6], [3, 5]], 'detected': None, 'expected': {'cells': [[3, 6], [3, 5]], 'op': 'sub', 'target': 2}}
+  Puzzle 85: Unsolvable
+    - {'type': 'cage_mismatch', 'cells': [[0, 0]], 'detected': {'cells': [[0, 0]], 'op': 'add', 'target': 14}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 1], [0, 2], [0, 3]], 'detected': {'cells': [[0, 1], [0, 2], [0, 3]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[0, 4], [0, 5], [0, 6], [1, 5]], 'detected': {'cells': [[0, 4], [0, 5], [0, 6], [1, 5]], 'op': 'mul', 'target': 540}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 0]], 'detected': {'cells': [[1, 0]], 'op': 'mul', 'target': 105}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 1], [1, 2]], 'detected': {'cells': [[1, 1], [1, 2]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[1, 6], [2, 6], [2, 5], [3, 6]], 'detected': {'cells': [[1, 6], [2, 6], [2, 5], [3, 6]], 'op': 'add', 'target': 14}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 0]], 'detected': {'cells': [[2, 0]], 'op': 'add', 'target': 21}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 1], [2, 2], [3, 2]], 'detected': {'cells': [[2, 1], [2, 2], [3, 2]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[2, 3], [2, 4], [3, 3], [3, 4]], 'detected': {'cells': [[2, 3], [2, 4], [3, 3], [3, 4]], 'op': 'add', 'target': 18}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 0]], 'detected': {'cells': [[3, 0]], 'op': 'add', 'target': 5}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[3, 1]], 'detected': {'cells': [[3, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 0]], 'detected': {'cells': [[4, 0]], 'op': 'mul', 'target': 48}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 1], [4, 2]], 'detected': {'cells': [[4, 1], [4, 2]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 3], [5, 3], [5, 4], [5, 5]], 'detected': {'cells': [[4, 3], [5, 3], [5, 4], [5, 5]], 'op': 'mul', 'target': 84}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[4, 4], [4, 5], [4, 6]], 'detected': {'cells': [[4, 4], [4, 5], [4, 6]], 'op': 'mul', 'target': 35}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 0], [6, 0]], 'detected': {'cells': [[5, 0], [6, 0]], 'op': 'mul', 'target': 120}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 1], [6, 1]], 'detected': {'cells': [[5, 1], [6, 1]], 'op': '', 'target': 0}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 2], [6, 2], [6, 3]], 'detected': {'cells': [[5, 2], [6, 2], [6, 3]], 'op': 'mul', 'target': 42}, 'expected': None}
+    - {'type': 'cage_mismatch', 'cells': [[5, 6], [6, 6], [6, 5], [6, 4]], 'detected': {'cells': [[5, 6], [6, 6], [6, 5], [6, 4]], 'op': 'mul', 'target': 180}, 'expected': None}
+    - {'type': 'missing_cage', 'cells': [[6, 0], [5, 0], [6, 1], [5, 1]], 'detected': None, 'expected': {'cells': [[6, 0], [5, 0], [6, 1], [5, 1]], 'op': 'mul', 'target': 120}}
+    - {'type': 'missing_cage', 'cells': [[3, 0], [3, 1]], 'detected': None, 'expected': {'cells': [[3, 0], [3, 1]], 'op': 'add', 'target': 5}}
+    - {'type': 'missing_cage', 'cells': [[5, 4], [5, 5], [5, 3], [4, 3]], 'detected': None, 'expected': {'cells': [[5, 4], [5, 5], [5, 3], [4, 3]], 'op': 'mul', 'target': 84}}
+    - {'type': 'missing_cage', 'cells': [[0, 5], [0, 4], [0, 6], [1, 5]], 'detected': None, 'expected': {'cells': [[0, 5], [0, 4], [0, 6], [1, 5]], 'op': 'mul', 'target': 540}}
+    - {'type': 'missing_cage', 'cells': [[3, 2], [2, 2], [2, 1], [2, 0]], 'detected': None, 'expected': {'cells': [[3, 2], [2, 2], [2, 1], [2, 0]], 'op': 'add', 'target': 21}}
+    - {'type': 'missing_cage', 'cells': [[6, 5], [6, 6], [5, 6], [6, 4]], 'detected': None, 'expected': {'cells': [[6, 5], [6, 6], [5, 6], [6, 4]], 'op': 'mul', 'target': 180}}
+    - {'type': 'missing_cage', 'cells': [[4, 5], [4, 4], [4, 6]], 'detected': None, 'expected': {'cells': [[4, 5], [4, 4], [4, 6]], 'op': 'mul', 'target': 35}}
+    - {'type': 'missing_cage', 'cells': [[1, 1], [1, 2], [1, 0]], 'detected': None, 'expected': {'cells': [[1, 1], [1, 2], [1, 0]], 'op': 'mul', 'target': 105}}
+    - {'type': 'missing_cage', 'cells': [[2, 6], [3, 6], [2, 5], [1, 6]], 'detected': None, 'expected': {'cells': [[2, 6], [3, 6], [2, 5], [1, 6]], 'op': 'add', 'target': 14}}
+    - {'type': 'missing_cage', 'cells': [[6, 3], [6, 2], [5, 2]], 'detected': None, 'expected': {'cells': [[6, 3], [6, 2], [5, 2]], 'op': 'mul', 'target': 42}}
+    - {'type': 'missing_cage', 'cells': [[3, 4], [3, 3], [2, 3], [2, 4]], 'detected': None, 'expected': {'cells': [[3, 4], [3, 3], [2, 3], [2, 4]], 'op': 'add', 'target': 18}}
+    - {'type': 'missing_cage', 'cells': [[4, 2], [4, 1], [4, 0]], 'detected': None, 'expected': {'cells': [[4, 2], [4, 1], [4, 0]], 'op': 'mul', 'target': 48}}
+    - {'type': 'missing_cage', 'cells': [[0, 1], [0, 0], [0, 2], [0, 3]], 'detected': None, 'expected': {'cells': [[0, 1], [0, 0], [0, 2], [0, 3]], 'op': 'add', 'target': 14}}
+
+Corrected with error correction (0 puzzles):
+
+Still failing (5 puzzles):
+  Puzzle 13: Uncorrectable
+  Puzzle 14: Uncorrectable
+  Puzzle 31: Uncorrectable
+  Puzzle 69: Uncorrectable
+  Puzzle 85: Uncorrectable
