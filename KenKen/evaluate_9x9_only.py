@@ -224,7 +224,19 @@ def get_character(img, box):
 
 def segment_cell(grid, size, border_thickness, row, col):
     cell_size = len(grid) // size
-    cell = grid[row * cell_size + border_thickness: row * cell_size + cell_size // 2,
+
+    # Adaptive height factor: larger boards need more vertical coverage
+    # 3x3-6x6: top 50%, 7x7: top 60%, 9x9+: top 70%
+    if size <= 6:
+        height_factor = 0.5
+    elif size == 7:
+        height_factor = 0.6
+    else:  # 9x9+
+        height_factor = 0.7
+
+    vertical_end = int(row * cell_size + cell_size * height_factor)
+
+    cell = grid[row * cell_size + border_thickness: vertical_end,
                 col * cell_size + border_thickness: (col + 1) * cell_size - border_thickness]
     cell = (cell / 255.0).astype('float64')
     contours = get_contours(cell)
