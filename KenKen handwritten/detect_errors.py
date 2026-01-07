@@ -78,7 +78,7 @@ def solve_with_full_correction(filename, size, grid_model, char_model, verbose=F
         return result
 
     # Step 3: Try operator inference (for missing operators)
-    solution = solve_with_operator_inference(puzzle, size)
+    solution, inferences = solve_with_operator_inference(puzzle, size)
     result['attempts'] += 1
 
     if solution is not None:
@@ -96,7 +96,7 @@ def solve_with_full_correction(filename, size, grid_model, char_model, verbose=F
     correction = attempt_error_correction(
         puzzle_alt, alternatives, size, max_errors=max_errors, max_k=4
     )
-    result['attempts'] += correction.attempts
+    result['attempts'] += correction.correction_attempts
 
     if correction.success:
         result['solved'] = True
@@ -129,7 +129,7 @@ def solve_with_full_correction(filename, size, grid_model, char_model, verbose=F
         correction_retry = attempt_error_correction(
             puzzle_retry, alternatives_retry, size, max_errors=max_errors, max_k=4
         )
-        result['attempts'] += correction_retry.attempts
+        result['attempts'] += correction_retry.correction_attempts
 
         if correction_retry.success:
             result['solved'] = True

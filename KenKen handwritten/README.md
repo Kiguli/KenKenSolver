@@ -6,25 +6,25 @@ Evaluation of the KenKen neuro-symbolic solver on puzzles rendered with **handwr
 
 | Size | Baseline | Corrected | Improvement |
 |------|----------|-----------|-------------|
-| 3x3  | 65%      | 100%      | +35%        |
-| 4x4  | 23%      | 100%      | +77%        |
-| 5x5  | 11%      | 100%      | +89%        |
-| 6x6  | 2%       | 100%      | +98%        |
-| 7x7  | 0%       | 100%      | +100%       |
-| 9x9  | 0%       | 100%      | +100%       |
+| 3x3  | 65%      | 87%       | +22%        |
+| 4x4  | 23%      | 60%       | +37%        |
+| 5x5  | 11%      | 33%       | +22%        |
+| 6x6  | 2%       | 11%       | +9%         |
+| 7x7  | 0%       | 1%        | +1%         |
+| 9x9  | 0%       | 0%        | +0%         |
 
-**Key Finding**: Error correction achieves 100% accuracy across all puzzle sizes, recovering from handwritten digit recognition errors.
+**Key Finding**: Error correction provides significant improvement for smaller puzzles but cannot fully recover from the high error rate of handwritten digit recognition on larger puzzles.
 
 ## Comparison with Computer-Generated
 
 | Size | Computer Baseline | Handwritten Baseline | Handwritten Corrected |
 |------|-------------------|----------------------|-----------------------|
-| 3x3  | 100%              | 65%                  | 100%                  |
-| 4x4  | 100%              | 23%                  | 100%                  |
-| 5x5  | 100%              | 11%                  | 100%                  |
-| 6x6  | 100%              | 2%                   | 100%                  |
-| 7x7  | 95%               | 0%                   | 100%                  |
-| 9x9  | 96%               | 0%                   | 100%                  |
+| 3x3  | 100%              | 65%                  | 87%                   |
+| 4x4  | 100%              | 23%                  | 60%                   |
+| 5x5  | 100%              | 11%                  | 33%                   |
+| 6x6  | 100%              | 2%                   | 11%                   |
+| 7x7  | 100%              | 0%                   | 1%                    |
+| 9x9  | 100%              | 0%                   | 0%                    |
 
 ## Error Analysis
 
@@ -62,10 +62,12 @@ The CNN struggles most with distinguishing:
 
 ### Error Correction Types
 
-All failures are corrected via the error correction pipeline:
-- **Operator Inference**: For targets > grid size, automatically tries addition/multiplication
+The error correction pipeline uses multiple strategies:
 - **Unsat Core Detection**: Identifies clues causing constraint conflicts
 - **Top-K Alternatives**: Uses 2nd, 3rd, 4th best CNN predictions
+- **Multi-error correction**: Can correct up to 3 errors (5 for 9x9)
+
+However, for larger puzzles (7x7, 9x9), the cumulative effect of many digit recognition errors exceeds the correction capacity.
 
 ## Methodology
 
@@ -151,12 +153,12 @@ KenKen handwritten/
 
 ## Key Insights
 
-1. **CNN accuracy matters but isn't everything**: Even 99%+ character recognition leads to many unsolvable puzzles due to cumulative errors in larger puzzles.
+1. **CNN accuracy matters significantly**: Even 99%+ character recognition leads to many unsolvable puzzles due to cumulative errors in larger puzzles.
 
-2. **Error correction is essential**: Baseline accuracy drops dramatically for larger puzzles (0% for 7x7 and 9x9), but error correction recovers 100%.
+2. **Error correction helps but has limits**: Baseline accuracy drops dramatically for larger puzzles (0% for 7x7 and 9x9), and error correction can only partially recover.
 
 3. **Target digits are the main error source**: 97%+ of errors are target digit misreads, not operator or cage boundary issues.
 
 4. **Handwritten 9 is problematic**: The digit 9 accounts for 219 confusions alone (100 as 4, 85 as 7, 34 as 1).
 
-5. **Constraint solving enables correction**: Z3's unsat core identifies which clues are causing conflicts, enabling targeted substitution of likely-wrong digits.
+5. **Puzzle size impacts correction feasibility**: Error correction works well for 3x3-4x4 (87%/60%) but fails for larger puzzles where too many errors accumulate.

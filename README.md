@@ -15,12 +15,12 @@ All puzzle images are available in [`benchmark_files/`](benchmark_files/):
 
 | Puzzle | Size | Computer Baseline | Computer Corrected | Handwritten Baseline | Handwritten Corrected |
 |--------|------|-------------------|--------------------|-----------------------|-----------------------|
-| **KenKen** | 3×3 | 100% | 100% | 65% | 100% |
-| **KenKen** | 4×4 | 100% | 100% | 23% | 100% |
-| **KenKen** | 5×5 | 100% | 100% | 11% | 100% |
-| **KenKen** | 6×6 | 100% | 100% | 2% | 100% |
-| **KenKen** | 7×7 | 95% | 96% | 0% | 100% |
-| **KenKen** | 9×9 | 96% | 100% | 0% | 100% |
+| **KenKen** | 3×3 | 100% | 100% | 65% | 87% |
+| **KenKen** | 4×4 | 100% | 100% | 23% | 60% |
+| **KenKen** | 5×5 | 100% | 100% | 11% | 33% |
+| **KenKen** | 6×6 | 100% | 100% | 2% | 11% |
+| **KenKen** | 7×7 | 95% | 100% | 0% | 1% |
+| **KenKen** | 9×9 | 96% | 100% | 0% | 0% |
 | **Sudoku** | 4×4 | 100% | 100% | 92% | 99% |
 | **Sudoku** | 9×9 | 100% | 100% | 75% | 99% |
 | **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 10% | 40% |
@@ -62,7 +62,7 @@ Image Input (900×900)
 | Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | 0% |
 | GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | 0% |
 
-*KenKen 9×9 achieves 96% baseline, 100% with error correction. 7×7 failures (4 remaining) are cage detection issues (see `KenKen/failure_analysis/` for error visualizations).
+*KenKen 7×7 achieves 95% baseline, 100% with operator inference. 9×9 achieves 96% baseline, 100% with error correction.
 
 **Key Finding**: All LLMs fail completely on puzzles 5×5 and larger.
 
