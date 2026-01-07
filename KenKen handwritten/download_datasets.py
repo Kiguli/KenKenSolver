@@ -1,211 +1,126 @@
+# -*- coding: utf-8 -*-
 """
-Download and prepare handwritten digit dataset for KenKen.
-
-Dataset used:
-- MNIST: Handwritten digits 0-9 (60,000 train, 10,000 test)
-  Source: http://yann.lecun.com/exdb/mnist/
-  Citation: LeCun, Y., Cortes, C., & Burges, C. (1998). The MNIST database of handwritten digits.
-
-Data split strategy:
-- Training data: Used to train the CNN (90%)
-- Test data: Used ONLY for board image generation (10%, never seen by CNN during training)
-
-Class mapping for KenKen (11 classes):
-- Class 0-9: Digits 0-9 (for multi-digit targets like "42")
-- Class 10: Empty cell (generated separately during training)
+Download MNIST dataset and create 90-10 train/test split.
+Creates 5,400 training samples and 600 test samples per digit class (0-9).
 """
 
-import torch
-from torchvision import datasets, transforms
-import numpy as np
 import os
+import numpy as np
+import random
 import ssl
+import urllib.request
 
 # Fix SSL certificate issues on macOS
 ssl._create_default_https_context = ssl._create_unverified_context
 
+from torchvision import datasets, transforms
 
-# Output directory for prepared data
-OUTPUT_DIR = "./handwritten_data"
-
-# Samples per class limits (to balance dataset)
-# 90/10 split: 5400 train, 600 test per class
-MAX_TRAIN_SAMPLES_PER_CLASS = 5400
-MAX_TEST_SAMPLES_PER_CLASS = 600
-
-
-def download_mnist():
+def download_and_split_mnist(output_dir='./handwritten_data', train_per_class=5400, test_per_class=600, seed=42):
     """
-    Download MNIST dataset.
-
-    Returns:
-        train_dataset, test_dataset
-    """
-    print("Downloading MNIST dataset...")
-    transform = transforms.ToTensor()
-
-    train_dataset = datasets.MNIST(
-        root='./datasets',
-        train=True,
-        download=True,
-        transform=transform
-    )
-    test_dataset = datasets.MNIST(
-        root='./datasets',
-        train=False,
-        download=True,
-        transform=transform
-    )
-
-    print(f"  MNIST train: {len(train_dataset)} samples")
-    print(f"  MNIST test: {len(test_dataset)} samples")
-
-    return train_dataset, test_dataset
-
-
-def extract_class_samples(dataset, source_class, max_samples=None):
-    """
-    Extract all samples of a specific class from a dataset.
+    Download MNIST and create stratified 90-10 split.
 
     Args:
-        dataset: PyTorch dataset
-        source_class: The class label to extract
-        max_samples: Maximum samples to return (None = all)
-
-    Returns:
-        numpy array of shape (N, 28, 28) with values in [0, 1]
+        output_dir: Directory to save the split data
+        train_per_class: Number of training samples per class (default: 5400)
+        test_per_class: Number of test samples per class (default: 600)
+        seed: Random seed for reproducibility
     """
-    samples = []
-    for img, label in dataset:
-        if label == source_class:
-            # Convert tensor to numpy, squeeze channel dimension
-            img_np = img.squeeze().numpy()
-            samples.append(img_np)
+    random.seed(seed)
+    np.random.seed(seed)
 
-            if max_samples and len(samples) >= max_samples:
-                break
+    os.makedirs(output_dir, exist_ok=True)
 
-    return np.array(samples)
+    print("Downloading MNIST dataset...")
 
+    # Download both train and test sets
+    mnist_train = datasets.MNIST(root='./mnist_raw', train=True, download=True)
+    mnist_test = datasets.MNIST(root='./mnist_raw', train=False, download=True)
 
-def prepare_kenken_data():
-    """
-    Prepare training and test data for KenKen digit recognition.
+    # Combine all data
+    all_images = np.concatenate([
+        mnist_train.data.numpy(),
+        mnist_test.data.numpy()
+    ])
+    all_labels = np.concatenate([
+        mnist_train.targets.numpy(),
+        mnist_test.targets.numpy()
+    ])
 
-    Class mapping:
-    - Classes 0-9: Digits 0-9 from MNIST
-    - Class 10: Empty (will be generated separately during training)
+    print(f"Total MNIST samples: {len(all_images)}")
 
-    Note: KenKen uses multi-digit targets (e.g., "42×"), so we need
-    all digits 0-9 unlike Sudoku which only needs 1-9.
-    """
-    # Download dataset
-    mnist_train, mnist_test = download_mnist()
+    # Group by class
+    class_indices = {i: [] for i in range(10)}
+    for idx, label in enumerate(all_labels):
+        class_indices[label].append(idx)
 
-    train_images = []
-    train_labels = []
-    test_images = []
-    test_labels = []
-
-    print("\nExtracting samples for KenKen classes...")
-
-    # Extract digits 0-9 from MNIST (CNN classes 0-9)
+    # Print class distribution
+    print("\nClass distribution in full MNIST:")
     for digit in range(10):
-        print(f"  Digit {digit} (class {digit})...", end=" ")
+        print(f"  Digit {digit}: {len(class_indices[digit])} samples")
 
-        # Training samples
-        samples = extract_class_samples(
-            mnist_train,
-            source_class=digit,
-            max_samples=MAX_TRAIN_SAMPLES_PER_CLASS
-        )
-        train_images.append(samples)
-        train_labels.append(np.full(len(samples), digit, dtype=np.int64))
+    # Shuffle and split each class
+    train_indices = []
+    test_indices = []
 
-        # Test samples
-        test_samples = extract_class_samples(
-            mnist_test,
-            source_class=digit,
-            max_samples=MAX_TEST_SAMPLES_PER_CLASS
-        )
-        test_images.append(test_samples)
-        test_labels.append(np.full(len(test_samples), digit, dtype=np.int64))
+    for digit in range(10):
+        indices = class_indices[digit].copy()
+        random.shuffle(indices)
 
-        print(f"train: {len(samples)}, test: {len(test_samples)}")
+        if len(indices) < train_per_class + test_per_class:
+            print(f"Warning: Digit {digit} has only {len(indices)} samples, "
+                  f"need {train_per_class + test_per_class}")
+            # Adjust proportionally
+            total_needed = train_per_class + test_per_class
+            train_count = int(len(indices) * train_per_class / total_needed)
+            test_count = len(indices) - train_count
+        else:
+            train_count = train_per_class
+            test_count = test_per_class
 
-    # Concatenate all classes
-    train_images = np.concatenate(train_images, axis=0)
-    train_labels = np.concatenate(train_labels, axis=0)
-    test_images = np.concatenate(test_images, axis=0)
-    test_labels = np.concatenate(test_labels, axis=0)
+        train_indices.extend(indices[:train_count])
+        test_indices.extend(indices[train_count:train_count + test_count])
 
-    return train_images, train_labels, test_images, test_labels
+    # Create final arrays
+    train_images = all_images[train_indices]
+    train_labels = all_labels[train_indices]
+    test_images = all_images[test_indices]
+    test_labels = all_labels[test_indices]
 
+    print(f"\n90-10 Split created:")
+    print(f"  Training: {len(train_images)} samples ({len(train_images)//10} per class)")
+    print(f"  Test: {len(test_images)} samples ({len(test_images)//10} per class)")
 
-def save_data(train_images, train_labels, test_images, test_labels):
-    """Save prepared data to numpy files."""
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    # Verify class balance
+    print("\nTraining set class distribution:")
+    for digit in range(10):
+        count = np.sum(train_labels == digit)
+        print(f"  Digit {digit}: {count} samples")
 
-    np.save(f"{OUTPUT_DIR}/train_images.npy", train_images)
-    np.save(f"{OUTPUT_DIR}/train_labels.npy", train_labels)
-    np.save(f"{OUTPUT_DIR}/test_images.npy", test_images)
-    np.save(f"{OUTPUT_DIR}/test_labels.npy", test_labels)
+    print("\nTest set class distribution:")
+    for digit in range(10):
+        count = np.sum(test_labels == digit)
+        print(f"  Digit {digit}: {count} samples")
 
-    print(f"\nData saved to {OUTPUT_DIR}/")
+    # Save to numpy files
+    np.save(os.path.join(output_dir, 'train_images.npy'), train_images)
+    np.save(os.path.join(output_dir, 'train_labels.npy'), train_labels)
+    np.save(os.path.join(output_dir, 'test_images.npy'), test_images)
+    np.save(os.path.join(output_dir, 'test_labels.npy'), test_labels)
+
+    print(f"\nData saved to {output_dir}/")
     print(f"  train_images.npy: {train_images.shape}")
     print(f"  train_labels.npy: {train_labels.shape}")
     print(f"  test_images.npy: {test_images.shape}")
     print(f"  test_labels.npy: {test_labels.shape}")
 
+    # Clean up raw download
+    import shutil
+    if os.path.exists('./mnist_raw'):
+        shutil.rmtree('./mnist_raw')
+        print("\nCleaned up raw MNIST download.")
 
-def print_dataset_stats(train_labels, test_labels):
-    """Print class distribution statistics."""
-    print("\n" + "=" * 60)
-    print("Dataset Statistics")
-    print("=" * 60)
-
-    print("\nTraining set class distribution:")
-    for cls in sorted(np.unique(train_labels)):
-        count = np.sum(train_labels == cls)
-        print(f"  Class {cls} (digit {cls}): {count:5d} samples")
-
-    print(f"\n  Total training samples: {len(train_labels)}")
-
-    print("\nTest set class distribution:")
-    for cls in sorted(np.unique(test_labels)):
-        count = np.sum(test_labels == cls)
-        print(f"  Class {cls} (digit {cls}): {count:5d} samples")
-
-    print(f"\n  Total test samples: {len(test_labels)}")
-
-
-def main():
-    """Main function to download and prepare all data."""
-    print("=" * 60)
-    print("Handwritten KenKen Dataset Preparation")
-    print("=" * 60)
-    print("\nDataset:")
-    print("  - MNIST: Digits 0-9 (classes 0-9)")
-    print("\nData split strategy:")
-    print("  - Training data: For CNN training (90%)")
-    print("  - Test data: For board image generation (10%, unseen by CNN)")
-    print("=" * 60)
-
-    # Prepare data
-    train_images, train_labels, test_images, test_labels = prepare_kenken_data()
-
-    # Print statistics
-    print_dataset_stats(train_labels, test_labels)
-
-    # Save to disk
-    save_data(train_images, train_labels, test_images, test_labels)
-
-    print("\n" + "=" * 60)
-    print("Dataset preparation complete!")
-    print("=" * 60)
-    print("\nNote: Class 10 (empty cells) will be generated during training.")
-    print("Run train_cnn.py next to train the digit recognition model.")
+    return train_images, train_labels, test_images, test_labels
 
 
 if __name__ == '__main__':
-    main()
+    download_and_split_mnist()

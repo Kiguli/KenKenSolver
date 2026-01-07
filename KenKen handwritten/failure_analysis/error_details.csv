@@ -1,0 +1,601 @@
+puzzle_id,size,error_type,error_count,details
+3_0,3,ocr_errors,1,target:7->3.0
+3_1,3,none,0,
+3_2,3,ocr_errors,1,target:3->2.0
+3_3,3,none,0,
+3_4,3,none,0,
+3_5,3,ocr_errors,2,"target:0->6, target:1->6"
+3_6,3,none,0,
+3_7,3,ocr_errors,1,target:17->12
+3_8,3,none,0,
+3_9,3,none,0,
+3_10,3,none,0,
+3_11,3,none,0,
+3_12,3,none,0,
+3_13,3,ocr_errors,2,"target:6->5, target:1->7"
+3_14,3,none,0,
+3_15,3,none,0,
+3_16,3,none,0,
+3_17,3,ocr_errors,1,target:0->6
+3_18,3,ocr_errors,1,target:7->2.0
+3_19,3,none,0,
+3_20,3,none,0,
+3_21,3,none,0,
+3_22,3,ocr_errors,2,"target:7->3.0, target:0->6"
+3_23,3,none,0,
+3_24,3,none,0,
+3_25,3,none,0,
+3_26,3,none,0,
+3_27,3,none,0,
+3_28,3,none,0,
+3_29,3,ocr_errors,1,target:7->2
+3_30,3,ocr_errors,2,"target:0->6, target:7->2"
+3_31,3,ocr_errors,1,target:1->7
+3_32,3,none,0,
+3_33,3,none,0,
+3_34,3,ocr_errors,1,target:0->6
+3_35,3,ocr_errors,1,target:22->18
+3_36,3,none,0,
+3_37,3,ocr_errors,1,target:0->3
+3_38,3,ocr_errors,1,target:5->6
+3_39,3,none,0,
+3_40,3,none,0,
+3_41,3,ocr_errors,1,target:7->2
+3_42,3,none,0,
+3_43,3,ocr_errors,1,target:0->6
+3_44,3,none,0,
+3_45,3,none,0,
+3_46,3,none,0,
+3_47,3,none,0,
+3_48,3,ocr_errors,2,"target:5->6, target:5->3"
+3_49,3,none,0,
+3_50,3,none,0,
+3_51,3,none,0,
+3_52,3,ocr_errors,1,target:1->7
+3_53,3,none,0,
+3_54,3,none,0,
+3_55,3,none,0,
+3_56,3,ocr_errors,1,target:5->3
+3_57,3,ocr_errors,1,target:4->9
+3_58,3,ocr_errors,1,target:0->6
+3_59,3,none,0,
+3_60,3,none,0,
+3_61,3,none,0,
+3_62,3,ocr_errors,2,"target:1->6, target:2->6"
+3_63,3,ocr_errors,1,target:0->3
+3_64,3,ocr_errors,1,target:0->6
+3_65,3,none,0,
+3_66,3,ocr_errors,1,target:11->18
+3_67,3,ocr_errors,1,target:1->4
+3_68,3,ocr_errors,1,target:17->12
+3_69,3,none,0,
+3_70,3,none,0,
+3_71,3,none,0,
+3_72,3,none,0,
+3_73,3,ocr_errors,2,"target:7->2, target:7->5"
+3_74,3,none,0,
+3_75,3,ocr_errors,1,target:5->3
+3_76,3,none,0,
+3_77,3,none,0,
+3_78,3,ocr_errors,1,target:6->5
+3_79,3,ocr_errors,1,target:5->3
+3_80,3,none,0,
+3_81,3,none,0,
+3_82,3,none,0,
+3_83,3,none,0,
+3_84,3,ocr_errors,1,target:1->7
+3_85,3,ocr_errors,1,target:0->6
+3_86,3,ocr_errors,1,target:1->8
+3_87,3,none,0,
+3_88,3,none,0,
+3_89,3,none,0,
+3_90,3,none,0,
+3_91,3,ocr_errors,2,"target:7->3.0, target:5->3"
+3_92,3,none,0,
+3_93,3,none,0,
+3_94,3,ocr_errors,1,target:6->5
+3_95,3,ocr_errors,1,target:6->5
+3_96,3,ocr_errors,1,target:7->9
+3_97,3,ocr_errors,1,target:13->6
+3_98,3,none,0,
+3_99,3,ocr_errors,1,target:1->4
+4_0,4,ocr_errors,1,target:7->9
+4_1,4,ocr_errors,1,target:7->9
+4_2,4,ocr_errors,2,"target:4->9, target:2->24"
+4_3,4,ocr_errors,1,target:4->24
+4_4,4,ocr_errors,1,target:7->4
+4_5,4,ocr_errors,2,"target:1->7, target:6->8"
+4_6,4,none,0,
+4_7,4,ocr_errors,1,target:1->9
+4_8,4,ocr_errors,3,"target:7->3.0, target:5->3.0, target:13->2.0"
+4_9,4,ocr_errors,2,"target:12->8, target:21->24"
+4_10,4,ocr_errors,2,"target:23->12, target:7->9"
+4_11,4,ocr_errors,1,target:0->6
+4_12,4,none,0,
+4_13,4,ocr_errors,2,"target:5->6, target:4->9"
+4_14,4,ocr_errors,2,"target:7->9, target:0->6"
+4_15,4,ocr_errors,2,"target:0->9, target:27->24"
+4_16,4,ocr_errors,1,target:1->7
+4_17,4,ocr_errors,1,target:7->9
+4_18,4,ocr_errors,1,target:2->7
+4_19,4,ocr_errors,4,"target:6->8, target:1->12, target:7->2, target:1->6"
+4_20,4,ocr_errors,1,target:5->8
+4_21,4,ocr_errors,1,target:2->3
+4_22,4,ocr_errors,1,target:4->9
+4_23,4,none,0,
+4_24,4,ocr_errors,2,"target:7->8, target:1->8"
+4_25,4,ocr_errors,3,"target:5->8, target:2->24, target:0->6"
+4_26,4,ocr_errors,2,"target:7->4, target:0->6"
+4_27,4,ocr_errors,1,target:4->9
+4_28,4,ocr_errors,1,target:7->9
+4_29,4,ocr_errors,1,target:1->4
+4_30,4,none,0,
+4_31,4,ocr_errors,2,"target:1->7, target:72->12"
+4_32,4,none,0,
+4_33,4,ocr_errors,1,target:0->8
+4_34,4,ocr_errors,1,target:6->4.0
+4_35,4,ocr_errors,2,"target:4->9, target:4->9"
+4_36,4,none,0,
+4_37,4,ocr_errors,1,target:1->8
+4_38,4,none,0,
+4_39,4,none,0,
+4_40,4,ocr_errors,2,"target:51->11, target:4->9"
+4_41,4,none,0,
+4_42,4,none,0,
+4_43,4,ocr_errors,2,"target:5->7, target:2->6"
+4_44,4,ocr_errors,2,"target:4->9, target:0->8"
+4_45,4,ocr_errors,3,"target:1->6, target:6->8, target:17->18"
+4_46,4,ocr_errors,1,target:7->4
+4_47,4,ocr_errors,1,target:1->2
+4_48,4,ocr_errors,1,target:0->6
+4_49,4,ocr_errors,2,"target:4->9, target:17->12"
+4_50,4,ocr_errors,1,target:2->24
+4_51,4,ocr_errors,1,target:7->4
+4_52,4,ocr_errors,1,target:7->9
+4_53,4,none,0,
+4_54,4,none,0,
+4_55,4,ocr_errors,1,target:11->12
+4_56,4,ocr_errors,1,target:1->8
+4_57,4,ocr_errors,1,target:7->4.0
+4_58,4,ocr_errors,2,"target:20->24, target:11->18"
+4_59,4,ocr_errors,1,target:1->7
+4_60,4,ocr_errors,1,target:7->4
+4_61,4,ocr_errors,1,target:2->6
+4_62,4,ocr_errors,3,"target:2->24, target:6->1, target:4->24"
+4_63,4,ocr_errors,1,target:4->9
+4_64,4,ocr_errors,1,target:4->9
+4_65,4,ocr_errors,2,"target:7->9, target:7->4"
+4_66,4,ocr_errors,1,target:7->8
+4_67,4,ocr_errors,3,"target:1->8, target:1->9, target:7->8"
+4_68,4,ocr_errors,1,target:2->6
+4_69,4,ocr_errors,2,"target:7->3, target:74->24"
+4_70,4,ocr_errors,2,"target:1->12, target:0->6"
+4_71,4,none,0,
+4_72,4,ocr_errors,2,"target:7->2, target:17->12"
+4_73,4,ocr_errors,2,"target:7->9, target:4->9"
+4_74,4,ocr_errors,1,target:4->24
+4_75,4,ocr_errors,1,target:4->9
+4_76,4,ocr_errors,1,target:0->4
+4_77,4,ocr_errors,1,target:7->2
+4_78,4,ocr_errors,1,target:6->8
+4_79,4,ocr_errors,2,"target:4->8, target:1->7"
+4_80,4,ocr_errors,3,"target:4->9, target:6->8, target:1->2"
+4_81,4,ocr_errors,2,"target:10->12, target:7->4"
+4_82,4,ocr_errors,1,target:7->8
+4_83,4,none,0,
+4_84,4,ocr_errors,2,"target:7->3, target:0->12"
+4_85,4,ocr_errors,1,target:7->4
+4_86,4,ocr_errors,2,"target:17->12, target:3->8"
+4_87,4,ocr_errors,1,target:2->3
+4_88,4,none,0,
+4_89,4,ocr_errors,1,target:1->7
+4_90,4,ocr_errors,1,target:3->5
+4_91,4,ocr_errors,1,target:1->7
+4_92,4,none,0,
+4_93,4,ocr_errors,2,"target:1->8, target:6->9"
+4_94,4,none,0,
+4_95,4,none,0,
+4_96,4,ocr_errors,1,target:7->1
+4_97,4,ocr_errors,2,"target:7->5, target:17->12"
+4_98,4,ocr_errors,3,"target:22->18, target:7->6, target:1->4"
+4_99,4,none,0,
+5_0,5,ocr_errors,4,"target:17->15, target:4->24, target:4->40, target:44->45"
+5_1,5,ocr_errors,1,target:1->9
+5_2,5,ocr_errors,5,"target:1->4, target:4->9, target:2->20, target:15->10, target:7->1"
+5_3,5,ocr_errors,3,"target:4->20, target:4->9, target:2->20"
+5_4,5,ocr_errors,2,"target:1->10, target:4->20"
+5_5,5,ocr_errors,3,"target:70->96, target:2->24, target:4->40"
+5_6,5,none,0,
+5_7,5,ocr_errors,1,target:4->9
+5_8,5,ocr_errors,2,"target:17->14, target:14->120"
+5_9,5,none,0,
+5_10,5,ocr_errors,1,target:4->30
+5_11,5,ocr_errors,2,"target:4->24, target:7->5"
+5_12,5,ocr_errors,1,target:1->20
+5_13,5,ocr_errors,3,"target:0->6, target:1->24, target:2->30"
+5_14,5,ocr_errors,1,target:6->40
+5_15,5,ocr_errors,2,"target:52->300, target:2->60"
+5_16,5,ocr_errors,1,target:1->6
+5_17,5,ocr_errors,3,"target:4->40, target:1->6, target:2->20"
+5_18,5,ocr_errors,3,"target:4->200, target:2->24, target:7->9"
+5_19,5,none,0,
+5_20,5,ocr_errors,2,"target:12->100, target:2->30"
+5_21,5,ocr_errors,2,"target:17->14, target:2->24"
+5_22,5,ocr_errors,5,"target:2->60, target:1->2, target:2->30, target:13->20, target:7->3"
+5_23,5,ocr_errors,1,target:7->2.0
+5_24,5,ocr_errors,3,"target:17->13, target:15->150, target:21->24"
+5_25,5,ocr_errors,3,"target:10->20, target:7->9, target:4->9"
+5_26,5,ocr_errors,2,"target:2->60, target:4->40"
+5_27,5,ocr_errors,2,"target:3->9, target:0->7"
+5_28,5,ocr_errors,2,"target:19->14, target:4->9"
+5_29,5,ocr_errors,3,"target:7->9, target:8->40, target:9->5"
+5_30,5,ocr_errors,2,"target:12->100, target:7->9"
+5_31,5,ocr_errors,4,"target:4->24, target:0->2, target:7->2.0, target:12->120"
+5_32,5,ocr_errors,2,"target:7->5, target:4->40"
+5_33,5,ocr_errors,1,target:0->20
+5_34,5,ocr_errors,1,target:3->2
+5_35,5,ocr_errors,1,target:7->4.0
+5_36,5,ocr_errors,2,"target:16->120, target:4->30"
+5_37,5,ocr_errors,1,target:21->24
+5_38,5,ocr_errors,1,target:10->40
+5_39,5,ocr_errors,4,"target:2->50, target:4->24, target:6->20, target:21->24"
+5_40,5,ocr_errors,3,"target:17->15, target:166->160, target:12->4"
+5_41,5,ocr_errors,2,"target:70->30, target:1->8"
+5_42,5,ocr_errors,3,"target:7->2, target:2->30, target:4->9"
+5_43,5,ocr_errors,1,target:4->20
+5_44,5,ocr_errors,2,"target:5->40, target:3->8"
+5_45,5,ocr_errors,3,"target:2->30, target:73->13, target:10->40"
+5_46,5,ocr_errors,4,"target:12->150, target:17->12, target:1->8, target:2->60"
+5_47,5,ocr_errors,3,"target:10->120, target:4->2, target:4->40"
+5_48,5,ocr_errors,1,target:4->40
+5_49,5,ocr_errors,5,"target:25->200, target:4->24, target:1->2.0, target:12->8, target:1->15"
+5_50,5,none,0,
+5_51,5,ocr_errors,4,"target:2->50, target:2->7, target:4->9, target:7->9"
+5_52,5,ocr_errors,1,target:4->9
+5_53,5,ocr_errors,2,"target:12->120, target:4->9"
+5_54,5,none,0,
+5_55,5,ocr_errors,2,"target:2->60, target:2->24"
+5_56,5,ocr_errors,1,target:15->10
+5_57,5,ocr_errors,2,"target:12->120, target:2->24"
+5_58,5,ocr_errors,4,"target:2->30, target:4->9, target:1->12, target:2->40"
+5_59,5,ocr_errors,1,target:6->15
+5_60,5,ocr_errors,3,"target:11->12, target:7->9, target:2->13"
+5_61,5,ocr_errors,2,"target:7->9, target:4->24"
+5_62,5,ocr_errors,2,"target:13->15, target:6->60"
+5_63,5,ocr_errors,2,"target:1->6, target:4->9"
+5_64,5,ocr_errors,1,target:1->13
+5_65,5,ocr_errors,2,"target:1->9, target:7->9"
+5_66,5,ocr_errors,5,"target:7->9, target:11->17, target:1->7, target:0->6, target:40->90"
+5_67,5,ocr_errors,2,"target:17->14, target:2->20"
+5_68,5,ocr_errors,4,"target:16->15, target:6->8, target:4->200, target:9->30"
+5_69,5,ocr_errors,1,target:1->10
+5_70,5,ocr_errors,2,"target:5->8, target:6->20"
+5_71,5,none,0,
+5_72,5,ocr_errors,1,target:1->90
+5_73,5,ocr_errors,1,target:5->40
+5_74,5,ocr_errors,2,"target:3->30, target:2->12"
+5_75,5,ocr_errors,2,"target:7->3, target:2->20"
+5_76,5,ocr_errors,2,"target:7->8, target:1->8"
+5_77,5,ocr_errors,2,"target:2->20, target:12->120"
+5_78,5,ocr_errors,3,"target:7->40, target:8->7, target:0->17"
+5_79,5,ocr_errors,1,target:7->2.0
+5_80,5,ocr_errors,2,"target:2->24, target:17->15"
+5_81,5,ocr_errors,3,"target:24->240, target:2->60, target:4->20"
+5_82,5,none,0,
+5_83,5,ocr_errors,4,"target:6->10, target:1->7, target:7->75, target:4->24"
+5_84,5,none,0,
+5_85,5,ocr_errors,3,"target:11->1, target:1->7, target:4->40"
+5_86,5,ocr_errors,1,target:2->30
+5_87,5,ocr_errors,2,"target:67->60, target:4->40"
+5_88,5,ocr_errors,4,"target:14->120, target:3->5, target:0->120, target:2->40"
+5_89,5,none,0,
+5_90,5,ocr_errors,4,"target:1->10, target:2->12, target:4->40, target:1->9"
+5_91,5,ocr_errors,3,"target:27->24, target:2->200, target:1->4"
+5_92,5,none,0,
+5_93,5,none,0,
+5_94,5,ocr_errors,2,"target:7->24, target:4->40"
+5_95,5,ocr_errors,1,target:2->300
+5_96,5,ocr_errors,3,"target:6->10, target:2->20, target:10->120"
+5_97,5,ocr_errors,2,"target:5->8, target:2->20"
+5_98,5,ocr_errors,3,"target:11->1, target:4->80, target:1->7"
+5_99,5,ocr_errors,1,target:4->20
+6_0,6,ocr_errors,4,"target:72->12, target:2->60, target:1->12, target:7->25"
+6_1,6,ocr_errors,2,"target:2->13, target:16->160"
+6_2,6,ocr_errors,5,"target:4->9, target:1->10, target:2->12, target:2->20, target:14->180"
+6_3,6,ocr_errors,7,"target:13->20, target:2->24, target:17->14, target:4->30, target:2->60, target:7->5, target:16->10"
+6_4,6,ocr_errors,3,"target:12->100, target:7->4, target:1->15"
+6_5,6,ocr_errors,2,"target:14->144, target:7->8"
+6_6,6,ocr_errors,6,"target:4->9, target:4->72, target:15->150, target:4->9, target:2->20, target:47->48"
+6_7,6,ocr_errors,1,target:0->12
+6_8,6,ocr_errors,5,"target:106->108, target:6->40, target:2->24, target:101->108, target:12->120"
+6_9,6,ocr_errors,5,"target:2->20, target:14->120, target:11->17, target:4->40, target:4->20"
+6_10,6,ocr_errors,5,"target:1->12, target:2->20, target:14->12, target:2->13, target:2->3"
+6_11,6,ocr_errors,5,"target:10->180, target:17->15, target:14->144, target:40->96, target:40->90"
+6_12,6,ocr_errors,3,"target:7->72, target:4->9, target:7->4"
+6_13,6,ocr_errors,7,"target:16->18, target:0->8, target:12->100, target:14->144, target:0->2, target:6->60, target:7->9"
+6_14,6,ocr_errors,3,"target:1->17, target:1->7, target:7->9"
+6_15,6,ocr_errors,5,"target:4->20, target:4->9, target:0->60, target:4->24, target:1->2.0"
+6_16,6,ocr_errors,4,"target:1->7, target:46->96, target:2->20, target:34->360"
+6_17,6,ocr_errors,3,"target:1->7, target:20->240, target:0->5.0"
+6_18,6,ocr_errors,1,target:3->8
+6_19,6,ocr_errors,3,"target:6->8, target:5->8, target:10->150"
+6_20,6,ocr_errors,6,"target:20->240, target:70->30, target:24->144, target:4->240, target:0->6, target:4->90"
+6_21,6,ocr_errors,1,target:9->96
+6_22,6,ocr_errors,4,"target:71->11, target:1->8, target:40->240, target:1->2"
+6_23,6,ocr_errors,2,"target:23->20, target:2->20"
+6_24,6,ocr_errors,6,"target:4->40, target:2->36, target:4->20, target:11->17, target:1->12, target:10->12"
+6_25,6,ocr_errors,1,target:4->48
+6_26,6,ocr_errors,1,target:18->180
+6_27,6,ocr_errors,8,"target:7->24, target:2->30, target:1->15, target:170->120, target:2->60, target:1->2.0, target:2->60, target:4->9"
+6_28,6,ocr_errors,3,"target:7->8, target:26->240, target:4->36"
+6_29,6,ocr_errors,3,"target:4->9, target:2->72, target:2->24"
+6_30,6,ocr_errors,6,"target:4->9, target:10->180, target:1->7, target:7->9, target:6->1, target:5->3"
+6_31,6,ocr_errors,3,"target:4->9, target:11->19, target:11->100"
+6_32,6,ocr_errors,3,"target:26->96, target:60->90, target:4->48"
+6_33,6,ocr_errors,3,"target:3->13, target:17->18, target:7->9"
+6_34,6,ocr_errors,2,"target:17->180, target:12->4.0"
+6_35,6,ocr_errors,3,"target:1->8, target:0->6, target:45->48"
+6_36,6,ocr_errors,5,"target:70->90, target:14->120, target:3->2, target:17->12, target:4->40"
+6_37,6,ocr_errors,1,target:1->15
+6_38,6,ocr_errors,5,"target:14->180, target:7->5.0, target:2->60, target:2->72, target:32->360"
+6_39,6,ocr_errors,5,"target:2->20, target:5->3, target:12->120, target:70->90, target:8->80"
+6_40,6,ocr_errors,7,"target:22->180, target:1->12, target:2->120, target:3->30, target:4->9, target:2->20, target:4->360"
+6_41,6,ocr_errors,6,"target:12->90, target:2->50, target:0->6, target:4->9, target:210->270, target:7->9"
+6_42,6,ocr_errors,3,"target:4->48, target:15->150, target:2->288"
+6_43,6,ocr_errors,2,"target:4->30, target:1->7"
+6_44,6,ocr_errors,2,"target:77->19, target:12->120"
+6_45,6,ocr_errors,1,target:14->180
+6_46,6,ocr_errors,7,"target:5->3.0, target:7->9, target:17->180, target:16->18, target:2->360, target:4->9, target:4->40"
+6_47,6,ocr_errors,4,"target:12->100, target:17->10, target:6->13, target:13->16"
+6_48,6,ocr_errors,3,"target:12->180, target:30->36, target:0->12"
+6_49,6,ocr_errors,3,"target:4->9, target:1->12, target:40->90"
+6_50,6,ocr_errors,3,"target:0->17, target:0->13, target:103->900"
+6_51,6,ocr_errors,6,"target:11->14, target:46->96, target:7->3, target:2->24, target:13->10, target:14->144"
+6_52,6,ocr_errors,7,"target:7->4, target:0->72, target:12->160, target:20->144, target:2->20, target:4->9, target:5->8"
+6_53,6,ocr_errors,3,"target:46->96, target:2->60, target:2->20"
+6_54,6,ocr_errors,7,"target:4->9, target:22->180, target:12->120, target:2->24, target:47->48, target:5->48, target:110->180"
+6_55,6,ocr_errors,2,"target:7->72, target:4->30"
+6_56,6,ocr_errors,6,"target:7->8, target:14->120, target:1->9, target:13->15, target:1->7, target:0->6"
+6_57,6,ocr_errors,1,target:13->3
+6_58,6,ocr_errors,4,"target:40->90, target:6->120, target:4->36, target:6->20"
+6_59,6,ocr_errors,4,"target:47->40, target:32->360, target:2->30, target:4->10"
+6_60,6,ocr_errors,3,"target:41->288, target:2->54, target:2->30"
+6_61,6,ocr_errors,2,"target:4->20, target:4->20"
+6_62,6,ocr_errors,5,"target:7->4, target:40->360, target:4->9, target:2->80, target:14->144"
+6_63,6,none,0,
+6_64,6,ocr_errors,4,"target:23->225, target:14->144, target:2->20, target:20->240"
+6_65,6,ocr_errors,1,target:7->90
+6_66,6,ocr_errors,3,"target:4->240, target:0->72, target:23->12"
+6_67,6,ocr_errors,4,"target:31->3, target:6->20, target:4->36, target:1->14"
+6_68,6,ocr_errors,3,"target:70->10, target:40->480, target:0->30"
+6_69,6,ocr_errors,4,"target:2->60, target:6->48, target:42->450, target:4->9"
+6_70,6,ocr_errors,4,"target:4->14, target:2->20, target:16->96, target:4->90"
+6_71,6,ocr_errors,1,target:0->6
+6_72,6,ocr_errors,4,"target:32->300, target:2->24, target:6->60, target:10->16"
+6_73,6,ocr_errors,2,"target:2->600, target:2->90"
+6_74,6,ocr_errors,7,"target:12->30, target:10->7, target:0->6, target:4->9, target:3->9, target:0->6, target:2->24"
+6_75,6,ocr_errors,5,"target:7->9, target:4->24, target:4->80, target:11->17, target:2->60"
+6_76,6,ocr_errors,4,"target:16->18, target:4->240, target:11->17, target:2->20"
+6_77,6,ocr_errors,4,"target:8->25, target:4->180, target:147->192, target:1->13"
+6_78,6,ocr_errors,3,"target:4->9, target:1->9, target:17->18"
+6_79,6,ocr_errors,3,"target:1->13, target:40->90, target:16->120"
+6_80,6,ocr_errors,4,"target:16->18, target:60->10, target:4->9, target:42->432"
+6_81,6,ocr_errors,2,"target:0->120, target:2->120"
+6_82,6,ocr_errors,2,"target:6->40, target:32->300"
+6_83,6,ocr_errors,6,"target:14->19, target:7->9, target:2->4, target:17->13, target:4->14, target:6->60"
+6_84,6,ocr_errors,3,"target:4->40, target:0->6, target:11->16"
+6_85,6,ocr_errors,3,"target:36->360, target:3->30, target:7->9"
+6_86,6,ocr_errors,1,target:40->480
+6_87,6,none,0,
+6_88,6,ocr_errors,5,"target:6->120, target:1->7, target:14->120, target:2->40, target:1->15"
+6_89,6,ocr_errors,4,"target:2->60, target:1->7, target:6->8, target:10->120"
+6_90,6,ocr_errors,1,target:111->11
+6_91,6,ocr_errors,4,"target:2->72, target:2->600, target:4->40, target:7->9"
+6_92,6,ocr_errors,2,"target:2->60, target:10->16"
+6_93,6,ocr_errors,5,"target:4->9, target:12->72, target:1->12, target:16->12, target:17->12"
+6_94,6,ocr_errors,6,"target:6->10, target:2->30, target:0->17, target:4->240, target:4->9, target:4->9"
+6_95,6,ocr_errors,4,"target:5->8, target:7->9, target:7->5, target:4->9"
+6_96,6,ocr_errors,6,"target:32->360, target:6->8, target:6->60, target:4->24, target:4->60, target:2->72"
+6_97,6,ocr_errors,5,"target:7->4, target:14->19, target:7->9, target:16->14, target:7->9"
+6_98,6,ocr_errors,1,target:14->180
+6_99,6,ocr_errors,6,"target:4->24, target:0->300, target:4->24, target:12->72, target:2->60, target:2->24"
+7_0,7,ocr_errors,6,"target:1->9, target:13->15, target:4->420, target:3->630, target:76->96, target:4->48"
+7_1,7,ocr_errors,12,"target:40->840, target:4->24, target:7->90, target:4->45, target:7->1, cage_boundary:17add->Different cage boundaries, target:1->9, target:40->90, target:2->28, target:5->56, missing_cage:None->15mul, missing_cage:None->17add"
+7_2,7,ocr_errors,6,"target:15->105, target:4->48, target:2->20, target:14->140, target:6->13, target:4->30"
+7_3,7,ocr_errors,6,"target:22->210, target:1->12, target:14->19, target:71->21, target:4->840, target:13->12"
+7_4,7,ocr_errors,4,"target:10->19, target:2->600, target:4->20, target:16->18"
+7_5,7,ocr_errors,5,"target:4->20, target:4->14, target:7->9, target:22->18, target:24->210"
+7_6,7,ocr_errors,8,"target:4->8, target:5->35, target:7->24, target:7->72, target:12->105, target:4->40, target:13->19, target:0->35"
+7_7,7,ocr_errors,3,"target:142->144, target:108->168, target:62->252"
+7_8,7,ocr_errors,3,"target:107->105, target:5->20, target:160->60"
+7_9,7,ocr_errors,6,"target:2->60, target:0->2.0, target:4->84, target:6->10, target:11->17, target:7->4"
+7_10,7,ocr_errors,4,"target:17->19, target:12->18, target:1->10, target:0->3.0"
+7_11,7,ocr_errors,9,"target:1->7, target:5->35, target:11->17, target:17->14, target:10->16, target:2->24, target:108->168, target:2->24, target:4->9"
+7_12,7,ocr_errors,6,"target:14->19, target:1->84, target:7->2.0, target:7->5, target:2->8, target:2->420"
+7_13,7,ocr_errors,20,"cage_boundary:87mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:2->60, cage_boundary:28mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:2->13, cage_boundary:210mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:45->245, cage_boundary:10mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:5->3, target:7->9, cage_boundary:8add->Different cage boundaries, cage_boundary:0->Different cage boundaries, missing_cage:None->280mul, missing_cage:None->10mul, missing_cage:None->84mul, missing_cage:None->216mul, missing_cage:None->8add"
+7_14,7,ocr_errors,24,"cage_boundary:14mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:2->840, target:1->30, cage_boundary:4mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:2->42, cage_boundary:1sub->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:1->7, cage_boundary:126mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:70->90, cage_boundary:15add->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:0->630, cage_boundary:3sub->Different cage boundaries, cage_boundary:0->Different cage boundaries, missing_cage:None->1sub, missing_cage:None->15add, missing_cage:None->4mul, missing_cage:None->126mul, missing_cage:None->3sub, missing_cage:None->14mul"
+7_15,7,ocr_errors,7,"target:12->126, target:14->120, target:1->8, target:1->15, target:2->72, target:7->9, target:11->17"
+7_16,7,ocr_errors,8,"target:2->30, target:14->19, target:2->42, target:2->42, target:2->15, target:29->252, target:12->168, target:17->105"
+7_17,7,ocr_errors,5,"target:4->42, target:17->15, target:25->252, target:2->200, target:36->336"
+7_18,7,ocr_errors,8,"target:7->2, target:6->42, target:4->20, target:70->10, target:6->10, target:32->350, target:14->19, target:2->24"
+7_19,7,ocr_errors,9,"target:6->20, target:12->17, target:17->12, target:0->6, target:17->19, target:4->20, target:2->36, target:2->21, target:12->17"
+7_20,7,ocr_errors,6,"target:2->60, target:2->60, target:2->20, target:1->10, target:2->420, target:2->24"
+7_21,7,ocr_errors,9,"target:7->3, target:2->20, target:56->560, target:17->14, target:7->9, target:10->105, target:0->12, target:35->36, target:1->7"
+7_22,7,ocr_errors,4,"target:5->60, target:4->84, target:232->252, target:4->40"
+7_23,7,ocr_errors,4,"target:40->240, target:22->18, target:12->150, target:11->10"
+7_24,7,ocr_errors,6,"target:11->17, target:1->14, target:1->7, target:5->45, target:17->14, target:7->9"
+7_25,7,ocr_errors,7,"target:2->20, target:1->2, target:0->6, target:6->8, target:190->196, target:2->420, target:1->7"
+7_26,7,ocr_errors,7,"target:40->42, target:12->120, target:14->180, target:3->5, target:17->19, target:12->120, target:14->19"
+7_27,7,ocr_errors,7,"target:7->2, target:17->19, target:12->150, target:0->6, target:44->420, target:1->14, target:2->30"
+7_28,7,ocr_errors,6,"target:2->630, target:263->252, target:7->20, target:14->18, target:7->9, target:1->12"
+7_29,7,ocr_errors,4,"target:34->24, target:72->12, target:2->840, target:6->60"
+7_30,7,ocr_errors,3,"target:15->168, target:0->12, target:6->8"
+7_31,7,ocr_errors,24,"cage_boundary:4add->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:2->60, target:11->17, cage_boundary:11add->Different cage boundaries, cage_boundary:0->Different cage boundaries, cage_boundary:3div->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:2->40, cage_boundary:5sub->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:76->16, cage_boundary:18add->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:4->84, target:12->10, cage_boundary:24mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, missing_cage:None->18add, missing_cage:None->4add, missing_cage:None->3.0div, missing_cage:None->11add, missing_cage:None->24mul, missing_cage:None->5sub"
+7_32,7,ocr_errors,7,"target:14->140, target:2->60, target:6->12, target:11->14, target:3->8, target:14->140, target:2->13"
+7_33,7,ocr_errors,2,"target:2->20, target:176->126"
+7_34,7,ocr_errors,6,"target:12->168, target:4->9, target:2->42, target:4->30, target:35->36, target:13->15"
+7_35,7,ocr_errors,8,"target:0->20, target:1->2, target:1701->1470, operator:->mul, target:0->28, target:4->90, target:2->42, target:4->24"
+7_36,7,ocr_errors,5,"target:4->24, target:7->9, target:40->20, target:103->105, target:10->16"
+7_37,7,ocr_errors,4,"target:10->16, target:2->28, target:139->19, target:14->140"
+7_38,7,ocr_errors,6,"target:4->8, target:17->19, target:12->120, target:12->180, target:11->21, target:2->23"
+7_39,7,ocr_errors,6,"target:4->42, target:13->15, target:4->28, target:4->9, target:10->16, target:16->140"
+7_40,7,ocr_errors,6,"target:2->42, target:2->420, target:14->19, target:2->80, target:4->30, target:46->48"
+7_41,7,ocr_errors,6,"target:17->14, target:40->90, target:25->28, target:2->20, target:0->17, target:0->8"
+7_42,7,ocr_errors,6,"target:54->504, target:2->60, target:14->19, target:2->24, target:0->20, target:4->30"
+7_43,7,ocr_errors,4,"target:70->90, target:2->42, target:0->15, target:2->16"
+7_44,7,ocr_errors,5,"target:57->252, target:1->10, target:4->24, target:7->9, target:2->24"
+7_45,7,ocr_errors,7,"target:11->14, target:46->96, target:7->72, target:1051->1225, operator:->mul, target:7->90, target:12->24"
+7_46,7,ocr_errors,6,"target:76->216, target:1->7, target:4->40, target:14->19, target:13->120, target:76->96"
+7_47,7,ocr_errors,6,"target:1->14, target:14->144, target:6->40, target:1->6, target:7->3.0, target:4->147"
+7_48,7,ocr_errors,4,"target:77->17, target:1->2, target:2->20, target:36->360"
+7_49,7,ocr_errors,8,"target:0->120, target:10->18, target:126->120, target:1201->1050, operator:->mul, target:5->6, target:1->7.0, target:0->60"
+7_50,7,ocr_errors,2,"target:4->36, target:7->9"
+7_51,7,ocr_errors,8,"target:20->144, target:18->15, target:2->28, target:1->7, target:37->35, target:2->840, target:0->6, target:4->7"
+7_52,7,ocr_errors,6,"target:4->840, target:87->84, target:11->17, target:7->84, target:46->420, target:11->18"
+7_53,7,ocr_errors,7,"target:1->16, target:8->336, target:1->12, target:6->60, target:4->9, target:34->360, target:4->10"
+7_54,7,ocr_errors,2,"target:1->8, target:1->18"
+7_55,7,ocr_errors,3,"target:7->2, target:158->168, target:60->10"
+7_56,7,ocr_errors,6,"target:0->42, target:2->24, target:0->22, target:16->18, target:1->24, target:1->13"
+7_57,7,ocr_errors,7,"target:75->70, target:1->10, target:0->6.0, target:1->12, target:7->9, target:0->6, target:2->20"
+7_58,7,ocr_errors,7,"target:0->630, target:2->70, target:2->60, target:12->168, target:1->2, target:6->60, target:4->252"
+7_59,7,ocr_errors,9,"target:1->12, target:480->980, target:4->16, target:8->9, target:66->60, target:12->126, target:7->4, target:25->225, target:6->10"
+7_60,7,ocr_errors,7,"target:12->120, target:40->90, target:4->9, target:26->21, target:14->19, target:4->9, target:170->140"
+7_61,7,ocr_errors,3,"target:4->9, target:2->20, target:244->294"
+7_62,7,ocr_errors,6,"target:74->280, target:4->24, target:1->7, target:4->42, target:6->13, target:10->16"
+7_63,7,ocr_errors,5,"target:7->72, target:14->140, target:1->15, target:24->210, target:2->35"
+7_64,7,ocr_errors,3,"target:20->270, target:47->42, target:12->196"
+7_65,7,ocr_errors,5,"target:2->7.0, target:6->8, target:7->9, target:2->24, target:1->7.0"
+7_66,7,ocr_errors,7,"target:2->70, target:7->9, target:37->294, target:6->60, target:11->17, target:1->12, target:1->7"
+7_67,7,ocr_errors,4,"target:1->13, target:2->42, target:1->14, target:2->60"
+7_68,7,ocr_errors,6,"target:2->84, target:1->9, target:7->42, target:17->14, target:1->8, target:2->20"
+7_69,7,ocr_errors,20,"cage_boundary:10mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:4->9, target:6->84, cage_boundary:42mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:2->120, target:6->13, cage_boundary:2sub->Different cage boundaries, cage_boundary:0->Different cage boundaries, cage_boundary:13add->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:0->42, cage_boundary:13add->Different cage boundaries, cage_boundary:0->Different cage boundaries, missing_cage:None->13add, missing_cage:None->42mul, missing_cage:None->10mul, missing_cage:None->13add, missing_cage:None->2sub"
+7_70,7,ocr_errors,5,"target:1->9, target:1->15, target:1->7.0, target:2->420, target:1->9"
+7_71,7,ocr_errors,6,"target:1->2.0, target:0->28, target:4->9, target:2->30, target:111->17, target:2->420"
+7_72,7,ocr_errors,7,"target:0->6, target:77->17, target:14->18, target:7->42, target:14->140, target:4->24, target:6->9"
+7_73,7,ocr_errors,5,"target:12->84, target:1->21, target:10->16, target:2->630, target:5->12"
+7_74,7,ocr_errors,6,"target:12->180, target:8->42, target:84->840, target:16->126, target:4->9, target:20->28"
+7_75,7,ocr_errors,7,"target:0->210, target:6->60, target:7->9, target:776->756, target:2->504, target:7->4, target:1->2.0"
+7_76,7,ocr_errors,4,"target:27->24, target:108->168, target:1->7, target:15->150"
+7_77,7,ocr_errors,5,"target:7->9, target:12->120, target:4->56, target:5->6, target:16->18"
+7_78,7,ocr_errors,6,"target:16->56, target:2->22, target:6->8, target:11->120, target:2->30, target:2->20"
+7_79,7,ocr_errors,6,"target:14->19, target:2->288, target:6->60, target:15->18, target:0->420, target:0->5"
+7_80,7,ocr_errors,7,"target:4->84, target:0->9, target:4->84, target:36->35, target:12->140, target:5->3, target:0->17"
+7_81,7,ocr_errors,5,"target:2->20, target:15->19, target:6->60, target:16->15, target:4->30"
+7_82,7,ocr_errors,3,"target:10->16, target:7->23, target:1->10"
+7_83,7,ocr_errors,6,"target:1->2.0, target:26->336, target:6->22, target:11->17, target:4->9, target:72->42"
+7_84,7,ocr_errors,6,"target:1->30, target:7->9, target:0->5, target:1->7, target:16->140, target:1->7"
+7_85,7,ocr_errors,23,"cage_boundary:14add->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:20->540, cage_boundary:65mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, cage_boundary:21add->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:10->18, cage_boundary:5add->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:3->2, cage_boundary:48mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, target:81->84, target:2->35, cage_boundary:120mul->Different cage boundaries, cage_boundary:0->Different cage boundaries, missing_cage:None->120mul, missing_cage:None->5add, missing_cage:None->21add, missing_cage:None->105mul, missing_cage:None->48mul, missing_cage:None->14add"
+7_86,7,ocr_errors,5,"target:2->7, target:2->24, target:2->60, target:17->12, target:11->12"
+7_87,7,ocr_errors,7,"target:14->144, target:2->30, target:5->35, target:10->16, target:71751->1176, operator:->mul, target:4->48"
+7_88,7,ocr_errors,4,"target:5->56, target:14->19, target:15->11, target:6->12"
+7_89,7,ocr_errors,9,"target:12->56, target:14->120, target:1->7.0, target:11->17, target:0->6, target:7->9, target:12->24, target:32->360, target:2->20"
+7_90,7,ocr_errors,3,"target:7->5, target:2->35, target:5->6"
+7_91,7,ocr_errors,8,"target:40->210, target:4->840, target:7->70, target:7->4, target:2->22, target:4->360, target:7->5, target:3->2"
+7_92,7,ocr_errors,4,"target:24->280, target:7->4.0, target:0->6, target:2->56"
+7_93,7,ocr_errors,6,"target:17->12, target:11->14, target:40->90, target:2->22, target:17->19, target:4->30"
+7_94,7,ocr_errors,8,"target:4->22, target:6->12, target:16->75, target:4->42, target:7->9, target:30->5, target:2->13, target:26->336"
+7_95,7,ocr_errors,6,"target:0->17, target:16->120, target:2->30, target:16->18, target:18->48, target:4->9"
+7_96,7,ocr_errors,5,"target:10->16, target:7->9, target:7->5, target:14->19, target:20->336"
+7_97,7,ocr_errors,5,"target:4->20, target:2->13, target:2->300, target:4->42, target:6->60"
+7_98,7,ocr_errors,7,"target:9->30, target:21->24, target:14->19, target:12->108, target:4->14, target:2->30, target:4->9"
+7_99,7,ocr_errors,9,"target:11->16, target:6->10, target:14->120, target:84->840, target:8->84, target:2->6, target:0->13, target:4->70, target:7->9"
+9_0,9,ocr_errors,13,"target:12->120, target:16->19, target:106->108, target:17->18, target:6->8.0, target:647->648, target:1->30, target:11->21, target:12->72, target:612->672, target:7->1, target:12->17, target:2->22"
+9_1,9,ocr_errors,14,"target:5->35, target:4->14, target:7->9, target:12->8, target:2->20, target:13->15, target:176->196, target:30->378, target:1->7, target:6->8, target:12->22, target:5->3, target:7->9, target:2->72"
+9_2,9,ocr_errors,6,"target:11->17, target:3->9, target:11->17, target:11->17, target:115->135, target:12->72"
+9_3,9,ocr_errors,12,"target:2->240, target:82->864, target:40->840, target:1->2, target:61->64, target:21->27, target:6->8, target:10->15, target:7->5, target:2->24, target:318->378, operator:->mul"
+9_4,9,ocr_errors,11,"target:22->18, target:10->16, target:5->3, target:4->30, target:4->9, target:112->12, target:11->21, target:7->9, target:4->25, target:17->15, target:0->63"
+9_5,9,ocr_errors,12,"target:4->35, target:15->18, target:1->7, target:40->240, target:22->18, target:11->19, target:1276->1296, operator:->mul, target:1->4, operator:->mul, target:12->25, target:5->3.0"
+9_6,9,ocr_errors,14,"target:4->24, target:6->42, target:4->36, target:39->35, target:12->720, target:210->270, target:0->20, target:0->80, target:166->168, target:2->20, target:74->2.0, target:2->20, target:1->8, target:4->45"
+9_7,9,ocr_errors,15,"target:256->336, target:2->7, target:1->7, target:16->19, target:46->216, target:11->17, target:14->19, target:3->9, target:17->18, target:12->150, target:27->23, operator:->mul, target:17->19, target:2->23, target:76->96"
+9_8,9,ocr_errors,9,"target:10->180, target:114->189, target:7->9, target:12->168, target:230->270, target:12->8, target:16->96, target:1->4.0, target:103->108"
+9_9,9,ocr_errors,13,"target:0->20, target:120->1260, operator:->mul, target:0->80, target:1->7, target:6->8, target:138->108, target:70->90, target:142->192, target:14->126, target:14->19, target:40->840, target:0->72"
+9_10,9,ocr_errors,12,"target:12->72, target:4->9, target:1->8, target:0->22, target:7->4, target:4->31, target:36->360, target:4->48, target:16->96, target:22->18, target:167->288, target:11->19"
+9_11,9,ocr_errors,9,"target:130->135, target:60->90, target:1->4, target:15->13, target:19->15, target:334->384, target:7->9, target:56->756, target:7->5"
+9_12,9,ocr_errors,16,"target:1131->1134, operator:->mul, target:4->64, target:22->18, target:17->15, target:1->7, target:4->70, target:16->96, target:6->5, target:217->210, target:17->19, cage_boundary:70mul->Different cage boundaries, target:1070->1890, operator:->mul, missing_cage:None->90mul, missing_cage:None->3"
+9_13,9,ocr_errors,14,"target:52->48, target:56->540, target:14->19, target:62->12, target:447->448, target:2->60, target:12->162, target:2->8, target:11->17, target:4->20, target:4->9, target:11->19, target:106->108, target:7->13"
+9_14,9,ocr_errors,14,"target:1->9, target:364->384, target:6->8.0, target:26->28, target:42->420, target:7->4.0, target:10->180, target:17->19, target:1->9, target:2->60, target:27->22, target:21->27, target:12->126, target:7->8"
+9_15,9,ocr_errors,13,"target:7->4, target:5->23, target:500->360, target:5->8, target:1->2, target:26->22, target:0->45, target:156->756, target:18->28, target:6->4.0, target:0->10, target:12->8, target:6->18"
+9_16,9,ocr_errors,15,"target:3->5, target:140->10, target:16->19, target:1->8, target:7->3.0, target:16->18, target:328->378, target:40->90, target:4->9, target:318->378, target:4->22, target:72->960, target:50->56, target:27->23, target:4->9"
+9_17,9,ocr_errors,16,"target:14->19, target:1->9, target:7->54, target:52->48, target:220->180, target:7->3, target:247->252, target:1->8, target:2->252, target:110->270, target:4->405, target:1->3, target:0->64, target:17->19, target:2->7, target:3->5"
+9_18,9,ocr_errors,23,"target:1->7.0, target:2->224, target:4->20, target:1668->48, target:132->432, target:65->15, target:1->9.0, target:17->19, target:6->20, target:17->19, target:1128->1728, operator:->mul, cage_boundary:14add->Different cage boundaries, target:2->30, target:11->12, cage_boundary:11add->Different cage boundaries, target:2->32, target:2->23, target:1->4, missing_cage:None->14add, missing_cage:None->11add, missing_cage:None->96mul, missing_cage:None->756mul"
+9_19,9,ocr_errors,11,"target:1->17, target:1->7, target:11->17, target:11->150, target:4->20, cage_boundary:7add->Different cage boundaries, target:1->4, target:2->23, target:71->8, missing_cage:None->17add, missing_cage:None->19add"
+9_20,9,ocr_errors,9,"target:27->25, target:18->144, target:4->9.0, target:73->23, target:28->288, target:676->126, target:5->3, target:27->23, target:6->20"
+9_21,9,ocr_errors,11,"target:0->2, target:2->24, target:164->14, target:5->252, target:27->23, target:22->18, target:7->2, target:1->7, target:407->405, target:21->24, target:6->5"
+9_22,9,ocr_errors,14,"target:76->96, target:2->30, target:11->17, target:112->1120, operator:->mul, target:4->9.0, target:11->12, target:40->240, target:54->84, target:2->504, target:4->24, target:52->432, target:116680->180, target:4->35"
+9_23,9,ocr_errors,10,"target:4->20, target:54->540, target:132->432, target:1212->1260, operator:->mul, target:1->7, target:17->19, target:2->20, target:0->20, target:78->48"
+9_24,9,ocr_errors,16,"cage_boundary:16mul->Different cage boundaries, target:114->1440, operator:->mul, target:4->14, target:17->19, target:5->35, target:46->45, target:12->42, target:52->48, target:0->22, target:12->22, target:21->28, target:0->20, target:1->7, missing_cage:None->16mul, missing_cage:None->23add"
+9_25,9,ocr_errors,12,"target:66->16, target:61->11, target:42->432, target:1->7.0, target:4->42, target:213->243, target:45->48, target:2->324, target:12->4, target:10->70, target:62->1344, operator:->mul"
+9_26,9,ocr_errors,18,"target:32->360, target:6152->1152, operator:->mul, target:2->672, target:142->192, cage_boundary:6div->Different cage boundaries, target:1->19, target:4->22, target:4->840, target:7->9, cage_boundary:7add->Different cage boundaries, target:17->10, target:1666->16, target:170->140, missing_cage:None->6.0div, missing_cage:None->17add, missing_cage:None->7add, missing_cage:None->3sub"
+9_27,9,ocr_errors,11,"target:84->840, target:7->9, target:0->3, target:66->16, target:76->96, operator:->mul, target:15->45, target:26->336, target:17->13, target:11->19, target:62->672"
+9_28,9,ocr_errors,13,"target:4->20, target:52->48, target:10->180, target:23->1008, target:227->189, target:4->9, target:270->210, target:517->576, target:541->840, target:4->26, target:167->189, target:34->54, target:17->12"
+9_29,9,ocr_errors,13,"target:24->240, cage_boundary:2sub->Different cage boundaries, target:142->192, target:706->756, target:17->19, target:22->252, target:16->18, target:4->24, target:2->420, target:21->27, target:55->56, missing_cage:None->2sub, missing_cage:None->15add"
+9_30,9,ocr_errors,20,"target:7->24, target:4->54, target:0->5, target:12->8, target:2->23, target:66->256, target:366->360, target:126->1008, operator:->mul, target:1->7, target:194->1944, operator:->mul, target:10->20, target:11->14, target:42->252, target:772->972, target:12->72, target:1->7, target:6->8, target:7->5"
+9_31,9,ocr_errors,16,"target:40->280, target:13->23, target:12->108, target:36->35, target:1142->1152, operator:->mul, target:114->1440, operator:->mul, target:7->5, target:157->15, target:6->1, target:62->252, target:30->32, target:1->27, target:7->2, target:7->8"
+9_32,9,ocr_errors,11,"target:1->7, target:10->16, target:6->48, target:460->480, target:16->18, target:318->378, target:62->432, target:164->189, target:76->448, target:10->70, target:2->60"
+9_33,9,ocr_errors,17,"target:7->24, target:24->504, target:2->20, target:1->7, target:1217->810, target:8->19, target:54->525, target:12->180, target:0->8, target:371->378, target:30->36, target:1->6, target:142->192, target:6->80, target:52->560, target:5->42, target:17->19"
+9_34,9,ocr_errors,14,"target:10->14, target:210->270, target:4->24, target:4->9, target:10->15, target:7->9, target:26->25, target:4->29, target:12->168, target:6->8.0, target:11->17, target:134->1344, operator:->mul, target:1->7"
+9_35,9,ocr_errors,8,"target:7->5.0, operator:->mul, target:7->8, target:11->17, target:46->96, target:5->3.0, target:13->15, target:2->28"
+9_36,9,ocr_errors,13,"target:1->7, target:14->19, target:4->24, target:17->19, target:5->23, target:12->105, target:23->15, target:61->19, target:1666->19, target:12->112, target:7->9, target:1120->1080, operator:->mul"
+9_37,9,ocr_errors,13,"target:77->48, target:4->30, target:12->15, target:70->540, target:64->84, target:4->9, target:19->14, target:4->9, target:74->14, target:11->21, target:7->5, target:5->12, target:12->10"
+9_38,9,ocr_errors,19,"target:6->9, target:4->9, target:270->280, target:14->144, target:4->9, target:48->28, target:16->120, target:22->18, target:12->105, target:21->28, target:252->2520, operator:->mul, target:62->12, target:11->18, target:14->19, target:11->12, target:14->84, target:4->9, target:2->3"
+9_39,9,ocr_errors,11,"target:4->9, target:14->19, target:4->9, target:1->4, target:520->480, target:172->192, target:1->30, target:167->189, cage_boundary:10add->Different cage boundaries, missing_cage:None->21add, missing_cage:None->6"
+9_40,9,ocr_errors,15,"target:2->22, target:72->252, target:21->22, target:17->19, target:66->162, target:26->21, target:12->120, target:64->14, target:62->576, cage_boundary:23add->Different cage boundaries, target:16->18, target:72->960, target:172->192, missing_cage:None->23add, missing_cage:None->25add"
+9_41,9,ocr_errors,16,"target:44->48, target:11->21, target:61->9, target:2->504, target:64->14, target:24->504, target:30->320, target:2->180, target:2->72, target:17->18, target:16->18, target:64->84, target:2->150, target:7->9, target:102->1008, operator:->mul"
+9_42,9,ocr_errors,10,"target:11->17, target:11->17, target:0->20, target:26->24, target:59->54, target:66->16, target:67->19, target:3->63, target:43->48, target:27->29"
+9_43,9,ocr_errors,14,"target:32->360, target:2->8, target:14->168, target:128->1008, operator:->mul, target:4->24, target:2->840, target:4->540, target:2->22, target:0->17, target:4->9, target:40->360, target:5->17, target:41->48"
+9_44,9,ocr_errors,10,"target:7->9, target:3->9, target:4->24, target:4->24, target:6->40, target:22->18, target:0->23, target:14->19, target:0->20, target:54->560"
+9_45,9,ocr_errors,16,"target:43->45, target:2->22, target:170->120, target:26->28, target:21->24, target:17->14, target:210->270, target:76->96, target:224->189, target:4->54, target:10->105, target:13->15, target:2->20, target:72->2520, operator:->mul, target:7->9"
+9_46,9,ocr_errors,9,"target:0->14, target:5->40, target:8->42, target:75->45, target:7->2520, operator:->mul, target:24->288, target:0->23, target:11->17"
+9_47,9,ocr_errors,16,"target:128->84, target:735->135, target:6->8, target:4->20, target:11->17, target:2->12, target:14->144, target:12->13, target:105->135, target:1110->1890, operator:->mul, target:0->20, target:66->64, target:2->20, target:17->19, target:7->9"
+9_48,9,ocr_errors,17,"operator:->mul, target:7->9, target:62->252, target:20->14, target:11->21, operator:->mul, target:12->24, target:11->17, target:1->9, target:21->24, target:11->17, target:1->9, target:4->24, target:27->29, target:7->9, target:4->84, target:65->45"
+9_49,9,ocr_errors,12,"target:15->13, target:2->22, target:1->7, target:3->8, target:7->9, target:12->162, target:1->9, target:12->72, target:446->945, target:11->23, target:3->24, target:4->9"
+9_50,9,ocr_errors,10,"target:4->30, target:147->144, target:67->54, target:220->270, target:22->18, target:17->19, target:113->13, target:14->144, target:7->3.0, target:7->9"
+9_51,9,ocr_errors,12,"target:14->19, target:0->22, target:317->315, target:17->19, target:12->72, target:2->504, target:12->24, target:2210->1890, operator:->mul, target:0->28, target:1->9, target:7->9"
+9_52,9,ocr_errors,11,"target:283->288, target:2->360, target:32->320, target:2->30, target:210->240, target:1276->1296, operator:->mul, target:11->17, target:2->25, target:11->12, target:1->8"
+9_53,9,ocr_errors,12,"target:20->320, target:52->672, target:12->1080, operator:->mul, target:224->189, target:4->40, target:56->336, target:2->22, target:15->140, target:14->19, target:76->96, target:13->5"
+9_54,9,ocr_errors,15,"target:70->72, target:6->8, target:2->60, cage_boundary:2->Different cage boundaries, target:176->126, target:11->21, target:4->48, target:4->24, target:15->13, target:24->224, target:475->945, target:1->9.0, target:612->672, missing_cage:None->2, missing_cage:None->15add"
+9_55,9,ocr_errors,9,"target:6->336, target:414->420, target:10->12, target:4->21, target:72->672, target:6->60, target:120->1080, operator:->mul, target:4->9"
+9_56,9,ocr_errors,13,"target:14->19, target:14->19, target:180->280, target:67->64, target:2->32, target:17->19, target:106->1176, operator:->mul, target:4->9, target:17->14, target:12->1260, operator:->mul, target:0->30"
+9_57,9,ocr_errors,15,"target:17->1344, operator:->mul, target:17->24, target:47->42, target:2->7, target:11->14, target:120->1080, operator:->mul, target:43->320, target:13->12, target:16->18, target:52->252, target:11->105, target:2->26, target:7->5"
+9_58,9,ocr_errors,9,"target:11->14, target:72->32, target:70->90, target:1->2, target:3->9, target:70->30, target:27->29, target:7->9, target:21->27"
+9_59,9,ocr_errors,13,"target:260->280, target:14->120, target:14->24, target:6->8, target:2->20, target:61->19, target:1->7, target:4->20, operator:->mul, target:4->40, target:4->36, target:4->42, target:10->168"
+9_60,9,ocr_errors,14,"target:300->360, target:211->216, target:1->7, target:7->29, target:17->12, target:1->7, target:0->20, target:6->16, target:5->3.0, target:135->480, target:7->9, operator:->mul, target:76->96, target:7->5"
+9_61,9,ocr_errors,11,"target:52->504, target:4->9, target:1->8, target:846->896, target:7->54, target:12->13, target:2->28, target:4->54, target:0->5, target:15->16, target:256->756"
+9_62,9,ocr_errors,12,"target:57->5, target:160->168, target:1->9, target:148->18, target:1240->840, target:10->90, target:75->945, target:17->18, target:10->180, target:22->18, target:7->9, target:1->9"
+9_63,9,ocr_errors,15,"target:22->1260, operator:->mul, target:61->17, target:2->504, target:128->1008, operator:->mul, target:16->180, target:4->36, target:11->17, target:12->28, target:4->9, target:64->84, target:57->54, target:44->480, target:12->168"
+9_64,9,ocr_errors,16,"target:11->17, target:1->7, target:1172->972, target:5->13, target:10->16, cage_boundary:11add->Different cage boundaries, target:1->8.0, target:10->168, cage_boundary:0->Different cage boundaries, target:11->14, target:1144->1944, operator:->mul, target:4->40, target:40->840, missing_cage:None->17add, missing_cage:None->2"
+9_65,9,ocr_errors,19,"target:2->23, target:142->1440, operator:->mul, target:17->15, target:42->480, target:4->40, target:2->20, target:21->27, target:7->9, target:7->24, target:800->80, target:11->4, target:2->60, target:2->432, cage_boundary:6mul->Different cage boundaries, target:14->126, target:2->20, missing_cage:None->6mul, missing_cage:None->2.0div"
+9_66,9,ocr_errors,11,"target:40->840, target:1->7, target:26->648, operator:->mul, target:21->24, target:16->96, target:65->15, target:14->19, target:2->900, target:2->24, target:4->20"
+9_67,9,ocr_errors,18,"target:7->5, target:2->432, target:16->18, target:710->810, target:4->27, target:7->5.0, target:11->17, cage_boundary:140mul->Different cage boundaries, target:107->108, target:120->1680, operator:->mul, target:6->8, target:10->18, target:4->16, target:2->4, target:0->6, missing_cage:None->140mul, missing_cage:None->56mul"
+9_68,9,ocr_errors,14,"target:26->24, target:48->288, target:4->48, target:0->6, target:1->7, target:2->22, target:0->17, target:4->28, target:0->30, target:12->17, target:11661->17, target:16->180, target:50->80, target:12->8"
+9_69,9,ocr_errors,11,"target:7->8, target:7->20, target:74->84, target:12->270, target:4->60, target:12->8, target:14->19, target:47->245, target:2->240, target:4->24, target:1->2"
+9_70,9,ocr_errors,16,"operator:->mul, target:17->19, target:40->90, target:2->20, target:14->126, target:24->336, target:712->512, target:11->14, target:0->1, target:10->18, target:17->19, operator:->mul, target:72->720, target:26->336, target:128->108, target:7->9"
+9_71,9,ocr_errors,11,"target:64->14, target:4->20, target:7->72, target:365->315, target:17->19, target:4->24, target:2->20, target:70->30, target:37->3024, operator:->mul, target:10->70"
+9_72,9,ocr_errors,17,"target:12->1440, operator:->mul, target:7->8, target:7->27, target:2->24, target:14->19, target:63->13, target:7452->252, target:6->8, target:60->10, target:32->28, target:6->8, target:4->9, target:74->720, operator:->mul, target:721->42, target:2->72"
+9_73,9,ocr_errors,13,"target:30->378, target:4->24, target:1->9, target:4->14, target:11->19, target:2->28, target:12->1008, operator:->mul, target:141->144, target:3->5, target:1->7, target:142->192, target:67->18"
+9_74,9,ocr_errors,16,"target:11->17, target:166->168, target:5->3, target:11->18, target:20->22, target:16->160, target:55->378, target:2->25, target:2->32, target:506->504, target:766->768, target:4->15, target:12->17, operator:->mul, target:87->84, target:2->72"
+9_75,9,ocr_errors,15,"target:72->12, target:220->180, target:5->252, target:172->168, target:0->8, target:22->18, target:12->72, target:2->22, target:17->19, target:14->19, target:7->9, target:4->9, target:1->4, target:15->10, target:2->42"
+9_76,9,ocr_errors,13,"target:2->23, target:12->1008, target:2->24, target:11->19, target:12->2592, operator:->mul, target:4->9, target:142->192, target:2->22, target:7->9, target:0->23, target:4->9, target:1->9"
+9_77,9,ocr_errors,13,"target:4->24, target:12->162, target:460->960, target:17->147, target:21->27, target:26->96, operator:->mul, target:7->3, target:1->4, target:14->144, target:174->144, operator:->mul, target:7->9"
+9_78,9,ocr_errors,15,"target:6->1, target:5->3, target:6->4, target:44->48, target:2->63, target:44->48, target:160->168, target:4->9, target:2->30, target:272->252, target:54->504, target:12->162, target:72->672, target:3->5, target:7->2"
+9_79,9,ocr_errors,13,"target:12->8, target:17->19, target:20->630, target:2->72, target:0->23, target:4->24, target:26->28, target:14->19, target:64->864, target:2->23, target:114->189, target:4->24, target:3->5"
+9_80,9,ocr_errors,11,"target:501->504, target:760->720, target:536->336, target:46->96, target:54->504, target:1->9, target:7->5, target:17->18, target:46->420, target:11->17, target:31->32"
+9_81,9,ocr_errors,13,"target:12->672, target:1->9, target:46->40, target:7->9, target:6->8.0, target:4->24, target:25->28, target:2->20, target:6->9, target:7->2.0, target:7->45, target:4->26, target:27->224"
+9_82,9,ocr_errors,8,"target:62->432, target:4->9, target:52->32, target:1447->1944, operator:->mul, target:142->192, target:11->19, target:11->12"
+9_83,9,ocr_errors,18,"target:16->18, target:50->54, target:867->864, target:4->22, target:70->80, target:4->9, target:166->196, target:7->9, target:620->1080, operator:->mul, target:14->84, target:70->80, cage_boundary:32mul->Different cage boundaries, target:5->3, target:1667->17, target:76->576, missing_cage:None->360mul, missing_cage:None->5sub"
+9_84,9,ocr_errors,13,"target:0->5, target:313->315, target:2->42, target:2->20, target:27->24, target:4->9, target:74->24, target:17->19, target:21->27, target:70->20, target:4->8, target:1->8, target:5->9"
+9_85,9,ocr_errors,11,"target:17->14, target:72->126, target:0->40, target:50->540, target:8->72, target:16->216, target:5->23, target:2->64, target:286->288, target:2->25, target:7->2"
+9_86,9,ocr_errors,15,"target:50->60, target:2->720, target:3->5, target:516->576, target:70->840, target:7->5, target:0->20, target:10->90, target:40->540, target:3->5, target:1->7, target:10->12, target:21->24, target:0->13, target:17->144"
+9_87,9,ocr_errors,15,"target:62->12, target:17->13, target:114->144, target:0->60, target:7->9, target:2->32, target:4->22, target:5->54, target:1->7, target:321->30, target:0->63, target:1->9, operator:->mul, target:11->18, target:2->7"
+9_88,9,ocr_errors,13,"target:162->1680, operator:->mul, target:4->36, target:4->9, target:0->10, target:5->45, target:62->12, target:63->18, target:13->15, target:16->21, target:4->20, target:116->126, target:17->18"
+9_89,9,ocr_errors,15,"target:4->24, target:40->280, cage_boundary:3sub->Different cage boundaries, target:61->11, target:7->17, target:80->540, target:72->32, target:15->105, target:7->9, target:13->15, target:320->288, target:410->980, target:17->14, missing_cage:None->3sub, missing_cage:None->22add"
+9_90,9,ocr_errors,15,"target:216->210, target:1->9, target:1->9, target:7->2304, operator:->mul, target:4->8, target:1->9, target:2->7, target:2->60, target:2066->2016, operator:->mul, target:46->96, target:70->90, target:1->9, target:66->16"
+9_91,9,ocr_errors,14,"target:7->9, target:220->270, target:3->5, target:2->20, target:5->25, target:7->5, target:14->19, target:6->8.0, target:40->90, target:74->24, target:76->576, target:126->120, target:7->5, target:4->9"
+9_92,9,ocr_errors,13,"target:1->7.0, target:7->270, target:73->945, target:16->168, target:34->384, target:160->180, target:46->480, target:52->672, target:15->105, target:4->9, target:14->19, target:2->22, target:4->9"
+9_93,9,ocr_errors,15,"target:12->8, target:810->840, target:4->9, target:11->17, target:54->504, target:18->48, target:2->60, target:6->18, target:44->420, target:4->84, target:106->108, target:60->80, target:172->192, operator:->mul, target:1->4"
+9_94,9,ocr_errors,16,"target:11->17, target:11->27, target:7->9, target:1->7, target:2->22, target:2->432, target:212->2160, operator:->mul, target:40->45, target:182->189, target:75->18, target:4->9, target:1613->168, target:6->360, target:1->4, target:1->2"
+9_95,9,ocr_errors,11,"target:5->3.0, target:11->19, target:41->29, target:7->5, target:6->23, target:1->21, target:7->27, target:23->162, target:1->9, target:2->7, target:26->20"
+9_96,9,ocr_errors,13,"target:6->25, target:12->108, target:14->19, target:137->135, target:8->504, target:11->17, target:86->256, target:10->84, target:6->8, target:22->27, operator:->mul, target:4->28, target:6->8"
+9_97,9,ocr_errors,10,"target:7->4, target:7->9, target:4->9, target:111->112, target:6->25, target:12->168, target:2->30, target:4->54, target:23->25, target:6->20"
+9_98,9,ocr_errors,17,"target:184->1890, operator:->mul, target:1->7, target:0->22, target:36->360, target:111->11, target:8->48, target:15->13, target:2->80, target:150->1568, operator:->mul, target:122->420, target:17->12, target:46->48, target:70->270, target:4->48, target:10->180"
+9_99,9,ocr_errors,14,"target:172->768, target:4->24, target:144->189, target:16->96, target:17->14, target:0->3, target:17->28, target:1->9, target:142->192, target:4->84, target:1->7.0, target:7->5, target:7->9, target:4->2"

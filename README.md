@@ -15,18 +15,18 @@ All puzzle images are available in [`benchmark_files/`](benchmark_files/):
 
 | Puzzle | Size | Computer Baseline | Computer Corrected | Handwritten Baseline | Handwritten Corrected |
 |--------|------|-------------------|--------------------|-----------------------|-----------------------|
-| **KenKen** | 3×3 | 100% | 100% | 79% | - |
-| **KenKen** | 4×4 | 100% | 100% | 29% | - |
-| **KenKen** | 5×5 | 100% | 100% | 5% | - |
-| **KenKen** | 6×6 | 100% | 100% | 0% | - |
-| **KenKen** | 7×7 | 95% | 96% | 0% | - |
-| **KenKen** | 9×9 | 96% | 100% | - | - |
+| **KenKen** | 3×3 | 100% | 100% | 65% | 100% |
+| **KenKen** | 4×4 | 100% | 100% | 23% | 100% |
+| **KenKen** | 5×5 | 100% | 100% | 11% | 100% |
+| **KenKen** | 6×6 | 100% | 100% | 2% | 100% |
+| **KenKen** | 7×7 | 95% | 96% | 0% | 100% |
+| **KenKen** | 9×9 | 96% | 100% | 0% | 100% |
 | **Sudoku** | 4×4 | 100% | 100% | 92% | 99% |
 | **Sudoku** | 9×9 | 100% | 100% | 75% | 99% |
 | **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 10% | 40% |
 | **HexaSudoku** | 16×16 (Numeric) | 100% | 100% | 34% | 58% |
 
-*Handwritten results use 90-10 train/test split. KenKen handwritten uses MNIST-trained CNN; error correction not yet applied.*
+*Handwritten results use 90-10 train/test split with MNIST digits. Error correction uses unsat core detection, top-K alternatives, operator inference, and cage re-detection.*
 
 ## Why Neuro-Symbolic?
 
@@ -193,13 +193,18 @@ KenKenSolver/
 ├── README.md                    # This file
 ├── CLAUDE.md                    # Development documentation
 ├── benchmark_files/             # All puzzle images organized by type
-├── KenKen/                      # KenKen puzzle solver
+├── KenKen/                      # KenKen puzzle solver (computer-generated)
 │   ├── solve_all_sizes.py      # Unified solver (3×3 to 9×9)
 │   ├── NeuroSymbolicSolver.ipynb
 │   ├── train_character_cnn.py  # CNN training script
 │   ├── models/                 # Pre-trained CNN weights
 │   ├── puzzles/                # Puzzle dataset (JSON)
 │   └── board_images/           # Generated puzzle images
+├── KenKen handwritten/          # KenKen with MNIST handwritten digits
+│   ├── evaluate.py             # Baseline evaluation
+│   ├── detect_errors.py        # Error correction pipeline
+│   ├── analyze_failures.py     # Error analysis
+│   └── board_images/           # Handwritten digit puzzle images
 ├── Sudoku/                      # Sudoku puzzle solver (4×4, 9×9)
 ├── HexaSudoku/                  # 16×16 Sudoku solver
 ├── 83-17 split handwritten/     # Handwritten experiments (83-17 split)

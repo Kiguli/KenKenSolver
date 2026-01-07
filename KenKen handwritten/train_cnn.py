@@ -1,39 +1,27 @@
+# -*- coding: utf-8 -*-
 """
-Train CNN for handwritten KenKen digit recognition.
-
-Uses real handwritten data from MNIST instead of synthetic fonts.
-
-Classes (11 total):
-- 0-9: Digits 0-9
-- 10: Empty cell
-
-Dataset used:
-- MNIST: http://yann.lecun.com/exdb/mnist/
+Train unified 14-class CNN for KenKen character recognition.
+Classes 0-9: Handwritten MNIST digits (inverted to match board convention)
+Classes 10-13: Computer-generated operators (add, div, mul, sub)
 """
 
+import os
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
-import numpy as np
-import os
-import csv
-from scipy import ndimage
+from torchvision import transforms
+from PIL import Image
+import random
 
+# Set random seeds for reproducibility
+torch.manual_seed(42)
+np.random.seed(42)
+random.seed(42)
 
-# Constants
-IMG_SIZE = 28
-NUM_CLASSES = 11  # 0-9 digits + empty
-EPOCHS = 30
-BATCH_SIZE = 64
-LEARNING_RATE = 0.001
-EMPTY_SAMPLES = 2000  # Number of empty cell samples to generate
-
-
+# CNN Architecture (same as KenKen CNN_v2)
 class CNN_v2(nn.Module):
-    """CNN for digit recognition (same architecture as KenKen/Sudoku/HexaSudoku)."""
-
     def __init__(self, output_dim):
         super(CNN_v2, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, padding=1)
@@ -44,364 +32,255 @@ class CNN_v2(nn.Module):
         self.fc2 = nn.Linear(128, output_dim)
 
     def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))  # 28x28 -> 14x14
-        x = self.pool(F.relu(self.conv2(x)))  # 14x14 -> 7x7
-        x = x.view(x.size(0), -1)             # Flatten to 3136
-        x = F.relu(self.fc1(x))
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
         x = self.dropout(x)
+        x = x.view(x.size(0), -1)
+        x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return x
 
 
-def load_handwritten_data():
-    """
-    Load prepared handwritten training data from numpy files.
+def load_operator_templates():
+    """Load operator PNG templates and create augmented samples."""
+    operators_dir = './symbols/operators'
+    operators = ['add', 'div', 'mul', 'sub']
+    operator_samples = []
+    operator_labels = []
 
-    Returns:
-        images: numpy array of shape (N, 28, 28) with values in [0, 1]
-        labels: numpy array of shape (N,) with class labels
-    """
-    data_dir = "./handwritten_data"
+    for idx, op in enumerate(operators):
+        filepath = os.path.join(operators_dir, f'{op}.png')
+        if not os.path.exists(filepath):
+            print(f"Warning: {filepath} not found")
+            continue
 
-    if not os.path.exists(f"{data_dir}/train_images.npy"):
-        raise FileNotFoundError(
-            f"Training data not found in {data_dir}/. "
-            "Run download_datasets.py first."
-        )
+        # Load image - handle transparency properly
+        img = Image.open(filepath)
 
-    images = np.load(f"{data_dir}/train_images.npy")
-    labels = np.load(f"{data_dir}/train_labels.npy")
+        # If RGBA (transparent), composite on white background
+        if img.mode == 'RGBA':
+            background = Image.new('RGBA', img.size, (255, 255, 255, 255))
+            img = Image.alpha_composite(background, img)
 
-    print(f"Loaded {len(images)} handwritten samples")
-    print(f"  Classes present: {sorted(np.unique(labels))}")
+        # Convert to grayscale
+        img = img.convert('L')
+        img = img.resize((28, 28), Image.Resampling.LANCZOS)
+        img_array = np.array(img, dtype=np.float32)
 
-    return images, labels
+        # Normalize to 0-1 range
+        # After compositing: ink=dark (~0), background=white (~255)
+        # After normalization: ink≈0, background≈1
+        img_array = img_array / 255.0
 
+        print(f"  {op}: min={img_array.min():.2f}, max={img_array.max():.2f}")
 
-def generate_empty_samples(num_samples=EMPTY_SAMPLES):
-    """
-    Generate empty cell samples (class 10).
+        label = 10 + idx  # Labels 10-13 for operators
 
-    Creates nearly white images with slight noise to represent empty cells.
-    The CNN learns to distinguish these from cells containing digits.
+        # Create augmented samples (5000 per operator to match digit count)
+        for _ in range(5000):
+            augmented = augment_operator(img_array)
+            operator_samples.append(augmented)
+            operator_labels.append(label)
 
-    Returns:
-        images: numpy array of shape (num_samples, 28, 28)
-        labels: numpy array of 10s (empty class)
-    """
-    print(f"Generating {num_samples} empty cell samples...")
-
-    # Empty cells are mostly white (high values) with slight noise
-    images = np.random.uniform(0.95, 1.0, (num_samples, IMG_SIZE, IMG_SIZE))
-    labels = np.full(num_samples, 10, dtype=np.int64)  # Class 10 = empty
-
-    return images, labels
-
-
-def augment_image(img, max_rotation=5, max_shift=2, max_scale=0.1):
-    """
-    Apply random augmentation to an image.
-
-    Args:
-        img: 28x28 numpy array
-        max_rotation: Maximum rotation in degrees
-        max_shift: Maximum translation in pixels
-        max_scale: Maximum scale variation (0.1 = +/-10%)
-
-    Returns:
-        Augmented 28x28 numpy array
-    """
-    # Random rotation
-    angle = np.random.uniform(-max_rotation, max_rotation)
-    img = ndimage.rotate(img, angle, reshape=False, mode='constant', cval=0)
-
-    # Random shift
-    shift_x = np.random.uniform(-max_shift, max_shift)
-    shift_y = np.random.uniform(-max_shift, max_shift)
-    img = ndimage.shift(img, (shift_y, shift_x), mode='constant', cval=0)
-
-    # Random scale (zoom)
-    scale = np.random.uniform(1 - max_scale, 1 + max_scale)
-    if scale != 1.0:
-        img = ndimage.zoom(img, scale, mode='constant', cval=0)
-        # Crop or pad to 28x28
-        if img.shape[0] > IMG_SIZE:
-            start = (img.shape[0] - IMG_SIZE) // 2
-            img = img[start:start+IMG_SIZE, start:start+IMG_SIZE]
-        elif img.shape[0] < IMG_SIZE:
-            pad = (IMG_SIZE - img.shape[0]) // 2
-            img = np.pad(img, ((pad, IMG_SIZE-img.shape[0]-pad),
-                               (pad, IMG_SIZE-img.shape[1]-pad)),
-                         mode='constant', constant_values=0)
-
-    # Ensure valid range and size
-    img = np.clip(img, 0, 1)
-    if img.shape != (IMG_SIZE, IMG_SIZE):
-        # Safety resize if needed
-        from PIL import Image as PILImage
-        img_pil = PILImage.fromarray((img * 255).astype(np.uint8))
-        img_pil = img_pil.resize((IMG_SIZE, IMG_SIZE))
-        img = np.array(img_pil) / 255.0
-
-    return img
+    return np.array(operator_samples), np.array(operator_labels)
 
 
-def augment_dataset(images, labels, augmentation_factor=2):
-    """
-    Augment the dataset by creating additional transformed samples.
+def augment_operator(img):
+    """Apply data augmentation to operator image."""
+    from scipy import ndimage
 
-    Args:
-        images: Original images
-        labels: Original labels
-        augmentation_factor: How many augmented copies to create
+    # Random rotation (-10 to 10 degrees)
+    angle = random.uniform(-10, 10)
+    rotated = ndimage.rotate(img, angle, reshape=False, mode='constant', cval=1.0)
 
-    Returns:
-        Augmented images and labels (includes originals)
-    """
-    print(f"Augmenting dataset with factor {augmentation_factor}...")
+    # Random shift (-2 to 2 pixels)
+    shift_x = random.randint(-2, 2)
+    shift_y = random.randint(-2, 2)
+    shifted = ndimage.shift(rotated, [shift_y, shift_x], mode='constant', cval=1.0)
 
-    augmented_images = [images]
-    augmented_labels = [labels]
+    # Random noise
+    noise = np.random.normal(0, 0.02, shifted.shape)
+    noisy = np.clip(shifted + noise, 0, 1)
 
-    for i in range(augmentation_factor):
-        print(f"  Creating augmented set {i+1}/{augmentation_factor}...")
-        aug_imgs = np.array([augment_image(img) for img in images])
-        augmented_images.append(aug_imgs)
-        augmented_labels.append(labels.copy())
-
-    final_images = np.concatenate(augmented_images, axis=0)
-    final_labels = np.concatenate(augmented_labels, axis=0)
-
-    print(f"  Dataset size: {len(images)} -> {len(final_images)}")
-
-    return final_images, final_labels
+    return noisy.astype(np.float32)
 
 
-def save_training_data_csv(images, labels, output_path):
-    """
-    Save training data to CSV in TMNIST format for reference/debugging.
+def prepare_data():
+    """Load MNIST digits and operators, prepare for training."""
+    print("Loading MNIST data...")
 
-    Format: names, labels, pixel_1, pixel_2, ..., pixel_784
-    """
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    # Load MNIST split
+    train_images = np.load('./handwritten_data/train_images.npy')
+    train_labels = np.load('./handwritten_data/train_labels.npy')
 
-    # Only save a subset to avoid huge files
-    max_samples = min(10000, len(images))
-    indices = np.random.choice(len(images), max_samples, replace=False)
+    print(f"MNIST training samples: {len(train_images)}")
 
-    with open(output_path, 'w', newline='') as f:
-        writer = csv.writer(f)
+    # Invert MNIST digits (MNIST: ink=HIGH, board convention: ink=LOW)
+    # After inversion: background=1.0 (white), ink=0.0 (black)
+    train_images = 255 - train_images  # Invert pixel values
+    train_images = train_images.astype(np.float32) / 255.0  # Normalize to 0-1
 
-        # Header
-        header = ['names', 'labels'] + [str(i) for i in range(1, 785)]
-        writer.writerow(header)
+    print("Loading and augmenting operator templates...")
+    operator_images, operator_labels = load_operator_templates()
+    print(f"Operator samples: {len(operator_images)}")
 
-        # Data rows
-        for idx in indices:
-            img, label = images[idx], labels[idx]
-            name = "Empty" if label == 10 else str(label)
+    # Combine digits and operators
+    all_images = np.concatenate([train_images, operator_images])
+    all_labels = np.concatenate([train_labels, operator_labels])
 
-            pixels = (img.flatten() * 255).astype(int).tolist()
-            row = [f'Handwritten-{name}', label] + pixels
-            writer.writerow(row)
+    print(f"Total training samples: {len(all_images)}")
 
-    print(f"Saved {max_samples} samples to {output_path}")
+    # Shuffle
+    indices = np.arange(len(all_images))
+    np.random.shuffle(indices)
+    all_images = all_images[indices]
+    all_labels = all_labels[indices]
 
+    # Split 85/15 for train/val
+    split_idx = int(len(all_images) * 0.85)
+    train_imgs = all_images[:split_idx]
+    train_lbls = all_labels[:split_idx]
+    val_imgs = all_images[split_idx:]
+    val_lbls = all_labels[split_idx:]
 
-def train_model(images, labels):
-    """
-    Train CNN on the prepared data.
+    print(f"Training set: {len(train_imgs)}")
+    print(f"Validation set: {len(val_imgs)}")
 
-    Args:
-        images: numpy array of shape (N, 28, 28)
-        labels: numpy array of shape (N,)
-
-    Returns:
-        Trained model
-    """
-    # Shuffle and split into train/validation
-    n_samples = len(images)
-    indices = np.random.permutation(n_samples)
-    train_size = int(0.85 * n_samples)
-
-    train_idx = indices[:train_size]
-    val_idx = indices[train_size:]
-
-    X_train = images[train_idx]
-    y_train = labels[train_idx]
-    X_val = images[val_idx]
-    y_val = labels[val_idx]
+    # Add channel dimension
+    train_imgs = train_imgs[:, np.newaxis, :, :]
+    val_imgs = val_imgs[:, np.newaxis, :, :]
 
     # Convert to tensors
-    X_train_t = torch.tensor(X_train, dtype=torch.float32).unsqueeze(1)
-    y_train_t = torch.tensor(y_train, dtype=torch.long)
-    X_val_t = torch.tensor(X_val, dtype=torch.float32).unsqueeze(1)
-    y_val_t = torch.tensor(y_val, dtype=torch.long)
-
-    # Create data loaders
-    train_dataset = TensorDataset(X_train_t, y_train_t)
-    val_dataset = TensorDataset(X_val_t, y_val_t)
-
-    train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
-
-    # Initialize model
-    model = CNN_v2(output_dim=NUM_CLASSES)
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
-
-    # Learning rate scheduler
-    scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode='max', factor=0.5, patience=5
+    train_dataset = TensorDataset(
+        torch.FloatTensor(train_imgs),
+        torch.LongTensor(train_lbls)
+    )
+    val_dataset = TensorDataset(
+        torch.FloatTensor(val_imgs),
+        torch.LongTensor(val_lbls)
     )
 
-    print(f"\nTraining Configuration:")
-    print(f"  Training samples: {len(X_train)}")
-    print(f"  Validation samples: {len(X_val)}")
-    print(f"  Batch size: {BATCH_SIZE}")
-    print(f"  Epochs: {EPOCHS}")
-    print(f"  Learning rate: {LEARNING_RATE}")
-    print(f"  Model parameters: {sum(p.numel() for p in model.parameters()):,}")
+    return train_dataset, val_dataset
 
-    print("\n" + "-" * 60)
 
-    # Training loop
-    best_val_acc = 0
-    best_model_state = None
+def train_model(train_dataset, val_dataset, epochs=30, batch_size=64):
+    """Train the CNN model."""
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print(f"Training on: {device}")
 
-    for epoch in range(EPOCHS):
+    # Create data loaders
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+
+    # Initialize model
+    model = CNN_v2(output_dim=14)
+    model = model.to(device)
+
+    criterion = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+    best_val_acc = 0.0
+
+    for epoch in range(epochs):
         # Training phase
         model.train()
-        train_loss = 0
+        train_loss = 0.0
         train_correct = 0
+        train_total = 0
 
-        for X_batch, y_batch in train_loader:
+        for images, labels in train_loader:
+            images, labels = images.to(device), labels.to(device)
+
             optimizer.zero_grad()
-            outputs = model(X_batch)
-            loss = criterion(outputs, y_batch)
+            outputs = model(images)
+            loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
 
             train_loss += loss.item()
-            train_correct += (outputs.argmax(1) == y_batch).sum().item()
+            _, predicted = outputs.max(1)
+            train_total += labels.size(0)
+            train_correct += predicted.eq(labels).sum().item()
 
-        train_acc = train_correct / len(X_train)
+        train_acc = 100.0 * train_correct / train_total
 
         # Validation phase
         model.eval()
+        val_loss = 0.0
         val_correct = 0
+        val_total = 0
+
         with torch.no_grad():
-            for X_batch, y_batch in val_loader:
-                outputs = model(X_batch)
-                val_correct += (outputs.argmax(1) == y_batch).sum().item()
+            for images, labels in val_loader:
+                images, labels = images.to(device), labels.to(device)
 
-        val_acc = val_correct / len(X_val)
+                outputs = model(images)
+                loss = criterion(outputs, labels)
 
-        # Update scheduler
-        scheduler.step(val_acc)
+                val_loss += loss.item()
+                _, predicted = outputs.max(1)
+                val_total += labels.size(0)
+                val_correct += predicted.eq(labels).sum().item()
+
+        val_acc = 100.0 * val_correct / val_total
+
+        print(f"Epoch {epoch+1:2d}/{epochs}: "
+              f"Train Loss: {train_loss/len(train_loader):.4f}, Train Acc: {train_acc:.2f}%, "
+              f"Val Loss: {val_loss/len(val_loader):.4f}, Val Acc: {val_acc:.2f}%")
 
         # Save best model
         if val_acc > best_val_acc:
             best_val_acc = val_acc
-            best_model_state = model.state_dict().copy()
+            torch.save(model.state_dict(), './models/unified_kenken_cnn.pth')
+            print(f"  -> Saved best model (Val Acc: {val_acc:.2f}%)")
 
-        print(f"Epoch {epoch+1:2d}/{EPOCHS}: "
-              f"Train Loss={train_loss/len(train_loader):.4f}, "
-              f"Train Acc={train_acc:.4f}, "
-              f"Val Acc={val_acc:.4f}"
-              f"{' *' if val_acc == best_val_acc else ''}")
-
-    print("-" * 60)
-    print(f"\nBest validation accuracy: {best_val_acc:.4f}")
-
-    # Load best model weights
-    model.load_state_dict(best_model_state)
-
+    print(f"\nTraining complete. Best validation accuracy: {best_val_acc:.2f}%")
     return model
 
 
-def evaluate_per_class(model, images, labels):
+def evaluate_by_class(model, val_dataset):
     """Evaluate model accuracy per class."""
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
     model.eval()
 
-    # Convert to tensors
-    X = torch.tensor(images, dtype=torch.float32).unsqueeze(1)
+    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
 
-    # Get predictions
+    class_correct = {i: 0 for i in range(14)}
+    class_total = {i: 0 for i in range(14)}
+
     with torch.no_grad():
-        outputs = model(X)
-        predictions = outputs.argmax(1).numpy()
+        for images, labels in val_loader:
+            images, labels = images.to(device), labels.to(device)
+            outputs = model(images)
+            _, predicted = outputs.max(1)
+
+            for label, pred in zip(labels, predicted):
+                class_total[label.item()] += 1
+                if label == pred:
+                    class_correct[label.item()] += 1
 
     print("\nPer-class accuracy:")
-    for cls in sorted(np.unique(labels)):
-        mask = labels == cls
-        cls_correct = np.sum(predictions[mask] == labels[mask])
-        cls_total = np.sum(mask)
-        cls_acc = cls_correct / cls_total if cls_total > 0 else 0
+    class_names = {i: str(i) for i in range(10)}
+    class_names.update({10: 'add', 11: 'div', 12: 'mul', 13: 'sub'})
 
-        name = "Empty" if cls == 10 else str(cls)
-        print(f"  Class {cls:2d} ({name:5s}): {cls_acc:.4f} ({cls_correct}/{cls_total})")
-
-
-def main():
-    """Main training pipeline."""
-    print("=" * 60)
-    print("Handwritten KenKen CNN Training")
-    print("=" * 60)
-
-    # Load handwritten data
-    print("\n1. Loading handwritten training data...")
-    images, labels = load_handwritten_data()
-
-    # Generate empty cell samples
-    print("\n2. Generating empty cell samples...")
-    empty_images, empty_labels = generate_empty_samples()
-
-    # Combine with handwritten data
-    images = np.concatenate([images, empty_images], axis=0)
-    labels = np.concatenate([labels, empty_labels], axis=0)
-    print(f"   Total samples (with empty): {len(images)}")
-
-    # Apply data augmentation
-    print("\n3. Applying data augmentation...")
-    images, labels = augment_dataset(images, labels, augmentation_factor=2)
-
-    # Shuffle the combined dataset
-    shuffle_idx = np.random.permutation(len(images))
-    images = images[shuffle_idx]
-    labels = labels[shuffle_idx]
-
-    # Save training data sample to CSV (for debugging/visualization)
-    print("\n4. Saving training data sample...")
-    csv_path = "./symbols/handwritten_kenken_data.csv"
-    os.makedirs("./symbols", exist_ok=True)
-    save_training_data_csv(images, labels, csv_path)
-
-    # Train model
-    print("\n5. Training CNN model...")
-    model = train_model(images, labels)
-
-    # Evaluate per-class accuracy
-    print("\n6. Evaluating per-class accuracy...")
-    # Use a subset for evaluation
-    eval_idx = np.random.choice(len(images), min(5000, len(images)), replace=False)
-    evaluate_per_class(model, images[eval_idx], labels[eval_idx])
-
-    # Save model
-    print("\n7. Saving model...")
-    model_dir = "./models"
-    os.makedirs(model_dir, exist_ok=True)
-    model_path = f"{model_dir}/handwritten_kenken_cnn.pth"
-    torch.save(model.state_dict(), model_path)
-    print(f"   Model saved to {model_path}")
-
-    print("\n" + "=" * 60)
-    print("Training complete!")
-    print("=" * 60)
-    print("\nNext steps:")
-    print("  1. Run generate_images.py to create board images")
-    print("  2. Run evaluate.py to test the neuro-symbolic pipeline")
+    for cls in range(14):
+        if class_total[cls] > 0:
+            acc = 100.0 * class_correct[cls] / class_total[cls]
+            print(f"  {class_names[cls]:>3}: {acc:.2f}% ({class_correct[cls]}/{class_total[cls]})")
 
 
 if __name__ == '__main__':
-    main()
+    os.makedirs('./models', exist_ok=True)
+
+    print("Preparing data...")
+    train_dataset, val_dataset = prepare_data()
+
+    print("\nTraining model...")
+    model = train_model(train_dataset, val_dataset, epochs=30, batch_size=64)
+
+    # Reload best model for evaluation
+    model = CNN_v2(output_dim=14)
+    model.load_state_dict(torch.load('./models/unified_kenken_cnn.pth', weights_only=True))
+
+    evaluate_by_class(model, val_dataset)

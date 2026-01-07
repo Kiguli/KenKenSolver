@@ -1,0 +1,63 @@
+KENKEN HANDWRITTEN FAILURE ANALYSIS
+==================================================
+
+
+3x3:
+  Puzzles analyzed: 100
+  Puzzles with errors: 41 (41%)
+  Total errors: 49
+  Error types:
+    target: 49
+    operator: 0
+    cage_boundary: 0
+    missing_cage: 0
+
+4x4:
+  Puzzles analyzed: 100
+  Puzzles with errors: 81 (81%)
+  Total errors: 125
+  Error types:
+    target: 125
+    operator: 0
+    cage_boundary: 0
+    missing_cage: 0
+
+5x5:
+  Puzzles analyzed: 100
+  Puzzles with errors: 89 (89%)
+  Total errors: 204
+  Error types:
+    target: 204
+    operator: 0
+    cage_boundary: 0
+    missing_cage: 0
+
+6x6:
+  Puzzles analyzed: 100
+  Puzzles with errors: 98 (98%)
+  Total errors: 367
+  Error types:
+    target: 367
+    operator: 0
+    cage_boundary: 0
+    missing_cage: 0
+
+7x7:
+  Puzzles analyzed: 100
+  Puzzles with errors: 100 (100%)
+  Total errors: 664
+  Error types:
+    target: 573
+    operator: 4
+    cage_boundary: 57
+    missing_cage: 30
+
+9x9:
+  Puzzles analyzed: 100
+  Puzzles with errors: 100 (100%)
+  Total errors: 1338
+  Error types:
+    target: 1223
+    operator: 66
+    cage_boundary: 17
+    missing_cage: 32
