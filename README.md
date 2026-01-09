@@ -13,20 +13,20 @@ All puzzle images are available in [`benchmark_files/`](benchmark_files/):
 
 ## Results
 
-| Puzzle | Size | Computer Baseline | Computer Corrected | Handwritten Baseline | Handwritten Corrected |
+| Puzzle | Size | Computer Baseline | Computer Corrected | Handwritten V1 | Handwritten V2 |
 |--------|------|-------------------|--------------------|-----------------------|-----------------------|
-| **KenKen** | 3×3 | 100% | 100% | 69% | 87% |
-| **KenKen** | 4×4 | 100% | 100% | 41% | 72% |
-| **KenKen** | 5×5 | 100% | 100% | 18% | 41% |
-| **KenKen** | 6×6 | 100% | 100% | 2% | 14% |
-| **KenKen** | 7×7 | 95% | 100% | 0% | 4% |
-| **KenKen** | 9×9 | 96% | 100% | 0% | 0% |
-| **Sudoku** | 4×4 | 100% | 100% | 92% | 99% |
-| **Sudoku** | 9×9 | 100% | 100% | 75% | 99% |
-| **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 10% | 40% |
-| **HexaSudoku** | 16×16 (Numeric) | 100% | 100% | 34% | 58% |
+| **KenKen** | 3×3 | 100% | 100% | 89% | **100%** |
+| **KenKen** | 4×4 | 100% | 100% | 58% | **90%** |
+| **KenKen** | 5×5 | 100% | 100% | 26% | **74%** |
+| **KenKen** | 6×6 | 100% | 100% | 15% | **65%** |
+| **KenKen** | 7×7 | 95% | 100% | 2% | **43%** |
+| **KenKen** | 9×9 | 96% | 100% | 1% | **24%** |
+| **Sudoku** | 4×4 | 100% | 100% | 99% | - |
+| **Sudoku** | 9×9 | 100% | 100% | 99% | - |
+| **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 40% | - |
+| **HexaSudoku** | 16×16 (Numeric) | 100% | 100% | 58% | - |
 
-*Handwritten results use 90-10 train/test split with MNIST digits and multi-scale training augmentation (0.33-1.0 scale). Error correction uses unsat core detection, top-K alternatives, operator inference, and cage re-detection.*
+*V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with 10x augmentation. All results include error correction.*
 
 ## Why Neuro-Symbolic?
 
@@ -141,6 +141,60 @@ An alternative approach renders values 10-16 as two-digit numbers instead of let
 3. **Some errors are "invisible"**: If a wrong digit enables a different valid solution, it won't cause UNSAT
 4. **Domain constraints dramatically help**: Forcing tens digit=1 eliminates 64% of errors, improving solve rate from 34% → 58%
 
+## KenKen Handwritten V2
+
+The V2 approach dramatically improves handwritten KenKen solving through better CNN architecture and training methodology.
+
+### V1 vs V2 Comparison
+
+| Size | V1 Corrected | V2 Corrected | Improvement |
+|------|--------------|--------------|-------------|
+| 3×3  | 89%          | **100%**     | +11%        |
+| 4×4  | 58%          | **90%**      | +32%        |
+| 5×5  | 26%          | **74%**      | +48%        |
+| 6×6  | 15%          | **65%**      | +50%        |
+| 7×7  | 2%           | **43%**      | +41%        |
+| 9×9  | 1%           | **24%**      | +23%        |
+
+### What Changed in V2
+
+**CNN Architecture (ImprovedCNN)**:
+- 4 conv layers (vs 2 in V1)
+- BatchNorm after every layer
+- 872K parameters (vs ~400K)
+- 99.9% validation accuracy (vs ~95%)
+
+**Training Data**:
+- Characters extracted from actual board images using the same pipeline as inference
+- Eliminates domain gap between training and inference
+- 70% handwritten / 30% computer-generated mix
+- Balanced to equal representation per class
+
+**Data Augmentation (10x)**:
+- Rotation: ±20° (vs ±5°)
+- Scale: 0.5-1.2x (vs 0.9-1.1x)
+- Elastic deformation (new)
+- Morphological erosion/dilation (new)
+
+**Training Process**:
+- Focal Loss (focuses on hard examples)
+- Early stopping with patience=15
+- Lower learning rate (0.0003 vs 0.001)
+
+### Key Result
+
+The 1↔7 confusion that caused 37% of V1 errors was **completely eliminated** in V2. This single improvement accounts for most of the accuracy gains.
+
+### Why Larger Puzzles Remain Challenging
+
+Even with 99.9% per-character accuracy, larger puzzles have more characters:
+- 3×3: ~15 characters → 98.5% chance of zero errors
+- 9×9: ~80 characters → 92% chance of zero errors
+
+The error correction can fix 1-3 errors per puzzle, but some 9×9 puzzles have 4+ OCR errors.
+
+See [`KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md`](KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md) for detailed analysis.
+
 ## Installation
 
 ### Prerequisites
@@ -168,10 +222,16 @@ pip install anthropic openai google-generativeai transformers python-dotenv
 
 ## Quick Start
 
-### KenKen Solver (Command Line)
+### KenKen Solver (Computer-Generated)
 ```bash
 cd KenKen
 python solve_all_sizes.py --sizes 3,4,5,6,7,9 --num 100
+```
+
+### KenKen Solver (Handwritten V2)
+```bash
+cd KenKen-handwritten-v2/solver
+python3 solve_all_sizes.py --sizes 3,4,5,6,7,9 --num 100
 ```
 
 ### KenKen Solver (Jupyter Notebook)
@@ -200,11 +260,18 @@ KenKenSolver/
 │   ├── models/                 # Pre-trained CNN weights
 │   ├── puzzles/                # Puzzle dataset (JSON)
 │   └── board_images/           # Generated puzzle images
-├── KenKen handwritten/          # KenKen with MNIST handwritten digits
+├── KenKen handwritten/          # KenKen with MNIST handwritten digits (V1)
 │   ├── evaluate.py             # Baseline evaluation
 │   ├── detect_errors.py        # Error correction pipeline
 │   ├── analyze_failures.py     # Error analysis
 │   └── board_images/           # Handwritten digit puzzle images
+├── KenKen-handwritten-v2/       # Improved handwritten KenKen solver
+│   ├── solver/                 # Unified solver with error correction
+│   │   ├── solve_all_sizes.py  # Main solver (3×3 to 9×9)
+│   │   └── constraint_validation.py
+│   ├── models/                 # ImprovedCNN weights
+│   ├── board_images/           # 300px cell puzzle images
+│   └── V1_V2_COMPARISON_REPORT.md  # Detailed analysis
 ├── Sudoku/                      # Sudoku puzzle solver (4×4, 9×9)
 ├── HexaSudoku/                  # 16×16 Sudoku solver
 ├── 83-17 split handwritten/     # Handwritten experiments (83-17 split)
