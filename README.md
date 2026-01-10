@@ -21,12 +21,12 @@ All puzzle images are available in [`benchmark_files/`](benchmark_files/):
 | **KenKen** | 6×6 | 100% | 100% | 15% | **65%** |
 | **KenKen** | 7×7 | 95% | 100% | 2% | **43%** |
 | **KenKen** | 9×9 | 96% | 100% | 1% | **24%** |
-| **Sudoku** | 4×4 | 100% | 100% | 99% | - |
-| **Sudoku** | 9×9 | 100% | 100% | 99% | - |
-| **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 40% | - |
-| **HexaSudoku** | 16×16 (Numeric) | 100% | 100% | 58% | - |
+| **Sudoku** | 4×4 | 100% | 100% | 99% | **100%** |
+| **Sudoku** | 9×9 | 100% | 100% | 99% | **98%** |
+| **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 40% | **91%** |
+| **HexaSudoku** | 16×16 (Numeric) | 100% | 100% | 58% | **72%** |
 
-*V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with 10x augmentation. All results include error correction.*
+*V1: 90-10 train/test split with MNIST digits. V2: Unified ImprovedCNN (17 classes) trained on board-extracted characters with augmentation. All results include error correction.*
 
 ## Why Neuro-Symbolic?
 
@@ -194,6 +194,48 @@ Even with 99.9% per-character accuracy, larger puzzles have more characters:
 The error correction can fix 1-3 errors per puzzle, but some 9×9 puzzles have 4+ OCR errors.
 
 See [`KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md`](KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md) for detailed analysis.
+
+## Sudoku/HexaSudoku Handwritten V2
+
+A unified solver handling all Sudoku and HexaSudoku variants with a single 17-class CNN model.
+
+### V1 vs V2 Comparison
+
+| Puzzle Type | V1 | V2 | Improvement |
+|-------------|-----|-----|-------------|
+| Sudoku 4×4 | 99% | **100%** | +1% |
+| Sudoku 9×9 | 99% | **98%** | -1% |
+| HexaSudoku (A-G) | 40% | **91%** | +51% |
+| HexaSudoku (Numeric) | 58% | **72%** | +14% |
+
+### What Changed in V2
+
+**Unified Model Architecture**:
+- Single ImprovedCNN (17 classes: digits 0-9 + letters A-G)
+- 850K parameters with BatchNorm and deeper architecture
+- 99.3% validation accuracy
+
+**HexaSudoku Numeric Handling**:
+- **Tens digit forced to 1**: Eliminates 1↔7 confusion for values 10-16
+- **Ones digit constrained to 0-6**: Values 17-19 don't exist in HexaSudoku
+- **Ink density ratio** for single/double digit detection (threshold 1.7)
+- **Fixed spatial split** for two-digit extraction (left/right halves)
+
+**Error Correction**:
+- Z3 unsat core analysis identifies conflicting cells
+- Single and double-error correction with top-K CNN predictions
+- Domain-aware alternatives (only valid values tried)
+
+### Baseline vs Error-Corrected
+
+| Puzzle Type | Baseline | Corrected | Improvement |
+|-------------|----------|-----------|-------------|
+| Sudoku 4×4 | 100% | 100% | +0% |
+| Sudoku 9×9 | 96% | 98% | +2% |
+| HexaSudoku (A-G) | 77% | 91% | +14% |
+| HexaSudoku (Numeric) | 60% | 72% | +12% |
+
+See [`Sudoku-handwritten-v2/REPORT.md`](Sudoku-handwritten-v2/REPORT.md) for detailed analysis.
 
 ## Installation
 
