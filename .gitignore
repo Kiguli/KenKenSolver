@@ -32,3 +32,8 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# Board images outside final folder (too large for GitHub)
+archive/**/board_images/
+**/board_images/*.png
+!final/**/board_images/

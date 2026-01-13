@@ -4,12 +4,30 @@ AI systems that solve constraint-based puzzles by combining **computer vision (C
 
 **Pipeline**: Image → CNN (perception) → Z3 Solver (reasoning) → Solution
 
-## Benchmark Files
+## Repository Structure
 
-All puzzle images are available in [`benchmark_files/`](benchmark_files/):
-- **KenKen**: 3×3 to 9×9 (Computer & Handwritten)
-- **Sudoku**: 4×4 and 9×9 (Computer & Handwritten)
-- **HexaSudoku**: 16×16 with Hex (A-G) or Numeric (10-16) notation
+This repository is organized into two main directories:
+
+- **[`final/`](final/)** - Curated release package with benchmarks, models, results, and evaluation tools
+- **[`archive/`](archive/)** - Complete experimental history and all source code
+
+### Quick Links
+
+| Resource | Location |
+|----------|----------|
+| Benchmark Images (2,000) | [`final/benchmarks/`](final/benchmarks/) |
+| Pre-trained CNN Models | [`final/models/`](final/models/) |
+| Evaluation Results | [`final/results/`](final/results/) |
+| LLM Benchmark Script | [`final/evaluation/llm_benchmark.py`](final/evaluation/llm_benchmark.py) |
+| Technical Report | [`final/REPORT.md`](final/REPORT.md) |
+| Full Source Code | [`archive/`](archive/) |
+
+### Benchmark Files
+
+All puzzle images are available in [`final/benchmarks/`](final/benchmarks/):
+- **KenKen**: 3×3 to 9×9 (Computer & Handwritten) - 1,200 images
+- **Sudoku**: 4×4 and 9×9 (Computer & Handwritten) - 400 images
+- **HexaSudoku**: 16×16 with Hex (A-G) or Numeric (10-16) notation - 400 images
 
 ## Results
 
@@ -193,7 +211,7 @@ Even with 99.9% per-character accuracy, larger puzzles have more characters:
 
 The error correction can fix 1-3 errors per puzzle, but some 9×9 puzzles have 4+ OCR errors.
 
-See [`KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md`](KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md) for detailed analysis.
+See [`archive/KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md`](archive/KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md) for detailed analysis.
 
 ## Sudoku/HexaSudoku Handwritten V2
 
@@ -235,7 +253,7 @@ A unified solver handling all Sudoku and HexaSudoku variants with a single 17-cl
 | HexaSudoku (A-G) | 77% | 91% | +14% |
 | HexaSudoku (Numeric) | 60% | 72% | +12% |
 
-See [`Sudoku-handwritten-v2/REPORT.md`](Sudoku-handwritten-v2/REPORT.md) for detailed analysis.
+See [`archive/Sudoku-handwritten-v2/REPORT.md`](archive/Sudoku-handwritten-v2/REPORT.md) for detailed analysis.
 
 ## Installation
 
@@ -266,26 +284,33 @@ pip install anthropic openai google-generativeai transformers python-dotenv
 
 ### KenKen Solver (Computer-Generated)
 ```bash
-cd KenKen
+cd archive/KenKen
 python solve_all_sizes.py --sizes 3,4,5,6,7,9 --num 100
 ```
 
 ### KenKen Solver (Handwritten V2)
 ```bash
-cd KenKen-handwritten-v2/solver
+cd archive/KenKen-handwritten-v2/solver
 python3 solve_all_sizes.py --sizes 3,4,5,6,7,9 --num 100
 ```
 
 ### KenKen Solver (Jupyter Notebook)
 ```bash
-cd KenKen
+cd archive/KenKen
 jupyter notebook NeuroSymbolicSolver.ipynb
 ```
 
 ### Sudoku Solver
 ```bash
-cd Sudoku
+cd archive/Sudoku
 jupyter notebook NeuroSymbolicSolver.ipynb
+```
+
+### LLM Benchmark
+```bash
+cd final/evaluation
+python llm_benchmark.py --llm claude --puzzle kenken --sizes 3,4,5 --num 30
+python llm_benchmark.py --llm all --puzzle kenken --sizes 3,4,5,6,7 --num 30
 ```
 
 ## Project Structure
@@ -293,35 +318,39 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 ```
 KenKenSolver/
 ├── README.md                    # This file
-├── CLAUDE.md                    # Development documentation
-├── benchmark_files/             # All puzzle images organized by type
-├── KenKen/                      # KenKen puzzle solver (computer-generated)
-│   ├── solve_all_sizes.py      # Unified solver (3×3 to 9×9)
-│   ├── NeuroSymbolicSolver.ipynb
-│   ├── train_character_cnn.py  # CNN training script
+│
+├── final/                       # Curated release package
+│   ├── benchmarks/             # 2,000 puzzle images
+│   │   ├── KenKen/            # Computer & Handwritten (3×3 to 9×9)
+│   │   ├── Sudoku/            # Computer & Handwritten (4×4, 9×9)
+│   │   └── HexaSudoku_16x16/  # Hex & Numeric notation
 │   ├── models/                 # Pre-trained CNN weights
-│   ├── puzzles/                # Puzzle dataset (JSON)
-│   └── board_images/           # Generated puzzle images
-├── KenKen handwritten/          # KenKen with MNIST handwritten digits (V1)
-│   ├── evaluate.py             # Baseline evaluation
-│   ├── detect_errors.py        # Error correction pipeline
-│   ├── analyze_failures.py     # Error analysis
-│   └── board_images/           # Handwritten digit puzzle images
-├── KenKen-handwritten-v2/       # Improved handwritten KenKen solver
-│   ├── solver/                 # Unified solver with error correction
-│   │   ├── solve_all_sizes.py  # Main solver (3×3 to 9×9)
-│   │   └── constraint_validation.py
-│   ├── models/                 # ImprovedCNN weights
-│   ├── board_images/           # 300px cell puzzle images
-│   └── V1_V2_COMPARISON_REPORT.md  # Detailed analysis
-├── Sudoku/                      # Sudoku puzzle solver (4×4, 9×9)
-├── HexaSudoku/                  # 16×16 Sudoku solver
-├── 83-17 split handwritten/     # Handwritten experiments (83-17 split)
-├── 90-10 split handwritten/     # Handwritten experiments (90-10 split)
-├── 90-10 split detect handwritten digit errors/  # Constraint-based error detection
-├── 90-10 split handwritten digits only/  # Digits-only experiment (58%)
-├── 95-5 split detect handwritten digit errors/   # Test set comparison
-└── 100-0 split detect handwritten digit errors/  # Upper bound experiment (68%)
+│   │   ├── computer/          # CNNs for computer-generated puzzles
+│   │   ├── handwritten_v1/    # 90-10 split models
+│   │   └── handwritten_v2/    # ImprovedCNN models
+│   ├── puzzles/               # Puzzle definitions (JSON)
+│   ├── results/               # Evaluation CSVs
+│   │   ├── neurosymbolic/     # Solver accuracy results
+│   │   └── llm/               # LLM comparison results
+│   ├── evaluation/            # LLM benchmark script
+│   │   └── llm_benchmark.py   # Unified evaluation tool
+│   └── REPORT.md              # Technical report
+│
+└── archive/                    # Complete experimental history
+    ├── CLAUDE.md              # Development documentation
+    ├── KenKen/                # KenKen solver (computer-generated)
+    ├── KenKen handwritten/    # V1 handwritten solver
+    ├── KenKen-handwritten-v2/ # V2 improved solver
+    ├── KenKen-300px/          # 300px variant
+    ├── Sudoku/                # Sudoku solver
+    ├── Sudoku-handwritten-v2/ # Unified Sudoku/HexaSudoku
+    ├── HexaSudoku/            # 16×16 solver
+    ├── 83-17 split handwritten/
+    ├── 90-10 split handwritten/
+    ├── 90-10 split handwritten digits only/
+    ├── 90-10 split detect handwritten digit errors/
+    ├── 95-5 split detect handwritten digit errors/
+    └── 100-0 split detect handwritten digit errors/
 ```
 
 ## License
