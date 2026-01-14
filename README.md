@@ -73,16 +73,34 @@ Image Input (900×900)
 
 ## LLM Comparison (KenKen)
 
-| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 |
-|--------|-----|-----|-----|-----|-----|-----|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 96% | 100% |
-| Gemini 2.5 Pro | 74% | 30% | 0% | 0% | 0% | 0% |
-| Claude Sonnet 4 | 39% | 7% | 0% | 0% | 0% | 0% |
-| GPT-4o Mini | 8% | 0% | 0% | 0% | 0% | 0% |
+| Solver | 3×3 | 4×4 | 5×5 |
+|--------|-----|-----|-----|
+| **NeuroSymbolic** | 100% | 100% | 100% |
+| Gemini 2.5 Pro | 69% | 35% | 0% |
+| Claude Sonnet 4 | 41% | 6% | 0% |
+| GPT-4o Mini | 5% | 0% | 0% |
 
-*KenKen 7×7 achieves 95% baseline, 100% with operator inference. 9×9 achieves 96% baseline, 100% with error correction.
+*All LLMs fail completely on KenKen puzzles 5×5 and larger.*
 
-**Key Finding**: All LLMs fail completely on puzzles 5×5 and larger.
+## LLM Comparison (Sudoku)
+
+| Solver | 4×4 | 9×9 |
+|--------|-----|-----|
+| **NeuroSymbolic** | 100% | 100% |
+| Gemini 2.5 Pro | 99% | 0% |
+| Claude Sonnet 4 | 73% | 0% |
+| GPT-4o Mini | 65% | 1% |
+
+*All LLMs fail on 9×9 Sudoku (GPT achieved only 1/100).*
+
+## LLM Comparison (HexaSudoku)
+
+| Solver | 16×16 (Hex) | 16×16 (Numeric) |
+|--------|-------------|-----------------|
+| **NeuroSymbolic** | 100% | 100% |
+| GPT-4o Mini | 0% | 0% |
+
+*LLMs completely fail on HexaSudoku 16×16.*
 
 ## Error Correction Methods
 
