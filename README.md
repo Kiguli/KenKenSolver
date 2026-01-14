@@ -78,6 +78,7 @@ Image Input (900×900)
 | **NeuroSymbolic** | 100% | 100% | 100% | 100% | 100% | 100% |
 | Gemini 2.5 Pro | 69% | 35% | 0% | - | - | - |
 | Claude Sonnet 4 | 41% | 6% | 0% | - | - | - |
+| Qwen 2.5-VL-72B | 24% | 0% | - | - | - | - |
 | GPT-4o Mini | 5% | 0% | - | - | - | - |
 
 *All LLMs fail completely on KenKen puzzles 5×5 and larger.*
@@ -89,6 +90,7 @@ Image Input (900×900)
 | **NeuroSymbolic** | 100% | 100% | 100% | 100% |
 | Gemini 2.5 Pro | 99% | 0% | - | - |
 | Claude Sonnet 4 | 73% | 0% | - | - |
+| Qwen 2.5-VL-72B | 51% | 0% | - | - |
 | GPT-4o Mini | 65% | 1% | 0% | 0% |
 
 *All LLMs fail on 9×9 Sudoku and 16×16 HexaSudoku.*

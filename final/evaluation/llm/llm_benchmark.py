@@ -17,6 +17,7 @@ Environment Variables (or .env file):
     ANTHROPIC_API_KEY - For Claude
     OPENAI_API_KEY - For GPT
     GOOGLE_API_KEY - For Gemini
+    OPENROUTER_API_KEY - For Qwen (via OpenRouter)
 """
 
 import argparse
@@ -339,34 +340,42 @@ class GeminiClient:
 
 
 class QwenClient:
-    """Qwen local model client (requires GPU)."""
+    """Qwen API client via OpenRouter."""
 
-    def __init__(self, model="Qwen/Qwen2.5-VL-7B-Instruct"):
-        import torch
-        from PIL import Image
-        from transformers import pipeline
+    def __init__(self, model="qwen/qwen2.5-vl-72b-instruct"):
+        from openai import OpenAI
 
-        self.Image = Image
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.pipe = pipeline("image-text-to-text", model=model, device=device)
+        api_key = os.environ.get("OPENROUTER_API_KEY")
+        if not api_key:
+            raise ValueError("OPENROUTER_API_KEY not found in environment")
+
+        self.client = OpenAI(
+            api_key=api_key,
+            base_url="https://openrouter.ai/api/v1"
+        )
+        self.model = model
 
     def get_response(self, prompt, image_path):
-        image = self.Image.open(image_path).convert("RGB")
-
-        messages = [{
-            "role": "user",
-            "content": [
-                {"type": "image", "image": image},
-                {"type": "text", "text": prompt}
-            ]
-        }]
+        with open(image_path, "rb") as f:
+            encoded = base64.b64encode(f.read()).decode()
+        data_uri = f"data:image/png;base64,{encoded}"
 
         start = time.time()
-        result = self.pipe(text=messages, max_new_tokens=1024)
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[{
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {"type": "image_url", "image_url": {"url": data_uri}}
+                ]
+            }],
+            max_tokens=2048
+        )
         elapsed = time.time() - start
 
-        response_text = result[0]['generated_text'][-1]['content']
-        return response_text, 0, elapsed
+        tokens = response.usage.total_tokens if response.usage else 0
+        return response.choices[0].message.content, tokens, elapsed
 
 
 def get_llm_client(llm_name):
