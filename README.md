@@ -34,11 +34,11 @@ All puzzle images are available in [`final/benchmarks/`](final/benchmarks/):
 | Puzzle | Size | Computer | Handwritten V1 | Handwritten V2 |
 |--------|------|----------|----------------|----------------|
 | **KenKen** | 3×3 | 100% | 89% | **100%** |
-| **KenKen** | 4×4 | 100% | 58% | **93%** |
-| **KenKen** | 5×5 | 100% | 26% | **44%** |
-| **KenKen** | 6×6 | 100% | 15% | **44%** |
-| **KenKen** | 7×7 | 100% | 2% | **15%** |
-| **KenKen** | 9×9 | 100% | 1% | **15%** |
+| **KenKen** | 4×4 | 100% | 58% | **94%** |
+| **KenKen** | 5×5 | 100% | 26% | **74%** |
+| **KenKen** | 6×6 | 100% | 15% | **66%** |
+| **KenKen** | 7×7 | 100% | 2% | **41%** |
+| **KenKen** | 9×9 | 100% | 1% | **26%** |
 | **Sudoku** | 4×4 | 100% | 92% | **100%** |
 | **Sudoku** | 9×9 | 100% | 85% | **98%** |
 | **HexaSudoku** | 16×16 (Hex) | 100% | 10% | **91%** |
@@ -177,11 +177,33 @@ The V2 approach dramatically improves handwritten KenKen solving through better 
 | Size | V1 Corrected | V2 Corrected | Improvement |
 |------|--------------|--------------|-------------|
 | 3×3  | 89%          | **100%**     | +11%        |
-| 4×4  | 58%          | **93%**      | +35%        |
-| 5×5  | 26%          | **44%**      | +18%        |
-| 6×6  | 15%          | **44%**      | +29%        |
-| 7×7  | 2%           | **15%**      | +13%        |
-| 9×9  | 1%           | **15%**      | +14%        |
+| 4×4  | 58%          | **94%**      | +36%        |
+| 5×5  | 26%          | **74%**      | +48%        |
+| 6×6  | 15%          | **66%**      | +51%        |
+| 7×7  | 2%           | **41%**      | +39%        |
+| 9×9  | 1%           | **26%**      | +25%        |
+
+### Error Correction Breakdown (V2)
+
+Out of 600 handwritten KenKen puzzles, the correction methods contributed as follows:
+
+| Correction Type | Puzzles | Description |
+|-----------------|---------|-------------|
+| **None (direct solve)** | 275 | CNN predictions correct, no correction needed |
+| **Simple single** | 76 | Fixed 1 OCR error using top-K predictions |
+| **Constraint single** | 29 | Fixed 1 error via Z3 unsat core analysis |
+| **Simple two** | 14 | Fixed 2 OCR errors using top-K predictions |
+| **Confidence swap** | 2 | Fixed via lowest-confidence character swaps |
+| **Constraint two** | 2 | Fixed 2 errors via unsat core |
+| **Constraint auto** | 2 | Auto-inferred missing operators |
+| **Constraint four** | 1 | Fixed 4 errors via unsat core |
+| **Still uncorrectable** | 199 | Too many errors (4+) to correct |
+
+**Key insights**:
+- 46% of puzzles (275/600) solved directly without correction
+- 21% of puzzles (126/600) recovered via error correction
+- Simple single-error correction was most effective (76 puzzles)
+- 33% of puzzles remain unsolvable due to 4+ OCR errors
 
 ### What Changed in V2
 
