@@ -34,15 +34,15 @@ All puzzle images are available in [`final/benchmarks/`](final/benchmarks/):
 | Puzzle | Size | Computer | Handwritten V1 | Handwritten V2 |
 |--------|------|----------|----------------|----------------|
 | **KenKen** | 3×3 | 100% | 89% | **100%** |
-| **KenKen** | 4×4 | 100% | 58% | **90%** |
-| **KenKen** | 5×5 | 100% | 26% | **74%** |
-| **KenKen** | 6×6 | 100% | 15% | **65%** |
-| **KenKen** | 7×7 | 100% | 2% | **43%** |
-| **KenKen** | 9×9 | 100% | 1% | **24%** |
-| **Sudoku** | 4×4 | 100% | 99% | **100%** |
-| **Sudoku** | 9×9 | 100% | 99% | **98%** |
-| **HexaSudoku** | 16×16 (Hex) | 100% | 40% | **91%** |
-| **HexaSudoku** | 16×16 (Numeric) | 100% | 58% | **72%** |
+| **KenKen** | 4×4 | 100% | 58% | **93%** |
+| **KenKen** | 5×5 | 100% | 26% | **44%** |
+| **KenKen** | 6×6 | 100% | 15% | **44%** |
+| **KenKen** | 7×7 | 100% | 2% | **15%** |
+| **KenKen** | 9×9 | 100% | 1% | **15%** |
+| **Sudoku** | 4×4 | 100% | 92% | **100%** |
+| **Sudoku** | 9×9 | 100% | 85% | **98%** |
+| **HexaSudoku** | 16×16 (Hex) | 100% | 10% | **91%** |
+| **HexaSudoku** | 16×16 (Numeric) | 100% | 32% | **72%** |
 
 *V1: 90-10 train/test split with MNIST digits. V2: Unified ImprovedCNN (17 classes) trained on board-extracted characters with augmentation. All results include error correction.*
 
@@ -177,11 +177,11 @@ The V2 approach dramatically improves handwritten KenKen solving through better 
 | Size | V1 Corrected | V2 Corrected | Improvement |
 |------|--------------|--------------|-------------|
 | 3×3  | 89%          | **100%**     | +11%        |
-| 4×4  | 58%          | **90%**      | +32%        |
-| 5×5  | 26%          | **74%**      | +48%        |
-| 6×6  | 15%          | **65%**      | +50%        |
-| 7×7  | 2%           | **43%**      | +41%        |
-| 9×9  | 1%           | **24%**      | +23%        |
+| 4×4  | 58%          | **93%**      | +35%        |
+| 5×5  | 26%          | **44%**      | +18%        |
+| 6×6  | 15%          | **44%**      | +29%        |
+| 7×7  | 2%           | **15%**      | +13%        |
+| 9×9  | 1%           | **15%**      | +14%        |
 
 ### What Changed in V2
 
@@ -230,10 +230,10 @@ A unified solver handling all Sudoku and HexaSudoku variants with a single 17-cl
 
 | Puzzle Type | V1 | V2 | Improvement |
 |-------------|-----|-----|-------------|
-| Sudoku 4×4 | 99% | **100%** | +1% |
-| Sudoku 9×9 | 99% | **98%** | -1% |
-| HexaSudoku (A-G) | 40% | **91%** | +51% |
-| HexaSudoku (Numeric) | 58% | **72%** | +14% |
+| Sudoku 4×4 | 92% | **100%** | +8% |
+| Sudoku 9×9 | 85% | **98%** | +13% |
+| HexaSudoku (A-G) | 10% | **91%** | +81% |
+| HexaSudoku (Numeric) | 32% | **72%** | +40% |
 
 ### What Changed in V2
 
