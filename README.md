@@ -31,18 +31,18 @@ All puzzle images are available in [`final/benchmarks/`](final/benchmarks/):
 
 ## Results
 
-| Puzzle | Size | Computer Baseline | Computer Corrected | Handwritten V1 | Handwritten V2 |
-|--------|------|-------------------|--------------------|-----------------------|-----------------------|
-| **KenKen** | 3×3 | 100% | 100% | 89% | **100%** |
-| **KenKen** | 4×4 | 100% | 100% | 58% | **90%** |
-| **KenKen** | 5×5 | 100% | 100% | 26% | **74%** |
-| **KenKen** | 6×6 | 100% | 100% | 15% | **65%** |
-| **KenKen** | 7×7 | 95% | 100% | 2% | **43%** |
-| **KenKen** | 9×9 | 96% | 100% | 1% | **24%** |
-| **Sudoku** | 4×4 | 100% | 100% | 99% | **100%** |
-| **Sudoku** | 9×9 | 100% | 100% | 99% | **98%** |
-| **HexaSudoku** | 16×16 (Hex) | 100% | 100% | 40% | **91%** |
-| **HexaSudoku** | 16×16 (Numeric) | 100% | 100% | 58% | **72%** |
+| Puzzle | Size | Computer | Handwritten V1 | Handwritten V2 |
+|--------|------|----------|----------------|----------------|
+| **KenKen** | 3×3 | 100% | 89% | **100%** |
+| **KenKen** | 4×4 | 100% | 58% | **90%** |
+| **KenKen** | 5×5 | 100% | 26% | **74%** |
+| **KenKen** | 6×6 | 100% | 15% | **65%** |
+| **KenKen** | 7×7 | 100% | 2% | **43%** |
+| **KenKen** | 9×9 | 100% | 1% | **24%** |
+| **Sudoku** | 4×4 | 100% | 99% | **100%** |
+| **Sudoku** | 9×9 | 100% | 99% | **98%** |
+| **HexaSudoku** | 16×16 (Hex) | 100% | 40% | **91%** |
+| **HexaSudoku** | 16×16 (Numeric) | 100% | 58% | **72%** |
 
 *V1: 90-10 train/test split with MNIST digits. V2: Unified ImprovedCNN (17 classes) trained on board-extracted characters with augmentation. All results include error correction.*
 
@@ -71,36 +71,27 @@ Image Input (900×900)
     Solution Output
 ```
 
-## LLM Comparison (KenKen)
+## LLM Comparison (KenKen, Computer-Generated)
 
-| Solver | 3×3 | 4×4 | 5×5 |
-|--------|-----|-----|-----|
-| **NeuroSymbolic** | 100% | 100% | 100% |
-| Gemini 2.5 Pro | 69% | 35% | 0% |
-| Claude Sonnet 4 | 41% | 6% | 0% |
-| GPT-4o Mini | 5% | 0% | 0% |
+| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 |
+|--------|-----|-----|-----|-----|-----|-----|
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 100% | 100% |
+| Gemini 2.5 Pro | 69% | 35% | 0% | - | - | - |
+| Claude Sonnet 4 | 41% | 6% | 0% | - | - | - |
+| GPT-4o Mini | 5% | 0% | - | - | - | - |
 
 *All LLMs fail completely on KenKen puzzles 5×5 and larger.*
 
-## LLM Comparison (Sudoku)
+## LLM Comparison (Sudoku & HexaSudoku, Computer-Generated)
 
-| Solver | 4×4 | 9×9 |
-|--------|-----|-----|
-| **NeuroSymbolic** | 100% | 100% |
-| Gemini 2.5 Pro | 99% | 0% |
-| Claude Sonnet 4 | 73% | 0% |
-| GPT-4o Mini | 65% | 1% |
+| Solver | Sudoku 4×4 | Sudoku 9×9 | HexaSudoku 16×16 (Hex) | HexaSudoku 16×16 (Numeric) |
+|--------|------------|------------|------------------------|----------------------------|
+| **NeuroSymbolic** | 100% | 100% | 100% | 100% |
+| Gemini 2.5 Pro | 99% | 0% | - | - |
+| Claude Sonnet 4 | 73% | 0% | - | - |
+| GPT-4o Mini | 65% | 1% | 0% | 0% |
 
-*All LLMs fail on 9×9 Sudoku (GPT achieved only 1/100).*
-
-## LLM Comparison (HexaSudoku)
-
-| Solver | 16×16 (Hex) | 16×16 (Numeric) |
-|--------|-------------|-----------------|
-| **NeuroSymbolic** | 100% | 100% |
-| GPT-4o Mini | 0% | 0% |
-
-*LLMs completely fail on HexaSudoku 16×16.*
+*All LLMs fail on 9×9 Sudoku and 16×16 HexaSudoku.*
 
 ## Error Correction Methods
 
