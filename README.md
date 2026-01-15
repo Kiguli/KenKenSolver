@@ -422,7 +422,8 @@ KenKenSolver/
     ├── KenKen/                # KenKen solver (computer-generated)
     ├── KenKen handwritten/    # V1 handwritten solver
     ├── KenKen-handwritten-v2/ # V2 improved solver
-    ├── KenKen-300px/          # 300px variant
+    ├── KenKen-300px/          # 300px computer-generated variant
+    ├── KenKen-300px-handwritten/ # 300px handwritten variant
     ├── Sudoku/                # Sudoku solver
     ├── Sudoku-handwritten-v2/ # Unified Sudoku/HexaSudoku
     ├── HexaSudoku/            # 16×16 solver
