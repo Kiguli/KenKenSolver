@@ -45,14 +45,24 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | KenKen | 6×6 | 7% | 15% | 32% | **66%** |
 | KenKen | 7×7 | 1% | 2% | 10% | **41%** |
 | KenKen | 9×9 | 0% | 1% | 13% | **26%** |
-| Sudoku | 4×4 | - | 92% | 100% | **100%** |
-| Sudoku | 9×9 | - | 85% | 96% | **98%** |
-| HexaSudoku | 16×16 (Hex) | - | 10% | 77% | **91%** |
-| HexaSudoku | 16×16 (Numeric) | - | 32% | 60% | **72%** |
+| Sudoku | 4×4 | 90% | 92% | 100% | **100%** |
+| Sudoku | 9×9 | 75% | 85% | 96% | **98%** |
+| HexaSudoku | 16×16 (Hex) | 10% | 10% | 77% | **91%** |
+| HexaSudoku | 16×16 (Numeric) | 30% | 32% | 60% | **72%** |
 
-*V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with augmentation.*
+*V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with augmentation. V1 Sudoku/HexaSudoku baselines derived from extraction accuracy.*
 
 ## Pipeline Architecture
+
+The system uses different CNN models for computer-generated vs handwritten puzzles:
+
+| Pipeline | Computer Models | Handwritten Models |
+|----------|-----------------|-------------------|
+| KenKen Grid Size | `kenken_grid_cnn.pth` | `kenken_grid_cnn.pth` |
+| KenKen Digits | `kenken_sudoku_character_cnn.pth` | V1: `kenken_cnn.pth`, V2: `improved_cnn.pth` |
+| Sudoku Digits | `kenken_sudoku_character_cnn.pth` | V1: `sudoku_cnn.pth`, V2: `improved_cnn.pth` |
+| HexaSudoku (Hex) | `hexasudoku_character_cnn.pth` | V1: `hexasudoku_cnn.pth`, V2: `improved_cnn.pth` |
+| HexaSudoku (Numeric) | `hexasudoku_numeric_cnn.pth` | V1: `hexasudoku_numeric_cnn.pth`, V2: `improved_cnn.pth` |
 
 ### KenKen Pipeline (300px fixed cells, variable board size)
 
@@ -61,6 +71,7 @@ Image Input (size varies: 900×900 to 2700×2700 based on grid size)
         ↓
    ┌──────────────────────┐
    │  Size Detection CNN  │  ← 128×128 input, 6 classes (3,4,5,6,7,9)
+   │  (kenken_grid_cnn)   │     Shared between computer and handwritten
    └──────────┬───────────┘
               ↓
    ┌──────────────────────┐
@@ -71,11 +82,13 @@ Image Input (size varies: 900×900 to 2700×2700 based on grid size)
    ┌──────────────────────┐
    │  KenKen Digit CNN    │  ← 28×28 input, 14 classes
    │                      │     (digits 0-9 + operators +-×÷)
+   │                      │     Computer: kenken_sudoku_character_cnn
+   │                      │     Handwritten: improved_cnn (V2)
    └──────────┬───────────┘
               ↓
    ┌──────────────────────┐
    │   Z3 Solver          │  ← Latin square + cage arithmetic constraints
-   │   + Error Correction │
+   │   + Error Correction │     (handwritten only)
    └──────────┬───────────┘
               ↓
         Solution Output
@@ -95,11 +108,14 @@ Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
    │  Sudoku Digit CNN    │  ← 28×28 input
    │                      │     Sudoku: 10 classes (0-9)
    │                      │     HexaSudoku: 17 classes (0-9 + A-G)
+   │                      │     Computer: kenken_sudoku_character_cnn
+   │                      │              or hexasudoku_character_cnn
+   │                      │     Handwritten: improved_cnn (V2)
    └──────────┬───────────┘
               ↓
    ┌──────────────────────┐
    │   Z3 Solver          │  ← Latin square + box constraints
-   │   + Error Correction │
+   │   + Error Correction │     (handwritten only)
    └──────────┬───────────┘
               ↓
         Solution Output
@@ -403,7 +419,6 @@ KenKenSolver/
 │   └── REPORT.md              # Technical report
 │
 └── archive/                    # Complete experimental history
-    ├── CLAUDE.md              # Development documentation
     ├── KenKen/                # KenKen solver (computer-generated)
     ├── KenKen handwritten/    # V1 handwritten solver
     ├── KenKen-handwritten-v2/ # V2 improved solver
