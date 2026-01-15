@@ -32,7 +32,14 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Optional
 
-# Import constraint validation module
+# Set up path to archive for constraint validation module
+from pathlib import Path
+script_dir = Path(__file__).parent.resolve()
+base_dir = script_dir.parent.parent.parent  # evaluation/neurosymbolic/kenken -> root
+archive_solver_dir = base_dir / 'archive' / 'KenKen-handwritten-v2' / 'solver'
+sys.path.insert(0, str(archive_solver_dir))
+
+# Import constraint validation module from archive
 from constraint_validation import (
     is_valid_target, detect_impossible_cages, get_valid_cell_values,
     infer_correct_target, filter_alternatives_by_constraints,
@@ -1026,9 +1033,9 @@ def generate_cage_alternatives(alternatives_data, max_k=4):
     return all_combos
 
 
-def attempt_error_correction(puzzle, alternatives, size, max_errors=3, max_k=4, max_suspects=15):
-    """Attempt to correct OCR errors using top-K predictions."""
-    max_attempts_per_level = [50, 100, 200]
+def attempt_error_correction(puzzle, alternatives, size, max_errors=6, max_k=8, max_suspects=20):
+    """Attempt to correct OCR errors using top-K predictions (simple approach)."""
+    max_attempts_per_level = [50, 100, 200, 400, 600, 800, 1000, 1500]
 
     suspects, num_probes = detect_errors_via_unsat_core(puzzle, size)
     total_solve_calls = num_probes
@@ -1054,13 +1061,13 @@ def attempt_error_correction(puzzle, alternatives, size, max_errors=3, max_k=4, 
         if alts:
             suspect_alternatives.append((cage_idx, alts))
 
-    error_names = ["single", "two", "three"]
+    error_names = ["single", "two", "three", "four", "five", "six", "seven", "eight"]
 
     for num_errors in range(1, max_errors + 1):
         if num_errors > len(suspect_alternatives):
             break
 
-        max_attempts = max_attempts_per_level[num_errors - 1] if num_errors <= len(max_attempts_per_level) else 400
+        max_attempts = max_attempts_per_level[num_errors - 1] if num_errors <= len(max_attempts_per_level) else 2000
         error_name = error_names[num_errors - 1] if num_errors <= len(error_names) else f"{num_errors}"
 
         attempts_this_level = 0
@@ -1343,7 +1350,7 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
 
         # Use constraint-based error correction
         correction = attempt_constraint_based_correction(
-            puzzle, alternatives, size, max_errors=3, max_k=4, verbose=verbose
+            puzzle, alternatives, size, max_errors=3, max_k=4
         )
 
         if correction.success:
@@ -1352,7 +1359,21 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
                 correction_type = f"cage_redetect+{correction_type}"
             return correction.solution, correction_type, (time.time() - start_time) * 1000
 
-        return None, "uncorrectable", (time.time() - start_time) * 1000
+        # Fallback to simple correction if constraint-based fails
+        # Re-extract with higher k for more alternatives
+        puzzle, alternatives = make_puzzle_with_alternatives(
+            size, border_thickness, cages, filename, char_model, k=6, invert=invert
+        )
+        simple_correction = attempt_error_correction(
+            puzzle, alternatives, size, max_errors=4, max_k=6, max_suspects=15
+        )
+        if simple_correction.success:
+            correction_type = f"simple_{simple_correction.correction_type}"
+            if retry_info.get('retries', 0) > 0:
+                correction_type = f"cage_redetect+{correction_type}"
+            return simple_correction.solution, correction_type, (time.time() - start_time) * 1000
+
+        return None, "still_uncorrectable", (time.time() - start_time) * 1000
 
     return None, "unsolvable", (time.time() - start_time) * 1000
 
@@ -1378,42 +1399,41 @@ def main():
     use_correction = not args.no_correction
 
     print("=" * 70)
-    print("KenKen Solver - 300px Cells Evaluation")
+    print("KenKen Solver - 300px Cells Evaluation (Handwritten V2)")
     print(f"Sizes: {sizes}, Puzzles per size: {num_puzzles}")
     print(f"Error correction: {'Enabled' if use_correction else 'Disabled'}")
     print("=" * 70)
     print()
 
-    # Change to script directory
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    # Use root repository paths
+    models_dir = base_dir / 'models'
+    benchmarks_dir = base_dir / 'benchmarks' / 'KenKen' / 'Handwritten'
+    results_dir = base_dir / 'results' / 'neurosymbolic'
+    training_dir = models_dir / 'training'
 
     # Load models
     print("Loading models...")
 
-    # Try improved CNN first, fall back to original CNN_v2
-    improved_model_path = './models/improved_cnn_weights.pth'
-    original_model_path = './models/character_recognition_v2_model_weights.pth'
+    # Load ImprovedCNN for handwritten digit recognition
+    improved_model_path = models_dir / 'handwritten_v2' / 'kenken_improved_cnn.pth'
 
-    if os.path.exists(improved_model_path):
+    if improved_model_path.exists():
         print(f"  Using ImprovedCNN from {improved_model_path}")
-        # Import ImprovedCNN
-        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'models'))
+        # Import ImprovedCNN from training scripts
+        sys.path.insert(0, str(training_dir))
         from improved_cnn import ImprovedCNN
         char_model = ImprovedCNN(output_dim=14)
-        state_dict = torch.load(improved_model_path, weights_only=False)
-        char_model.load_state_dict(state_dict)
-    elif os.path.exists(original_model_path):
-        print(f"  Using CNN_v2 from {original_model_path}")
-        char_model = CNN_v2(output_dim=14)
-        state_dict = torch.load(original_model_path, weights_only=False)
+        state_dict = torch.load(str(improved_model_path), weights_only=False)
         char_model.load_state_dict(state_dict)
     else:
-        print("Error: No character model weights found!")
+        print(f"Error: Model not found at {improved_model_path}")
         return
     char_model.eval()
 
+    # Load grid detection model
+    grid_model_path = models_dir / 'grid_detection' / 'kenken_grid_cnn.pth'
     grid_model = Grid_CNN(output_dim=6)
-    state_dict = torch.load('./models/grid_detection_model_weights.pth', weights_only=False)
+    state_dict = torch.load(str(grid_model_path), weights_only=False)
     grid_model.load_state_dict(state_dict)
     grid_model.eval()
 
@@ -1434,7 +1454,7 @@ def main():
         correction_types = Counter()
 
         for i in range(num_puzzles):
-            filename = f"./board_images/board{size}_{i}.png"
+            filename = str(benchmarks_dir / f'{size}x{size}' / f'board{size}_{i}.png')
 
             if not os.path.exists(filename):
                 if args.verbose:
@@ -1499,10 +1519,11 @@ def main():
         print()
 
     # Save results
-    os.makedirs('./results', exist_ok=True)
+    results_dir.mkdir(parents=True, exist_ok=True)
 
     df = pd.DataFrame(all_results)
-    df.to_csv('./results/unified_solver_evaluation.csv', index=False)
+    output_csv = results_dir / 'kenken_handwritten_v2.csv'
+    df.to_csv(str(output_csv), index=False)
 
     # Print summary
     print()
@@ -1517,7 +1538,7 @@ def main():
         board_size = size * CELL_SIZE
         print(f"{size}x{size:<4} {board_size}x{board_size:<6} {s['base_accuracy']:>5.0f}%   {s['corrected_accuracy']:>6.0f}%     {s['avg_time_ms']:>6.0f}ms")
     print()
-    print(f"Results saved to ./results/unified_solver_evaluation.csv")
+    print(f"Results saved to {output_csv}")
 
 
 if __name__ == '__main__':
