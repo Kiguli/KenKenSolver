@@ -38,19 +38,19 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 
 ## Handwritten Results (Baseline vs Error-Corrected)
 
-| Puzzle | Size | V1 Baseline | V1 Corrected | V2 Baseline | V2 Corrected |
-|--------|------|-------------|--------------|-------------|--------------|
-| KenKen | 3×3 | 69% | 89% | 98% | **100%** |
-| KenKen | 4×4 | 36% | 58% | 86% | **94%** |
-| KenKen | 5×5 | 18% | 26% | 36% | **74%** |
-| KenKen | 6×6 | 7% | 15% | 32% | **66%** |
-| KenKen | 7×7 | 1% | 2% | 10% | **41%** |
-| KenKen | 8×8 | - | - | 13% | **46%** |
-| KenKen | 9×9 | 0% | 1% | 13% | **26%** |
-| Sudoku | 4×4 | 90% | 92% | 100% | **100%** |
-| Sudoku | 9×9 | 75% | 85% | 96% | **98%** |
-| HexaSudoku | 16×16 (Hex) | 10% | 10% | 77% | **91%** |
-| HexaSudoku | 16×16 (Numeric) | 30% | 32% | 60% | **72%** |
+| Puzzle | Size | V1 Baseline | V1 Corrected | V2 Baseline | V2 Corrected | GPT-4o |
+|--------|------|-------------|--------------|-------------|--------------|--------|
+| KenKen | 3×3 | 69% | 89% | 98% | **100%** | 20% |
+| KenKen | 4×4 | 36% | 58% | 86% | **94%** | 0% |
+| KenKen | 5×5 | 18% | 26% | 36% | **74%** | - |
+| KenKen | 6×6 | 7% | 15% | 32% | **66%** | - |
+| KenKen | 7×7 | 1% | 2% | 10% | **41%** | - |
+| KenKen | 8×8 | - | - | 13% | **46%** | - |
+| KenKen | 9×9 | 0% | 1% | 13% | **26%** | - |
+| Sudoku | 4×4 | 90% | 92% | 100% | **100%** | 63% |
+| Sudoku | 9×9 | 75% | 85% | 96% | **98%** | 9% |
+| HexaSudoku | 16×16 (Hex) | 10% | 10% | 77% | **91%** | 0% |
+| HexaSudoku | 16×16 (Numeric) | 30% | 32% | 60% | **72%** | 0% |
 
 *V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with augmentation. V1 Sudoku/HexaSudoku baselines derived from extraction accuracy.*
 
