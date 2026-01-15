@@ -2,50 +2,6 @@
 
 AI systems that solve constraint-based puzzles by combining **computer vision (CNNs)** with **symbolic reasoning (Z3 SMT Solver)**. This hybrid approach achieves near-perfect accuracy on problems where LLMs fail completely.
 
-**Pipeline**: Image → CNN (perception) → Z3 Solver (reasoning) → Solution
-
-## Repository Structure
-
-This repository is organized into two main directories:
-
-- **[`final/`](final/)** - Curated release package with benchmarks, models, results, and evaluation tools
-- **[`archive/`](archive/)** - Complete experimental history and all source code
-
-### Quick Links
-
-| Resource | Location |
-|----------|----------|
-| Benchmark Images (2,000) | [`final/benchmarks/`](final/benchmarks/) |
-| Pre-trained CNN Models | [`final/models/`](final/models/) |
-| Evaluation Results | [`final/results/`](final/results/) |
-| LLM Benchmark Script | [`final/evaluation/llm_benchmark.py`](final/evaluation/llm_benchmark.py) |
-| Technical Report | [`final/REPORT.md`](final/REPORT.md) |
-| Full Source Code | [`archive/`](archive/) |
-
-### Benchmark Files
-
-All puzzle images are available in [`final/benchmarks/`](final/benchmarks/):
-- **KenKen**: 3×3 to 9×9 (Computer & Handwritten) - 1,200 images
-- **Sudoku**: 4×4 and 9×9 (Computer & Handwritten) - 400 images
-- **HexaSudoku**: 16×16 with Hex (A-G) or Numeric (10-16) notation - 400 images
-
-## Results
-
-| Puzzle | Size | Computer | Handwritten V1 | Handwritten V2 |
-|--------|------|----------|----------------|----------------|
-| **KenKen** | 3×3 | 100% | 89% | **100%** |
-| **KenKen** | 4×4 | 100% | 58% | **94%** |
-| **KenKen** | 5×5 | 100% | 26% | **74%** |
-| **KenKen** | 6×6 | 100% | 15% | **66%** |
-| **KenKen** | 7×7 | 100% | 2% | **41%** |
-| **KenKen** | 9×9 | 100% | 1% | **26%** |
-| **Sudoku** | 4×4 | 100% | 92% | **100%** |
-| **Sudoku** | 9×9 | 100% | 85% | **98%** |
-| **HexaSudoku** | 16×16 (Hex) | 100% | 10% | **91%** |
-| **HexaSudoku** | 16×16 (Numeric) | 100% | 32% | **72%** |
-
-*V1: 90-10 train/test split with MNIST digits. V2: Unified ImprovedCNN (17 classes) trained on board-extracted characters with augmentation. All results include error correction.*
-
 ## Why Neuro-Symbolic?
 
 Large Language Models (GPT-4, Claude, Gemini) struggle with constraint satisfaction puzzles beyond trivial sizes. Our approach separates the problem into:
@@ -55,51 +11,159 @@ Large Language Models (GPT-4, Claude, Gemini) struggle with constraint satisfact
 
 This division of labor achieves near-perfect accuracy where LLMs fail completely.
 
-## Architecture
+## KenKen Results (Computer-Generated)
 
-```
-Image Input (900×900)
-        ↓
-    Grid CNN → Detect puzzle size
-        ↓
-    OpenCV → Extract structure (borders, boxes)
-        ↓
-   Digit CNN → Read numbers/operators
-        ↓
-   Z3 Solver → Compute valid solution
-        ↓
-    Solution Output
-```
-
-## LLM Comparison (KenKen, Computer-Generated)
-
-| Solver | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 9×9 |
-|--------|-----|-----|-----|-----|-----|-----|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% | 100% | 100% |
-| Gemini 2.5 Pro | 69% | 35% | 0% | - | - | - |
-| Claude Sonnet 4 | 41% | 6% | 0% | - | - | - |
-| Qwen 2.5-VL-72B | 24% | 0% | - | - | - | - |
-| GPT-4o | 21% | 0% | - | - | - | - |
-| GPT-4o Mini | 5% | 0% | - | - | - | - |
+| Size | NeuroSymbolic | Gemini 2.5 Pro | Claude Sonnet 4 | Qwen 2.5-VL | GPT-4o | GPT-4o Mini |
+|------|---------------|----------------|-----------------|-------------|--------|-------------|
+| 3×3 | **100%** | 69% | 41% | 24% | 21% | 5% |
+| 4×4 | **100%** | 35% | 6% | 0% | 0% | 0% |
+| 5×5 | **100%** | 0% | 0% | - | - | - |
+| 6×6 | **100%** | - | - | - | - | - |
+| 7×7 | **100%** | - | - | - | - | - |
+| 9×9 | **100%** | - | - | - | - | - |
 
 *All LLMs fail completely on KenKen puzzles 5×5 and larger.*
 
-## LLM Comparison (Sudoku & HexaSudoku, Computer-Generated)
+## Sudoku & HexaSudoku Results (Computer-Generated)
 
-| Solver | Sudoku 4×4 | Sudoku 9×9 | HexaSudoku 16×16 (Hex) | HexaSudoku 16×16 (Numeric) |
-|--------|------------|------------|------------------------|----------------------------|
-| **NeuroSymbolic** | 100% | 100% | 100% | 100% |
-| Gemini 2.5 Pro | 99% | 0% | - | - |
-| GPT-4o | 75% | 8% | 0% | 0% |
-| Claude Sonnet 4 | 73% | 0% | - | - |
-| GPT-4o Mini | 65% | 1% | 0% | 0% |
-| Qwen 2.5-VL-72B | 51% | 0% | - | - |
+| Puzzle | NeuroSymbolic | Gemini 2.5 Pro | Claude Sonnet 4 | Qwen 2.5-VL | GPT-4o | GPT-4o Mini |
+|--------|---------------|----------------|-----------------|-------------|--------|-------------|
+| Sudoku 4×4 | **100%** | 99% | 73% | 51% | 75% | 65% |
+| Sudoku 9×9 | **100%** | 0% | 0% | 0% | 8% | 1% |
+| HexaSudoku 16×16 (Hex) | **100%** | - | - | - | 0% | 0% |
+| HexaSudoku 16×16 (Numeric) | **100%** | - | - | - | 0% | 0% |
 
 *All LLMs fail on 9×9 Sudoku and 16×16 HexaSudoku.*
 
+## Handwritten Results (Baseline vs Error-Corrected)
+
+| Puzzle | Size | V1 Baseline | V1 Corrected | V2 Baseline | V2 Corrected |
+|--------|------|-------------|--------------|-------------|--------------|
+| KenKen | 3×3 | 69% | 89% | 98% | **100%** |
+| KenKen | 4×4 | 36% | 58% | 86% | **94%** |
+| KenKen | 5×5 | 18% | 26% | 36% | **74%** |
+| KenKen | 6×6 | 7% | 15% | 32% | **66%** |
+| KenKen | 7×7 | 1% | 2% | 10% | **41%** |
+| KenKen | 9×9 | 0% | 1% | 13% | **26%** |
+| Sudoku | 4×4 | - | 92% | 100% | **100%** |
+| Sudoku | 9×9 | - | 85% | 96% | **98%** |
+| HexaSudoku | 16×16 (Hex) | - | 10% | 77% | **91%** |
+| HexaSudoku | 16×16 (Numeric) | - | 32% | 60% | **72%** |
+
+*V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with augmentation.*
+
+## Pipeline Architecture
+
+### KenKen Pipeline (300px fixed cells, variable board size)
+
+```
+Image Input (size varies: 900×900 to 2700×2700 based on grid size)
+        ↓
+   ┌──────────────────────┐
+   │  Size Detection CNN  │  ← 128×128 input, 6 classes (3,4,5,6,7,9)
+   └──────────┬───────────┘
+              ↓
+   ┌──────────────────────┐
+   │   Cage Detection     │  ← OpenCV morphology to find cage borders
+   │   (OpenCV)           │     Each cell is fixed 300px
+   └──────────┬───────────┘
+              ↓
+   ┌──────────────────────┐
+   │  KenKen Digit CNN    │  ← 28×28 input, 14 classes
+   │                      │     (digits 0-9 + operators +-×÷)
+   └──────────┬───────────┘
+              ↓
+   ┌──────────────────────┐
+   │   Z3 Solver          │  ← Latin square + cage arithmetic constraints
+   │   + Error Correction │
+   └──────────┬───────────┘
+              ↓
+        Solution Output
+```
+
+### Sudoku/HexaSudoku Pipeline (fixed board size, variable cell size)
+
+```
+Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
+        ↓
+   ┌──────────────────────┐
+   │   Grid Extraction    │  ← OpenCV to find grid lines and boxes
+   │   (OpenCV)           │     Cell size = board_size / grid_size
+   └──────────┬───────────┘
+              ↓
+   ┌──────────────────────┐
+   │  Sudoku Digit CNN    │  ← 28×28 input
+   │                      │     Sudoku: 10 classes (0-9)
+   │                      │     HexaSudoku: 17 classes (0-9 + A-G)
+   └──────────┬───────────┘
+              ↓
+   ┌──────────────────────┐
+   │   Z3 Solver          │  ← Latin square + box constraints
+   │   + Error Correction │
+   └──────────┬───────────┘
+              ↓
+        Solution Output
+```
+
+## Neural Network Architectures
+
+### Size Detection CNN (KenKen only)
+- **Purpose**: Determine grid size from board image
+- **Input**: 128×128 grayscale board image
+- **Output**: 6 classes (sizes 3, 4, 5, 6, 7, 9)
+- **Architecture**: 2 conv layers + 2 FC layers
+- **Validation accuracy**: 99%+
+
+### KenKen Digit CNN (V2 - ImprovedCNN)
+- **Purpose**: Recognize digits and arithmetic operators
+- **Input**: 28×28 grayscale cell (from 300px extraction)
+- **Output**: 14 classes (digits 0-9, operators +, -, ×, ÷)
+- **Architecture**: 4 conv layers with BatchNorm, ~850K params
+- **Validation accuracy**: 99.9%
+
+### Sudoku/HexaSudoku Digit CNN (V2 - Unified ImprovedCNN)
+- **Purpose**: Recognize digits and hex letters
+- **Input**: 28×28 grayscale cell
+- **Output**: 17 classes (digits 0-9, letters A-G for values 10-16)
+- **Architecture**: 4 conv layers with BatchNorm, ~850K params
+- **Validation accuracy**: 99.3%
+
+### Baseline Digit CNN (V1 - CNN_v2)
+- **Purpose**: Used in handwritten V1 experiments
+- **Input**: 28×28 grayscale cell
+- **Architecture**: 2 conv layers, ~400K params
+- **Note**: Less accurate than V2 models
+
+## Benchmark Dataset
+
+| Category | Puzzle Type | Sizes | Images/Size | Total | Location |
+|----------|-------------|-------|-------------|-------|----------|
+| Computer | KenKen | 3,4,5,6,7,9 | 100 | 600 | `final/benchmarks/KenKen/computer/` |
+| Computer | Sudoku | 4,9 | 100 | 200 | `final/benchmarks/Sudoku/computer/` |
+| Computer | HexaSudoku (Hex) | 16 | 100 | 100 | `final/benchmarks/HexaSudoku_16x16/computer_hex/` |
+| Computer | HexaSudoku (Numeric) | 16 | 100 | 100 | `final/benchmarks/HexaSudoku_16x16/computer_numeric/` |
+| Handwritten | KenKen | 3,4,5,6,7,9 | 100 | 600 | `final/benchmarks/KenKen/handwritten/` |
+| Handwritten | Sudoku | 4,9 | 100 | 200 | `final/benchmarks/Sudoku/handwritten/` |
+| Handwritten | HexaSudoku (Hex) | 16 | 100 | 100 | `final/benchmarks/HexaSudoku_16x16/handwritten_hex/` |
+| Handwritten | HexaSudoku (Numeric) | 16 | 100 | 100 | `final/benchmarks/HexaSudoku_16x16/handwritten_numeric/` |
+| **Total** | | | | **2,000** | |
+
+## Key Files
+
+| Resource | Location | Description |
+|----------|----------|-------------|
+| Benchmark Images | `final/benchmarks/` | 2,000 puzzle images |
+| Pre-trained Models | `final/models/` | CNN weights (.pth files) |
+| Evaluation Results | `final/results/` | CSV files with accuracy data |
+| LLM Benchmark | `final/evaluation/llm/llm_benchmark.py` | Evaluate LLMs on puzzles |
+| KenKen Solver (V2) | `archive/KenKen-handwritten-v2/solver/solve_all_sizes.py` | Production KenKen solver |
+| Sudoku Solver (V2) | `archive/Sudoku-handwritten-v2/solver/solve_all_sizes.py` | Unified Sudoku/HexaSudoku solver |
+| CNN Architecture | `archive/KenKen-handwritten-v2/models/improved_cnn.py` | ImprovedCNN definition |
+| Technical Report | `final/REPORT.md` | Detailed technical documentation |
+
 ## Error Correction Methods
 
-For handwritten puzzles, CNN misclassifications can cause constraint conflicts. Three correction approaches were developed:
+For handwritten puzzles, CNN misclassifications can cause constraint conflicts. Five correction approaches were developed:
 
 ### 1. Confidence-Based
 Uses CNN softmax probabilities to identify likely errors:
@@ -138,39 +202,6 @@ For multi-cell cages with missing operators and target > grid size:
 | Maximum accuracy (9×9) | Confidence-Based | Catches errors that don't cause UNSAT |
 | Maximum accuracy (16×16) | Top-K | Handles cases where 2nd-best is also wrong |
 | Small puzzles (4×4) | Any | All achieve 99% |
-
-## Handwritten Experiments
-
-Multiple train/test split configurations were tested:
-
-| Split | Training Data | Sudoku 4×4 | Sudoku 9×9 | HexaSudoku 16×16 |
-|-------|---------------|------------|------------|------------------|
-| 83-17 | 5,000/class | 96% | 91% | 30% |
-| 90-10 | 5,400/class | 99% | 99% | 40% |
-| 95-5 | 5,700/class | - | - | 37-42% |
-| 100-0 | ALL (~7,000) | - | - | 68% |
-
-### Digits-Only Experiment (HexaSudoku)
-
-An alternative approach renders values 10-16 as two-digit numbers instead of letters (A-G):
-
-| Approach | Solve Rate |
-|----------|------------|
-| Letters (A-G) | 40% |
-| Digits Only (baseline) | 34% |
-| Digits + Domain Constraints | **58%** |
-
-**Domain Constraints Applied**:
-- Tens digit forced to 1 (all values 10-16 start with "1")
-- Ones digit constrained to 0-6 (values 17-19 don't exist)
-- Error correction only considers valid values {10-16}
-
-### Key Insights
-
-1. **~99% character recognition ≠ puzzle solving**: Even rare misclassifications break constraint satisfaction
-2. **Unsat core is faster but incomplete**: Only detects errors that directly cause logical conflicts
-3. **Some errors are "invisible"**: If a wrong digit enables a different valid solution, it won't cause UNSAT
-4. **Domain constraints dramatically help**: Forcing tens digit=1 eliminates 64% of errors, improving solve rate from 34% → 58%
 
 ## KenKen Handwritten V2
 
