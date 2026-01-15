@@ -283,7 +283,7 @@ class ClaudeClient:
 class GPTClient:
     """OpenAI GPT API client."""
 
-    def __init__(self, model="gpt-4o-mini"):
+    def __init__(self, model="gpt-4o"):
         from openai import OpenAI
         api_key = os.environ.get("OPENAI_API_KEY")
         if not api_key:
@@ -342,7 +342,7 @@ class GeminiClient:
 class QwenClient:
     """Qwen API client via OpenRouter."""
 
-    def __init__(self, model="qwen/qwen2.5-vl-72b-instruct"):
+    def __init__(self, model="qwen/qwen3-vl-235b-a22b-instruct"):
         from openai import OpenAI
 
         api_key = os.environ.get("OPENROUTER_API_KEY")
