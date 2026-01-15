@@ -150,6 +150,37 @@ Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
 - **Architecture**: 2 conv layers, ~400K params
 - **Note**: Less accurate than V2 models
 
+## KenKen Cage Detection
+
+KenKen puzzles have bold borders separating "cages" (groups of cells with arithmetic constraints). The cage detection algorithm uses OpenCV to identify these borders:
+
+### Algorithm
+
+1. **Preprocessing**: Image is scaled 2× and filtered with `pyrMeanShiftFiltering` to reduce noise while preserving edges.
+
+2. **Edge Detection**: Canny edge detection finds all edges in the image.
+
+3. **Line Detection**: Probabilistic Hough Transform (`HoughLinesP`) identifies line segments. Lines are classified as horizontal (Δy < 2) or vertical (Δx < 2).
+
+4. **Border Detection**: For each cell boundary position, the algorithm checks if detected lines cross that boundary with sufficient thickness. A thickness threshold (default 22px at 2× scale) distinguishes thick cage borders from thin grid lines.
+
+5. **Cage Construction**: Starting from each unvisited cell, flood-fill groups adjacent cells that share no border between them into a single cage.
+
+### Border Arrays
+
+The algorithm produces two binary arrays:
+- `h_borders[i][j]` = 1 if there's a horizontal border below row `i` at column `j`
+- `v_borders[i][j]` = 1 if there's a vertical border to the right of row `i` at column `j`
+
+### Validation
+
+Detected cages are validated against heuristics:
+- Total cells must equal grid area (size²)
+- Single-cell cages should not exceed grid size
+- Total cages should not exceed `(size² / 2) + size`
+
+If validation fails (often due to thin grid lines being misdetected as cage walls), the algorithm retries with stricter thickness thresholds (1.5×, 2.0×, 2.5× the base threshold).
+
 ## Benchmark Dataset
 
 | Category | Puzzle Type | Sizes | Images/Size | Total | Location |
