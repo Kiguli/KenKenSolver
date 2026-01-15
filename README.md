@@ -45,7 +45,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | KenKen | 5×5 | 18% | 26% | 36% | **74%** |
 | KenKen | 6×6 | 7% | 15% | 32% | **66%** |
 | KenKen | 7×7 | 1% | 2% | 10% | **41%** |
-| KenKen | 8×8 | - | - | 3% | **19%** |
+| KenKen | 8×8 | - | - | 13% | **46%** |
 | KenKen | 9×9 | 0% | 1% | 13% | **26%** |
 | Sudoku | 4×4 | 90% | 92% | 100% | **100%** |
 | Sudoku | 9×9 | 75% | 85% | 96% | **98%** |
@@ -72,7 +72,7 @@ The system uses different CNN models for computer-generated vs handwritten puzzl
 Image Input (size varies: 900×900 to 2700×2700 based on grid size)
         ↓
    ┌──────────────────────┐
-   │  Size Detection CNN  │  ← 128×128 input, 6 classes (3,4,5,6,7,9)
+   │  Size Detection CNN  │  ← 128×128 input, 7 classes (3,4,5,6,7,8,9)
    │  (kenken_grid_cnn)   │     Shared between computer and handwritten
    └──────────┬───────────┘
               ↓
@@ -128,7 +128,7 @@ Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
 ### Size Detection CNN (KenKen only)
 - **Purpose**: Determine grid size from board image
 - **Input**: 128×128 grayscale board image
-- **Output**: 6 classes (sizes 3, 4, 5, 6, 7, 9)
+- **Output**: 7 classes (sizes 3, 4, 5, 6, 7, 8, 9)
 - **Architecture**: 2 conv layers + 2 FC layers
 - **Validation accuracy**: 99%+
 
@@ -264,29 +264,28 @@ The V2 approach dramatically improves handwritten KenKen solving through better 
 | 5×5  | 26%          | **74%**      | +48%        |
 | 6×6  | 15%          | **66%**      | +51%        |
 | 7×7  | 2%           | **41%**      | +39%        |
+| 8×8  | -            | **46%**      | N/A         |
 | 9×9  | 1%           | **26%**      | +25%        |
 
 ### Error Correction Breakdown (V2)
 
-Out of 600 handwritten KenKen puzzles, the correction methods contributed as follows:
+Out of 700 handwritten KenKen puzzles (sizes 3-9), the correction methods contributed as follows:
 
 | Correction Type | Puzzles | Description |
 |-----------------|---------|-------------|
-| **None (direct solve)** | 275 | CNN predictions correct, no correction needed |
-| **Simple single** | 76 | Fixed 1 OCR error using top-K predictions |
-| **Constraint single** | 29 | Fixed 1 error via Z3 unsat core analysis |
-| **Simple two** | 14 | Fixed 2 OCR errors using top-K predictions |
-| **Confidence swap** | 2 | Fixed via lowest-confidence character swaps |
-| **Constraint two** | 2 | Fixed 2 errors via unsat core |
-| **Constraint auto** | 2 | Auto-inferred missing operators |
-| **Constraint four** | 1 | Fixed 4 errors via unsat core |
-| **Still uncorrectable** | 199 | Too many errors (4+) to correct |
+| **None (direct solve)** | 288 | CNN predictions correct, no correction needed |
+| **Simple single** | 104 | Fixed 1 OCR error using top-K predictions |
+| **Constraint single** | 10 | Fixed 1 error via Z3 unsat core analysis |
+| **Simple two** | 15 | Fixed 2 OCR errors using top-K predictions |
+| **Constraint two** | 1 | Fixed 2 errors via unsat core |
+| **Constraint three** | 1 | Fixed 3 errors via unsat core |
+| **Still uncorrectable** | 281 | Too many errors (4+) to correct |
 
 **Key insights**:
-- 46% of puzzles (275/600) solved directly without correction
-- 21% of puzzles (126/600) recovered via error correction
-- Simple single-error correction was most effective (76 puzzles)
-- 33% of puzzles remain unsolvable due to 4+ OCR errors
+- 41% of puzzles (288/700) solved directly without correction
+- 19% of puzzles (131/700) recovered via error correction
+- Simple single-error correction was most effective (104 puzzles)
+- 40% of puzzles remain unsolvable due to 4+ OCR errors
 
 ### What Changed in V2
 
@@ -399,13 +398,13 @@ pip install anthropic openai google-generativeai transformers python-dotenv
 ### KenKen Solver (Computer-Generated)
 ```bash
 cd archive/KenKen
-python solve_all_sizes.py --sizes 3,4,5,6,7,9 --num 100
+python solve_all_sizes.py --sizes 3,4,5,6,7,8,9 --num 100
 ```
 
 ### KenKen Solver (Handwritten V2)
 ```bash
 cd archive/KenKen-handwritten-v2/solver
-python3 solve_all_sizes.py --sizes 3,4,5,6,7,9 --num 100
+python3 solve_all_sizes.py --sizes 3,4,5,6,7,8,9 --num 100
 ```
 
 ### KenKen Solver (Jupyter Notebook)
@@ -433,7 +432,7 @@ python llm_benchmark.py --llm all --puzzle kenken --sizes 3,4,5,6,7 --num 30
 KenKenSolver/
 ├── README.md                    # This file
 │
-├── benchmarks/                  # 2,000 puzzle images
+├── benchmarks/                  # 2,200 puzzle images
 │   ├── KenKen/                 # Computer & Handwritten (3×3 to 9×9)
 │   ├── Sudoku/                 # Computer & Handwritten (4×4, 9×9)
 │   └── HexaSudoku_16x16/       # Hex & Numeric notation

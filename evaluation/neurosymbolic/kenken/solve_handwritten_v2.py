@@ -8,6 +8,7 @@ All puzzle sizes have 300px cells:
 - 5x5: 1500x1500
 - 6x6: 1800x1800
 - 7x7: 2100x2100
+- 8x8: 2400x2400
 - 9x9: 2700x2700
 
 Usage:
@@ -110,8 +111,8 @@ grid_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-# Size mapping: output 0-5 -> sizes 3, 4, 5, 6, 7, 9
-LABEL_TO_SIZE = {0: 3, 1: 4, 2: 5, 3: 6, 4: 7, 5: 9}
+# Size mapping: output 0-6 -> sizes 3, 4, 5, 6, 7, 8, 9
+LABEL_TO_SIZE = {0: 3, 1: 4, 2: 5, 3: 6, 4: 7, 5: 8, 6: 9}
 
 
 def get_size(filename, grid_model):
@@ -473,8 +474,8 @@ def get_contours(img, size=9):
     e_kernel = np.ones((1, 1), np.uint8)
     inp = cv.erode(inp, e_kernel, iterations=1)
 
-    # Use smaller dilation for 9x9 to prevent character merging
-    if size >= 9:
+    # Use smaller dilation for 8x8+ to prevent character merging
+    if size >= 8:
         d_kernel = np.ones((2, 2), np.uint8)
     else:
         d_kernel = np.ones((3, 3), np.uint8)
@@ -492,7 +493,7 @@ def get_contours(img, size=9):
         x, y, w, h = boxes[-1]
         x2, y2, w2, h2 = cv.boundingRect(ctrs[count])
         # Only merge if significantly overlapping
-        overlap_threshold = 3 if size >= 9 else 0
+        overlap_threshold = 3 if size >= 8 else 0
         if x2 < (x + w - overlap_threshold):
             h = abs(y - y2) + h2 if y < y2 else abs(y - y2) + h
             w = max(w, w2)
@@ -1390,6 +1391,8 @@ def main():
                        help='Print verbose output')
     parser.add_argument('--no-correction', action='store_true',
                        help='Disable error correction')
+    parser.add_argument('--output', type=str, default='kenken_handwritten_v2.csv',
+                       help='Output CSV filename (default: kenken_handwritten_v2.csv)')
     args = parser.parse_args()
 
     sizes = [int(s) for s in args.sizes.split(',')]
@@ -1430,7 +1433,7 @@ def main():
 
     # Load grid detection model
     grid_model_path = models_dir / 'grid_detection' / 'kenken_grid_cnn.pth'
-    grid_model = Grid_CNN(output_dim=6)
+    grid_model = Grid_CNN(output_dim=7)  # 7 sizes: 3,4,5,6,7,8,9
     state_dict = torch.load(str(grid_model_path), weights_only=False)
     grid_model.load_state_dict(state_dict)
     grid_model.eval()
@@ -1520,7 +1523,7 @@ def main():
     results_dir.mkdir(parents=True, exist_ok=True)
 
     df = pd.DataFrame(all_results)
-    output_csv = results_dir / 'kenken_handwritten_v2.csv'
+    output_csv = results_dir / args.output
     df.to_csv(str(output_csv), index=False)
 
     # Print summary

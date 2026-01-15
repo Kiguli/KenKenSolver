@@ -10,8 +10,10 @@ Key improvements:
 - Focal loss for hard examples
 - Tracks per-class accuracy and confusion matrix
 
+Updated to include 8x8 puzzles and use current benchmarks directory structure.
+
 Usage:
-    python train_improved_cnn.py
+    python train_kenken_improved_cnn.py
 """
 
 import torch
@@ -29,8 +31,8 @@ import json
 # Add parent directory to path for imports
 script_dir = Path(__file__).parent
 parent_dir = script_dir.parent
-sys.path.insert(0, str(parent_dir / 'models'))
-sys.path.insert(0, str(parent_dir / 'data'))
+kenken_dir = parent_dir.parent  # KenKenSolver root
+sys.path.insert(0, str(script_dir))
 
 from improved_cnn import ImprovedCNN, ImprovedCNNWithAttention, CNN_v2
 from augmentation import augment_handwritten, augment_for_confusion_pairs
@@ -124,6 +126,7 @@ def extract_training_from_boards(board_dir, puzzles_path, sizes, num_per_size=10
     Extract character images from board images using ground truth labels.
 
     Uses the same extraction pipeline as inference to ensure consistency.
+    Supports both flat (board{size}_{idx}.png) and subfolder ({size}x{size}/board{size}_{idx}.png) structures.
     """
     import cv2 as cv
     from PIL import Image
@@ -145,9 +148,13 @@ def extract_training_from_boards(board_dir, puzzles_path, sizes, num_per_size=10
         num_puzzles = min(num_per_size, len(puzzles))
 
         for puzzle_idx in range(num_puzzles):
-            board_path = os.path.join(board_dir, f'board{size}_{puzzle_idx}.png')
+            # Support both flat and subfolder directory structures
+            board_path = os.path.join(board_dir, f'{size}x{size}', f'board{size}_{puzzle_idx}.png')
             if not os.path.exists(board_path):
-                continue
+                # Fallback to flat structure
+                board_path = os.path.join(board_dir, f'board{size}_{puzzle_idx}.png')
+                if not os.path.exists(board_path):
+                    continue
 
             # Load board image
             img = Image.open(board_path).convert('L')
@@ -297,10 +304,7 @@ def balance_classes(images, labels, target_per_class=None):
 
 def load_training_data(handwritten_ratio=0.7, num_per_size=100, balance=True):
     """Load training data from both handwritten and computer-generated boards."""
-    base_dir = parent_dir
-    kenken_dir = base_dir.parent
-
-    sizes = [3, 4, 5, 6, 7, 9]
+    sizes = [3, 4, 5, 6, 7, 8, 9]  # Include size 8
 
     print("Loading training data...")
     print("=" * 50)
@@ -308,10 +312,10 @@ def load_training_data(handwritten_ratio=0.7, num_per_size=100, balance=True):
     all_images = []
     all_labels = []
 
-    # Try handwritten boards first
+    # Try handwritten boards first (from benchmarks directory)
     print("\n1. Handwritten boards:")
-    handwritten_dir = kenken_dir / 'KenKen-300px-handwritten' / 'board_images'
-    puzzles_path = kenken_dir / 'KenKen-300px' / 'puzzles' / 'puzzles_dict.json'
+    handwritten_dir = kenken_dir / 'benchmarks' / 'KenKen' / 'Handwritten'
+    puzzles_path = kenken_dir / 'puzzles' / 'kenken_puzzles.json'
 
     if handwritten_dir.exists() and puzzles_path.exists():
         hw_images, hw_labels = extract_training_from_boards(
@@ -321,11 +325,11 @@ def load_training_data(handwritten_ratio=0.7, num_per_size=100, balance=True):
         all_images.extend(hw_images)
         all_labels.extend(hw_labels)
     else:
-        print(f"   Warning: Handwritten directory not found")
+        print(f"   Warning: Handwritten directory not found at {handwritten_dir}")
 
-    # Try computer-generated boards
+    # Try computer-generated boards (from benchmarks directory)
     print("\n2. Computer-generated boards:")
-    computer_dir = kenken_dir / 'KenKen-300px' / 'board_images'
+    computer_dir = kenken_dir / 'benchmarks' / 'KenKen' / 'Computer'
 
     if computer_dir.exists() and puzzles_path.exists():
         cg_images, cg_labels = extract_training_from_boards(
@@ -344,7 +348,7 @@ def load_training_data(handwritten_ratio=0.7, num_per_size=100, balance=True):
         all_images.extend(cg_images)
         all_labels.extend(cg_labels)
     else:
-        print(f"   Warning: Computer-generated directory not found")
+        print(f"   Warning: Computer-generated directory not found at {computer_dir}")
 
     if not all_images:
         raise ValueError("No training data found!")
@@ -518,7 +522,7 @@ def evaluate_per_class(model, data_loader, device='cpu'):
 def main():
     print('=' * 70)
     print('ImprovedCNN Character Recognition Training')
-    print('For KenKen-handwritten-v2')
+    print('For KenKen-handwritten-v2 (with 8x8 support)')
     print('=' * 70)
     print()
 
@@ -531,7 +535,7 @@ def main():
     USE_FOCAL_LOSS = True
     USE_ATTENTION = False  # Set to True for attention model
 
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'mps' if torch.backends.mps.is_available() else 'cpu')
     print(f'Using device: {device}')
 
     # Set seeds for reproducibility
@@ -620,20 +624,20 @@ def main():
     print('=' * 70)
     confusion_matrix = evaluate_per_class(model, val_loader, device)
 
-    # Save model
-    models_dir = parent_dir / 'models'
-    models_dir.mkdir(exist_ok=True)
+    # Save model to handwritten_v2 directory (used by solve_handwritten_v2.py)
+    handwritten_v2_dir = parent_dir / 'handwritten_v2'
+    handwritten_v2_dir.mkdir(exist_ok=True)
 
-    save_path = models_dir / 'improved_cnn_weights.pth'
+    save_path = handwritten_v2_dir / 'kenken_improved_cnn.pth'
     torch.save(model.state_dict(), save_path)
     print(f'\nModel saved to {save_path}')
 
     # Save confusion matrix
-    np.save(models_dir / 'confusion_matrix.npy', confusion_matrix)
-    print(f'Confusion matrix saved to {models_dir / "confusion_matrix.npy"}')
+    np.save(handwritten_v2_dir / 'confusion_matrix.npy', confusion_matrix)
+    print(f'Confusion matrix saved to {handwritten_v2_dir / "confusion_matrix.npy"}')
 
     # Save training history
-    history_path = models_dir / 'training_history.json'
+    history_path = handwritten_v2_dir / 'training_history.json'
     with open(history_path, 'w') as f:
         json.dump(history, f, indent=2)
     print(f'Training history saved to {history_path}')
