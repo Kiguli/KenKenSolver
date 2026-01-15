@@ -201,11 +201,11 @@ If validation fails (often due to thin grid lines being misdetected as cage wall
 |----------|----------|-------------|
 | Benchmark Images | `benchmarks/` | 2,000 puzzle images |
 | Pre-trained Models | `models/` | CNN weights (.pth files) |
+| Training Scripts | `models/training/` | Scripts to train CNN models |
 | Evaluation Results | `results/` | CSV files with accuracy data |
-| LLM Benchmark | `evaluation/llm_benchmark.py` | Evaluate LLMs on puzzles |
-| KenKen Solver (V2) | `archive/KenKen-handwritten-v2/solver/solve_all_sizes.py` | Production KenKen solver |
-| Sudoku Solver (V2) | `archive/Sudoku-handwritten-v2/solver/solve_all_sizes.py` | Unified Sudoku/HexaSudoku solver |
-| CNN Architecture | `archive/KenKen-handwritten-v2/models/improved_cnn.py` | ImprovedCNN definition |
+| LLM Benchmark | `evaluation/llm/llm_benchmark.py` | Evaluate LLMs on puzzles |
+| KenKen Solver | `evaluation/neurosymbolic/kenken/` | Computer and handwritten solvers |
+| Sudoku/HexaSudoku Solver | `evaluation/neurosymbolic/sudoku/` | Unified solver for all variants |
 
 ## Error Correction Methods
 
@@ -439,7 +439,9 @@ KenKenSolver/
 ├── models/                      # Pre-trained CNN weights
 │   ├── computer/               # CNNs for computer-generated puzzles
 │   ├── handwritten_v1/         # 90-10 split models
-│   └── handwritten_v2/         # ImprovedCNN models
+│   ├── handwritten_v2/         # ImprovedCNN models
+│   ├── grid_detection/         # Grid size detection CNN
+│   └── training/               # Scripts to train models
 │
 ├── puzzles/                     # Puzzle definitions (JSON)
 │
@@ -447,8 +449,9 @@ KenKenSolver/
 │   ├── neurosymbolic/          # Solver accuracy results
 │   └── llm/                    # LLM comparison results
 │
-├── evaluation/                  # LLM benchmark script
-│   └── llm_benchmark.py        # Unified evaluation tool
+├── evaluation/                  # Evaluation scripts
+│   ├── llm/                    # LLM benchmark
+│   └── neurosymbolic/          # KenKen/Sudoku solvers
 │
 └── archive/                     # Complete experimental history
     ├── KenKen/                # KenKen solver (computer-generated)
