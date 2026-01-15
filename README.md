@@ -45,7 +45,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | KenKen | 5×5 | 18% | 26% | 36% | **74%** | - |
 | KenKen | 6×6 | 7% | 15% | 32% | **66%** | - |
 | KenKen | 7×7 | 1% | 2% | 10% | **41%** | - |
-| KenKen | 8×8 | - | - | 13% | **46%** | - |
+| KenKen | 8×8 | 1% | 1% | 13% | **46%** | - |
 | KenKen | 9×9 | 0% | 1% | 13% | **26%** | - |
 | Sudoku | 4×4 | 90% | 92% | 100% | **100%** | 63% |
 | Sudoku | 9×9 | 75% | 85% | 96% | **98%** | 9% |
@@ -264,7 +264,7 @@ The V2 approach dramatically improves handwritten KenKen solving through better 
 | 5×5  | 26%          | **74%**      | +48%        |
 | 6×6  | 15%          | **66%**      | +51%        |
 | 7×7  | 2%           | **41%**      | +39%        |
-| 8×8  | -            | **46%**      | N/A         |
+| 8×8  | 1%           | **46%**      | +45%        |
 | 9×9  | 1%           | **26%**      | +25%        |
 
 ### Error Correction Breakdown (V2)

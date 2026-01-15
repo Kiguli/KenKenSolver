@@ -93,8 +93,8 @@ grid_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-# Size mapping: output 0-5 -> sizes 3, 4, 5, 6, 7, 9
-LABEL_TO_SIZE = {0: 3, 1: 4, 2: 5, 3: 6, 4: 7, 5: 9}
+# Size mapping: output 0-6 -> sizes 3, 4, 5, 6, 7, 8, 9
+LABEL_TO_SIZE = {0: 3, 1: 4, 2: 5, 3: 6, 4: 7, 5: 8, 6: 9}
 
 
 def get_size(filename, grid_model):
@@ -1218,7 +1218,7 @@ def main():
     char_model.load_state_dict(state_dict)
     char_model.eval()
 
-    grid_model = Grid_CNN(output_dim=6)
+    grid_model = Grid_CNN(output_dim=7)  # 7 sizes: 3,4,5,6,7,8,9
     state_dict = torch.load(os.path.join(models_dir, 'grid_detection', 'kenken_grid_cnn.pth'), weights_only=False)
     grid_model.load_state_dict(state_dict)
     grid_model.eval()

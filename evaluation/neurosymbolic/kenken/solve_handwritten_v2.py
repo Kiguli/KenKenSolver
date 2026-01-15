@@ -1393,16 +1393,20 @@ def main():
                        help='Disable error correction')
     parser.add_argument('--output', type=str, default='kenken_handwritten_v2.csv',
                        help='Output CSV filename (default: kenken_handwritten_v2.csv)')
+    parser.add_argument('--model', type=str, choices=['v1', 'v2'], default='v2',
+                       help='Model version to use: v1 (CNN_v2) or v2 (ImprovedCNN)')
     args = parser.parse_args()
 
     sizes = [int(s) for s in args.sizes.split(',')]
     num_puzzles = args.num
     use_correction = not args.no_correction
 
+    model_version = args.model
     print("=" * 70)
-    print("KenKen Solver - 300px Cells Evaluation (Handwritten V2)")
+    print(f"KenKen Solver - 300px Cells Evaluation (Handwritten {model_version.upper()})")
     print(f"Sizes: {sizes}, Puzzles per size: {num_puzzles}")
     print(f"Error correction: {'Enabled' if use_correction else 'Disabled'}")
+    print(f"Model: {model_version.upper()}")
     print("=" * 70)
     print()
 
@@ -1415,20 +1419,30 @@ def main():
     # Load models
     print("Loading models...")
 
-    # Load ImprovedCNN for handwritten digit recognition
-    improved_model_path = models_dir / 'handwritten_v2' / 'kenken_improved_cnn.pth'
-
-    if improved_model_path.exists():
-        print(f"  Using ImprovedCNN from {improved_model_path}")
-        # Import ImprovedCNN from training scripts
-        sys.path.insert(0, str(training_dir))
-        from improved_cnn import ImprovedCNN
-        char_model = ImprovedCNN(output_dim=14)
-        state_dict = torch.load(str(improved_model_path), weights_only=False)
-        char_model.load_state_dict(state_dict)
-    else:
-        print(f"Error: Model not found at {improved_model_path}")
-        return
+    # Load character recognition model based on version
+    if model_version == 'v2':
+        improved_model_path = models_dir / 'handwritten_v2' / 'kenken_improved_cnn.pth'
+        if improved_model_path.exists():
+            print(f"  Using ImprovedCNN from {improved_model_path}")
+            # Import ImprovedCNN from training scripts
+            sys.path.insert(0, str(training_dir))
+            from improved_cnn import ImprovedCNN
+            char_model = ImprovedCNN(output_dim=14)
+            state_dict = torch.load(str(improved_model_path), weights_only=False)
+            char_model.load_state_dict(state_dict)
+        else:
+            print(f"Error: Model not found at {improved_model_path}")
+            return
+    else:  # v1
+        v1_model_path = models_dir / 'handwritten_v1' / 'kenken_cnn.pth'
+        if v1_model_path.exists():
+            print(f"  Using CNN_v2 (V1) from {v1_model_path}")
+            char_model = CNN_v2(output_dim=14)
+            state_dict = torch.load(str(v1_model_path), weights_only=False)
+            char_model.load_state_dict(state_dict)
+        else:
+            print(f"Error: Model not found at {v1_model_path}")
+            return
     char_model.eval()
 
     # Load grid detection model

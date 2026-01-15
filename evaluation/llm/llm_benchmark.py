@@ -49,7 +49,7 @@ that will make up that cage must arrive at the target number through the arithme
 and the symbol 5+, it could be filled in with a 2 and a 3 because 2 + 3 = 5. If there is only one cell in the cage, then it can be
 automatically filled in with the target number.
 
-Your task is to provide a correct solution to the puzzle provided. The puzzle could have size 3, 4, 5, 6, 7, or 9. All puzzles have at least
+Your task is to provide a correct solution to the puzzle provided. The puzzle could have size 3, 4, 5, 6, 7, 8, or 9. All puzzles have at least
 one solution. Format your response as a 2 dimensional list representing the solution for the puzzle. An example response for a 3x3 KenKen puzzle is:
 [[1, 2, 3],[3, 1, 2],[2, 3, 1]]
 """

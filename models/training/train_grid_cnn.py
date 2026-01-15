@@ -1,8 +1,8 @@
 """
 Train Grid_CNN for KenKen board size detection.
 
-Supports sizes 3-7 and 9 (output_dim=6).
-Maps: output 0-5 -> sizes 3, 4, 5, 6, 7, 9
+Supports sizes 3-9 (output_dim=7).
+Maps: output 0-6 -> sizes 3, 4, 5, 6, 7, 8, 9
 
 Usage:
     python train_grid_cnn.py
@@ -20,8 +20,8 @@ import random
 from pathlib import Path
 
 # Configuration
-BOARD_SIZES = [3, 4, 5, 6, 7, 9]  # Size 8 not included (no images)
-SIZE_TO_LABEL = {3: 0, 4: 1, 5: 2, 6: 3, 7: 4, 9: 5}
+BOARD_SIZES = [3, 4, 5, 6, 7, 8, 9]  # Now includes size 8
+SIZE_TO_LABEL = {3: 0, 4: 1, 5: 2, 6: 3, 7: 4, 8: 5, 9: 6}
 LABEL_TO_SIZE = {v: k for k, v in SIZE_TO_LABEL.items()}
 OUTPUT_DIM = len(BOARD_SIZES)
 
@@ -61,14 +61,24 @@ class BoardImageDataset(Dataset):
         self.samples = []
 
         for size in sizes:
-            # Get all images for this size
-            pattern = f"board{size}_"
-            images = sorted([f for f in os.listdir(image_dir) if f.startswith(pattern)])
-
-            for img_name in images:
-                idx = int(img_name.replace(pattern, "").replace(".png", ""))
-                if indices is None or idx in indices:
-                    self.samples.append((self.image_dir / img_name, SIZE_TO_LABEL[size]))
+            # Support subfolder structure (e.g., 8x8/board8_0.png)
+            size_dir = self.image_dir / f"{size}x{size}"
+            if size_dir.exists():
+                pattern = f"board{size}_"
+                images = sorted([f for f in os.listdir(size_dir) if f.startswith(pattern)])
+                for img_name in images:
+                    idx = int(img_name.replace(pattern, "").replace(".png", ""))
+                    if indices is None or idx in indices:
+                        self.samples.append((size_dir / img_name, SIZE_TO_LABEL[size]))
+            else:
+                # Fallback to flat structure (e.g., board3_0.png)
+                pattern = f"board{size}_"
+                if self.image_dir.exists():
+                    images = sorted([f for f in os.listdir(self.image_dir) if f.startswith(pattern)])
+                    for img_name in images:
+                        idx = int(img_name.replace(pattern, "").replace(".png", ""))
+                        if indices is None or idx in indices:
+                            self.samples.append((self.image_dir / img_name, SIZE_TO_LABEL[size]))
 
         print(f"Loaded {len(self.samples)} samples")
 
@@ -182,8 +192,10 @@ def main():
     print(f"Val samples per size: {len(val_indices)}")
     print()
 
-    # Create datasets
-    image_dir = "./board_images"
+    # Create datasets - use benchmarks directory (supports subfolder structure)
+    base_dir = Path(script_dir).parent.parent  # models/training -> root
+    image_dir = base_dir / "benchmarks" / "KenKen" / "Handwritten"
+    print(f"Using image directory: {image_dir}")
     train_dataset = BoardImageDataset(image_dir, transform=transform, indices=train_indices)
     val_dataset = BoardImageDataset(image_dir, transform=transform, indices=val_indices)
 
@@ -201,8 +213,10 @@ def main():
     print()
     print(f"Best validation accuracy: {best_acc:.2f}%")
 
-    # Save model
-    model_path = "./models/grid_detection_model_weights.pth"
+    # Save model to grid_detection directory
+    grid_detection_dir = base_dir / "models" / "grid_detection"
+    grid_detection_dir.mkdir(parents=True, exist_ok=True)
+    model_path = grid_detection_dir / "kenken_grid_cnn.pth"
     torch.save(model.state_dict(), model_path)
     print(f"Model saved to {model_path}")
 
