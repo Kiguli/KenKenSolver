@@ -154,28 +154,27 @@ Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
 
 | Category | Puzzle Type | Sizes | Images/Size | Total | Location |
 |----------|-------------|-------|-------------|-------|----------|
-| Computer | KenKen | 3,4,5,6,7,9 | 100 | 600 | `final/benchmarks/KenKen/computer/` |
-| Computer | Sudoku | 4,9 | 100 | 200 | `final/benchmarks/Sudoku/computer/` |
-| Computer | HexaSudoku (Hex) | 16 | 100 | 100 | `final/benchmarks/HexaSudoku_16x16/computer_hex/` |
-| Computer | HexaSudoku (Numeric) | 16 | 100 | 100 | `final/benchmarks/HexaSudoku_16x16/computer_numeric/` |
-| Handwritten | KenKen | 3,4,5,6,7,9 | 100 | 600 | `final/benchmarks/KenKen/handwritten/` |
-| Handwritten | Sudoku | 4,9 | 100 | 200 | `final/benchmarks/Sudoku/handwritten/` |
-| Handwritten | HexaSudoku (Hex) | 16 | 100 | 100 | `final/benchmarks/HexaSudoku_16x16/handwritten_hex/` |
-| Handwritten | HexaSudoku (Numeric) | 16 | 100 | 100 | `final/benchmarks/HexaSudoku_16x16/handwritten_numeric/` |
+| Computer | KenKen | 3,4,5,6,7,9 | 100 | 600 | `benchmarks/KenKen/Computer/` |
+| Computer | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Computer/` |
+| Computer | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Hex_Notation/` |
+| Computer | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Numeric/` |
+| Handwritten | KenKen | 3,4,5,6,7,9 | 100 | 600 | `benchmarks/KenKen/Handwritten/` |
+| Handwritten | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Handwritten/` |
+| Handwritten | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Hex_Notation/` |
+| Handwritten | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Numeric/` |
 | **Total** | | | | **2,000** | |
 
 ## Key Files
 
 | Resource | Location | Description |
 |----------|----------|-------------|
-| Benchmark Images | `final/benchmarks/` | 2,000 puzzle images |
-| Pre-trained Models | `final/models/` | CNN weights (.pth files) |
-| Evaluation Results | `final/results/` | CSV files with accuracy data |
-| LLM Benchmark | `final/evaluation/llm/llm_benchmark.py` | Evaluate LLMs on puzzles |
+| Benchmark Images | `benchmarks/` | 2,000 puzzle images |
+| Pre-trained Models | `models/` | CNN weights (.pth files) |
+| Evaluation Results | `results/` | CSV files with accuracy data |
+| LLM Benchmark | `evaluation/llm_benchmark.py` | Evaluate LLMs on puzzles |
 | KenKen Solver (V2) | `archive/KenKen-handwritten-v2/solver/solve_all_sizes.py` | Production KenKen solver |
 | Sudoku Solver (V2) | `archive/Sudoku-handwritten-v2/solver/solve_all_sizes.py` | Unified Sudoku/HexaSudoku solver |
 | CNN Architecture | `archive/KenKen-handwritten-v2/models/improved_cnn.py` | ImprovedCNN definition |
-| Technical Report | `final/REPORT.md` | Detailed technical documentation |
 
 ## Error Correction Methods
 
@@ -390,7 +389,7 @@ jupyter notebook NeuroSymbolicSolver.ipynb
 
 ### LLM Benchmark
 ```bash
-cd final/evaluation
+cd evaluation
 python llm_benchmark.py --llm claude --puzzle kenken --sizes 3,4,5 --num 30
 python llm_benchmark.py --llm all --puzzle kenken --sizes 3,4,5,6,7 --num 30
 ```
@@ -401,24 +400,26 @@ python llm_benchmark.py --llm all --puzzle kenken --sizes 3,4,5,6,7 --num 30
 KenKenSolver/
 ├── README.md                    # This file
 │
-├── final/                       # Curated release package
-│   ├── benchmarks/             # 2,000 puzzle images
-│   │   ├── KenKen/            # Computer & Handwritten (3×3 to 9×9)
-│   │   ├── Sudoku/            # Computer & Handwritten (4×4, 9×9)
-│   │   └── HexaSudoku_16x16/  # Hex & Numeric notation
-│   ├── models/                 # Pre-trained CNN weights
-│   │   ├── computer/          # CNNs for computer-generated puzzles
-│   │   ├── handwritten_v1/    # 90-10 split models
-│   │   └── handwritten_v2/    # ImprovedCNN models
-│   ├── puzzles/               # Puzzle definitions (JSON)
-│   ├── results/               # Evaluation CSVs
-│   │   ├── neurosymbolic/     # Solver accuracy results
-│   │   └── llm/               # LLM comparison results
-│   ├── evaluation/            # LLM benchmark script
-│   │   └── llm_benchmark.py   # Unified evaluation tool
-│   └── REPORT.md              # Technical report
+├── benchmarks/                  # 2,000 puzzle images
+│   ├── KenKen/                 # Computer & Handwritten (3×3 to 9×9)
+│   ├── Sudoku/                 # Computer & Handwritten (4×4, 9×9)
+│   └── HexaSudoku_16x16/       # Hex & Numeric notation
 │
-└── archive/                    # Complete experimental history
+├── models/                      # Pre-trained CNN weights
+│   ├── computer/               # CNNs for computer-generated puzzles
+│   ├── handwritten_v1/         # 90-10 split models
+│   └── handwritten_v2/         # ImprovedCNN models
+│
+├── puzzles/                     # Puzzle definitions (JSON)
+│
+├── results/                     # Evaluation CSVs
+│   ├── neurosymbolic/          # Solver accuracy results
+│   └── llm/                    # LLM comparison results
+│
+├── evaluation/                  # LLM benchmark script
+│   └── llm_benchmark.py        # Unified evaluation tool
+│
+└── archive/                     # Complete experimental history
     ├── KenKen/                # KenKen solver (computer-generated)
     ├── KenKen handwritten/    # V1 handwritten solver
     ├── KenKen-handwritten-v2/ # V2 improved solver
