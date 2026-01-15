@@ -1344,23 +1344,7 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
 
     # If direct solve and operator inference failed, try error correction
     if use_correction:
-        puzzle, alternatives = make_puzzle_with_alternatives(
-            size, border_thickness, cages, filename, char_model, k=4, invert=invert
-        )
-
-        # Use constraint-based error correction
-        correction = attempt_constraint_based_correction(
-            puzzle, alternatives, size, max_errors=3, max_k=4
-        )
-
-        if correction.success:
-            correction_type = correction.correction_type
-            if retry_info.get('retries', 0) > 0:
-                correction_type = f"cage_redetect+{correction_type}"
-            return correction.solution, correction_type, (time.time() - start_time) * 1000
-
-        # Fallback to simple correction if constraint-based fails
-        # Re-extract with higher k for more alternatives
+        # First try simple error correction (faster, uses top-K predictions)
         puzzle, alternatives = make_puzzle_with_alternatives(
             size, border_thickness, cages, filename, char_model, k=6, invert=invert
         )
@@ -1372,6 +1356,20 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
             if retry_info.get('retries', 0) > 0:
                 correction_type = f"cage_redetect+{correction_type}"
             return simple_correction.solution, correction_type, (time.time() - start_time) * 1000
+
+        # Fallback to constraint-based error correction if simple fails
+        puzzle, alternatives = make_puzzle_with_alternatives(
+            size, border_thickness, cages, filename, char_model, k=4, invert=invert
+        )
+        correction = attempt_constraint_based_correction(
+            puzzle, alternatives, size, max_errors=3, max_k=4
+        )
+
+        if correction.success:
+            correction_type = f"constraint_{correction.correction_type}"
+            if retry_info.get('retries', 0) > 0:
+                correction_type = f"cage_redetect+{correction_type}"
+            return correction.solution, correction_type, (time.time() - start_time) * 1000
 
         return None, "still_uncorrectable", (time.time() - start_time) * 1000
 

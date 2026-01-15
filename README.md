@@ -20,6 +20,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | 5×5 | **100%** | 0% | 0% | - | - | - |
 | 6×6 | **100%** | - | - | - | - | - |
 | 7×7 | **100%** | - | - | - | - | - |
+| 8×8 | **100%** | - | - | - | - | - |
 | 9×9 | **100%** | - | - | - | - | - |
 
 *All LLMs fail completely on KenKen puzzles 5×5 and larger. The neuro-symbolic approach achieves 100% accuracy without error correction due to perfect digit recognition.*
@@ -44,6 +45,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | KenKen | 5×5 | 18% | 26% | 36% | **74%** |
 | KenKen | 6×6 | 7% | 15% | 32% | **66%** |
 | KenKen | 7×7 | 1% | 2% | 10% | **41%** |
+| KenKen | 8×8 | - | - | 3% | **19%** |
 | KenKen | 9×9 | 0% | 1% | 13% | **26%** |
 | Sudoku | 4×4 | 90% | 92% | 100% | **100%** |
 | Sudoku | 9×9 | 75% | 85% | 96% | **98%** |
@@ -185,21 +187,21 @@ If validation fails (often due to thin grid lines being misdetected as cage wall
 
 | Category | Puzzle Type | Sizes | Images/Size | Total | Location |
 |----------|-------------|-------|-------------|-------|----------|
-| Computer | KenKen | 3,4,5,6,7,9 | 100 | 600 | `benchmarks/KenKen/Computer/` |
+| Computer | KenKen | 3,4,5,6,7,8,9 | 100 | 700 | `benchmarks/KenKen/Computer/` |
 | Computer | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Computer/` |
 | Computer | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Hex_Notation/` |
 | Computer | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Numeric/` |
-| Handwritten | KenKen | 3,4,5,6,7,9 | 100 | 600 | `benchmarks/KenKen/Handwritten/` |
+| Handwritten | KenKen | 3,4,5,6,7,8,9 | 100 | 700 | `benchmarks/KenKen/Handwritten/` |
 | Handwritten | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Handwritten/` |
 | Handwritten | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Hex_Notation/` |
 | Handwritten | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Numeric/` |
-| **Total** | | | | **2,000** | |
+| **Total** | | | | **2,200** | |
 
 ## Key Files
 
 | Resource | Location | Description |
 |----------|----------|-------------|
-| Benchmark Images | `benchmarks/` | 2,000 puzzle images |
+| Benchmark Images | `benchmarks/` | 2,200 puzzle images |
 | Pre-trained Models | `models/` | CNN weights (.pth files) |
 | Training Scripts | `models/training/` | Scripts to train CNN models |
 | Evaluation Results | `results/` | CSV files with accuracy data |

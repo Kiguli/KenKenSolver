@@ -30,7 +30,7 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Optional
 
-BOARD_SIZE = 900
+CELL_SIZE = 300  # Fixed cell size for all puzzle sizes (300px cells)
 IMG_SIZE = 28
 SCALE_FACTOR = 2
 
@@ -109,7 +109,7 @@ def get_size(filename, grid_model):
 
 def find_h_borders(h_lines, size, epsilon, delta):
     """Find horizontal borders between cells."""
-    cell_size = ((BOARD_SIZE * SCALE_FACTOR) // size)
+    cell_size = CELL_SIZE * SCALE_FACTOR
     vertical_window = (cell_size - delta, cell_size + delta)
     h_borders = np.zeros((size - 1, size))
     horizontal_window = (epsilon, cell_size - epsilon)
@@ -137,7 +137,7 @@ def find_h_borders(h_lines, size, epsilon, delta):
 
 def find_v_borders(v_lines, size, epsilon, delta):
     """Find vertical borders between cells."""
-    cell_size = ((BOARD_SIZE * SCALE_FACTOR) // size)
+    cell_size = CELL_SIZE * SCALE_FACTOR
     horizontal_window = (cell_size - delta, cell_size + delta)
     v_borders = np.zeros((size, size - 1))
     vertical_window = (epsilon, cell_size - epsilon)
@@ -236,7 +236,7 @@ def validate_cages(cages, size):
 
 def find_h_borders_with_threshold(h_lines, size, epsilon, delta, threshold):
     """Find horizontal borders with adjustable thickness threshold."""
-    cell_size = ((BOARD_SIZE * SCALE_FACTOR) // size)
+    cell_size = CELL_SIZE * SCALE_FACTOR
     vertical_window = (cell_size - delta, cell_size + delta)
     h_borders = np.zeros((size - 1, size))
     horizontal_window = (epsilon, cell_size - epsilon)
@@ -264,7 +264,7 @@ def find_h_borders_with_threshold(h_lines, size, epsilon, delta, threshold):
 
 def find_v_borders_with_threshold(v_lines, size, epsilon, delta, threshold):
     """Find vertical borders with adjustable thickness threshold."""
-    cell_size = ((BOARD_SIZE * SCALE_FACTOR) // size)
+    cell_size = CELL_SIZE * SCALE_FACTOR
     horizontal_window = (cell_size - delta, cell_size + delta)
     v_borders = np.zeros((size, size - 1))
     vertical_window = (epsilon, cell_size - epsilon)
@@ -323,14 +323,22 @@ def get_border_thickness(lines):
 
 def find_size_and_borders(filename, grid_model=None, size_override=None):
     """Detect puzzle size and cage borders from image."""
+    # Use override if provided, otherwise detect with Grid_CNN
+    if size_override:
+        size = size_override
+    elif grid_model:
+        size = get_size(filename, grid_model)
+    else:
+        size = 9  # Default fallback
+
     src = cv.imread(filename)
-    resized = cv.resize(src, (BOARD_SIZE * SCALE_FACTOR, BOARD_SIZE * SCALE_FACTOR))
+    target_size = size * CELL_SIZE * SCALE_FACTOR
+    resized = cv.resize(src, (target_size, target_size))
     filtered = cv.pyrMeanShiftFiltering(resized, sp=5, sr=40)
     dst = cv.Canny(filtered, 50, 200, None, 3)
     linesP = cv.HoughLinesP(dst, 1, np.pi / 360, 75, None, 50, 15)
 
     if linesP is None:
-        size = size_override or (get_size(filename, grid_model) if grid_model else 9)
         return size, [], 16
 
     linesP = np.squeeze(linesP, axis=1)
@@ -341,14 +349,6 @@ def find_size_and_borders(filename, grid_model=None, size_override=None):
     h_lines = lines_df[abs(lines_df['y1'] - lines_df['y2']) < 2]
     v_lines = lines_df[abs(lines_df['x1'] - lines_df['x2']) < 2]
     border_thickness = get_border_thickness(lines_df)
-
-    # Use override if provided, otherwise detect with Grid_CNN
-    if size_override:
-        size = size_override
-    elif grid_model:
-        size = get_size(filename, grid_model)
-    else:
-        size = 9  # Default fallback
 
     cages = construct_cages(
         find_h_borders(h_lines, size, border_thickness, border_thickness),
@@ -366,14 +366,22 @@ def find_size_and_borders_with_retry(filename, grid_model=None, size_override=No
 
     Returns: (size, cages, border_thickness, retry_info)
     """
+    # Use override if provided, otherwise detect with Grid_CNN
+    if size_override:
+        size = size_override
+    elif grid_model:
+        size = get_size(filename, grid_model)
+    else:
+        size = 9
+
     src = cv.imread(filename)
-    resized = cv.resize(src, (BOARD_SIZE * SCALE_FACTOR, BOARD_SIZE * SCALE_FACTOR))
+    target_size = size * CELL_SIZE * SCALE_FACTOR
+    resized = cv.resize(src, (target_size, target_size))
     filtered = cv.pyrMeanShiftFiltering(resized, sp=5, sr=40)
     dst = cv.Canny(filtered, 50, 200, None, 3)
     linesP = cv.HoughLinesP(dst, 1, np.pi / 360, 75, None, 50, 15)
 
     if linesP is None:
-        size = size_override or (get_size(filename, grid_model) if grid_model else 9)
         return size, [], 16, {'retries': 0, 'final_multiplier': 1.0}
 
     linesP = np.squeeze(linesP, axis=1)
@@ -384,14 +392,6 @@ def find_size_and_borders_with_retry(filename, grid_model=None, size_override=No
     h_lines = lines_df[abs(lines_df['y1'] - lines_df['y2']) < 2]
     v_lines = lines_df[abs(lines_df['x1'] - lines_df['x2']) < 2]
     border_thickness = get_border_thickness(lines_df)
-
-    # Use override if provided, otherwise detect with Grid_CNN
-    if size_override:
-        size = size_override
-    elif grid_model:
-        size = get_size(filename, grid_model)
-    else:
-        size = 9
 
     # First attempt with default threshold
     cages = construct_cages(
@@ -1203,19 +1203,23 @@ def main():
     print("=" * 70)
     print()
 
-    # Change to script directory
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    # Get paths relative to repository root
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(script_dir)))  # evaluation/neurosymbolic/kenken -> root
+    models_dir = os.path.join(base_dir, 'models')
+    benchmarks_dir = os.path.join(base_dir, 'benchmarks', 'KenKen', 'Computer')
+    results_dir = os.path.join(base_dir, 'results', 'neurosymbolic')
 
     # Load models
     print("Loading models...")
 
     char_model = CNN_v2(output_dim=14)
-    state_dict = torch.load('./models/character_recognition_v2_model_weights.pth', weights_only=False)
+    state_dict = torch.load(os.path.join(models_dir, 'computer', 'kenken_sudoku_character_cnn.pth'), weights_only=False)
     char_model.load_state_dict(state_dict)
     char_model.eval()
 
     grid_model = Grid_CNN(output_dim=6)
-    state_dict = torch.load('./models/grid_detection_model_weights.pth', weights_only=False)
+    state_dict = torch.load(os.path.join(models_dir, 'grid_detection', 'kenken_grid_cnn.pth'), weights_only=False)
     grid_model.load_state_dict(state_dict)
     grid_model.eval()
 
@@ -1235,7 +1239,7 @@ def main():
         correction_types = Counter()
 
         for i in range(num_puzzles):
-            filename = f"./board_images/board{size}_{i}.png"
+            filename = os.path.join(benchmarks_dir, f'{size}x{size}', f'board{size}_{i}.png')
 
             if not os.path.exists(filename):
                 if args.verbose:
@@ -1303,7 +1307,8 @@ def main():
     os.makedirs('./results', exist_ok=True)
 
     df = pd.DataFrame(all_results)
-    df.to_csv('./results/unified_solver_evaluation.csv', index=False)
+    results_file = os.path.join(results_dir, 'kenken_computer.csv')
+    df.to_csv(results_file, index=False)
 
     # Print summary
     print()
@@ -1317,7 +1322,7 @@ def main():
         s = summary[size]
         print(f"{size}x{size:<4} {s['base_accuracy']:>5.0f}%   {s['corrected_accuracy']:>6.0f}%     {s['avg_time_ms']:>6.0f}ms")
     print()
-    print(f"Results saved to ./results/unified_solver_evaluation.csv")
+    print(f"Results saved to {results_file}")
 
 
 if __name__ == '__main__':
