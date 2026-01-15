@@ -22,7 +22,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | 7×7 | **100%** | - | - | - | - | - |
 | 9×9 | **100%** | - | - | - | - | - |
 
-*All LLMs fail completely on KenKen puzzles 5×5 and larger.*
+*All LLMs fail completely on KenKen puzzles 5×5 and larger. The neuro-symbolic approach achieves 100% accuracy without error correction due to perfect digit recognition.*
 
 ## Sudoku & HexaSudoku Results (Computer-Generated)
 
@@ -33,7 +33,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | HexaSudoku 16×16 (Hex) | **100%** | - | - | - | 0% | 0% |
 | HexaSudoku 16×16 (Numeric) | **100%** | - | - | - | 0% | 0% |
 
-*All LLMs fail on 9×9 Sudoku and 16×16 HexaSudoku.*
+*LLMs struggle with 9×9 Sudoku (GPT-4o: 8%, others: ≤1%) and fail completely on 16×16 HexaSudoku. The neuro-symbolic approach achieves 100% accuracy without error correction due to perfect digit recognition.*
 
 ## Handwritten Results (Baseline vs Error-Corrected)
 
