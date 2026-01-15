@@ -37,3 +37,6 @@ Thumbs.db
 archive/**/board_images/
 **/board_images/*.png
 !final/**/board_images/
+
+#submission-related-files
+supplementary_material
