@@ -304,52 +304,131 @@ def figure3_error_correction():
 # Figure 4: V1 vs V2 Comparison
 # =============================================================================
 
-def figure4_v1_vs_v2():
-    """Compare V1 and V2 models with and without error correction."""
-    fig, ax = plt.subplots(figsize=(7, 3.5))
+def figure4_v1_vs_v2_combined():
+    """Compare V1 and V2 models with VLMs for both KenKen and Sudoku (stacked)."""
+    fig, axes = plt.subplots(2, 1, figsize=(7, 6))
 
-    sizes = [3, 4, 5, 6, 7, 8, 9]
-    x = np.arange(len(sizes))
+    # Create legend handles manually for unified legend at top
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], color=COLORS['v1_corr'], marker='o', linestyle='--',
+               markersize=6, linewidth=1.5, alpha=0.7, label='V1 Baseline'),
+        Line2D([0], [0], color=COLORS['v1_corr'], marker='o', linestyle='-',
+               markersize=6, linewidth=1.5, label='V1 Corrected'),
+        Line2D([0], [0], color=COLORS['v2_corr'], marker='s', linestyle='--',
+               markersize=6, linewidth=1.5, alpha=0.7, label='V2 Baseline'),
+        Line2D([0], [0], color=COLORS['v2_corr'], marker='s', linestyle='-',
+               markersize=6, linewidth=2, label='V2 Corrected'),
+        Line2D([0], [0], color=COLORS['gpt4o'], marker='^', linestyle='-',
+               markersize=8, linewidth=1.5, label='GPT-4o'),
+        Line2D([0], [0], color=COLORS['gemini'], marker='D', linestyle='-',
+               markersize=7, linewidth=1.5, label='Gemini 2.5 Pro'),
+    ]
+
+    # Add unified legend at top of figure
+    fig.legend(handles=legend_elements, loc='upper center', ncol=6, fontsize=7,
+               bbox_to_anchor=(0.5, 1.02), frameon=False)
+
+    # =========================================================================
+    # Top panel: KenKen
+    # =========================================================================
+    ax1 = axes[0]
+    sizes_kenken = [3, 4, 5, 6, 7, 8, 9]
+    x_kenken = np.arange(len(sizes_kenken))
 
     # V1 data
-    v1_base = [69, 36, 18, 7, 1, 1, 0]
-    v1_corr = [89, 58, 26, 15, 2, 1, 1]
+    v1_base_kenken = [69, 36, 18, 7, 1, 1, 0]
+    v1_corr_kenken = [89, 58, 26, 15, 2, 1, 1]
 
     # V2 data
-    v2_base = [98, 86, 36, 32, 10, 13, 13]
-    v2_corr = [100, 94, 74, 66, 41, 46, 26]
+    v2_base_kenken = [98, 86, 36, 32, 10, 13, 13]
+    v2_corr_kenken = [100, 94, 74, 66, 41, 46, 26]
 
-    # Plot lines with markers
-    ax.plot(x, v1_base, 'o--', color=COLORS['v1_base'], label='V1 Baseline',
+    # VLM data (GPT-4o and Gemini 2.5 Pro)
+    gpt4o_kenken = [20, 0]  # 3x3, 4x4
+    gemini_kenken = [68, 30, 0]  # 3x3, 4x4, 5x5
+
+    # Plot lines with markers (circle for V1, square for V2)
+    ax1.plot(x_kenken, v1_base_kenken, 'o--', color=COLORS['v1_corr'],
             markersize=6, linewidth=1.5, alpha=0.7)
-    ax.plot(x, v1_corr, 's-', color=COLORS['v1_corr'], label='V1 Corrected',
+    ax1.plot(x_kenken, v1_corr_kenken, 'o-', color=COLORS['v1_corr'],
             markersize=6, linewidth=1.5)
-    ax.plot(x, v2_base, '^--', color=COLORS['v2_base'], label='V2 Baseline',
+    ax1.plot(x_kenken, v2_base_kenken, 's--', color=COLORS['v2_corr'],
             markersize=6, linewidth=1.5, alpha=0.7)
-    ax.plot(x, v2_corr, 'D-', color=COLORS['v2_corr'], label='V2 Corrected',
+    ax1.plot(x_kenken, v2_corr_kenken, 's-', color=COLORS['v2_corr'],
             markersize=6, linewidth=2)
 
-    # Fill between baseline and corrected for V1
-    ax.fill_between(x, v1_base, v1_corr, alpha=0.2, color=COLORS['v1_corr'],
-                    label='V1 Correction Gain')
+    # Plot VLM data points (triangle for GPT-4o, diamond for Gemini)
+    ax1.plot(x_kenken[:len(gpt4o_kenken)], gpt4o_kenken, '^-', color=COLORS['gpt4o'],
+            markersize=8, linewidth=1.5)
+    ax1.plot(x_kenken[:len(gemini_kenken)], gemini_kenken, 'D-', color=COLORS['gemini'],
+            markersize=7, linewidth=1.5)
 
-    # Fill between baseline and corrected for V2
-    ax.fill_between(x, v2_base, v2_corr, alpha=0.2, color=COLORS['v2_corr'],
-                    label='V2 Correction Gain')
+    # Fill between baseline and corrected
+    ax1.fill_between(x_kenken, v1_base_kenken, v1_corr_kenken, alpha=0.2, color=COLORS['v1_corr'])
+    ax1.fill_between(x_kenken, v2_base_kenken, v2_corr_kenken, alpha=0.2, color=COLORS['v2_corr'])
 
-    ax.set_xlabel('KenKen Grid Size')
-    ax.set_ylabel('Accuracy (%)')
-    ax.set_xticks(x)
-    ax.set_xticklabels([f'{s}×{s}' for s in sizes])
-    ax.set_ylim(0, 105)
-    ax.legend(loc='upper right', ncol=2, fontsize=7)
-    ax.grid(axis='y', alpha=0.3, linestyle=':')
+    ax1.set_xlabel('KenKen Grid Size')
+    ax1.set_ylabel('Accuracy (%)')
+    ax1.set_xticks(x_kenken)
+    ax1.set_xticklabels([f'{s}×{s}' for s in sizes_kenken])
+    ax1.set_ylim(0, 105)
+    ax1.grid(axis='y', alpha=0.3, linestyle=':')
+    ax1.set_title('KenKen', fontweight='bold')
+
+    # =========================================================================
+    # Bottom panel: Sudoku
+    # =========================================================================
+    ax2 = axes[1]
+    sizes_sudoku = ['4×4', '9×9', '16×16\n(Hex)', '16×16\n(Numeric)']
+    x_sudoku = np.arange(len(sizes_sudoku))
+
+    # V1 data (from README)
+    v1_base_sudoku = [90, 75, 10, 30]
+    v1_corr_sudoku = [92, 85, 10, 32]
+
+    # V2 data (from README)
+    v2_base_sudoku = [100, 96, 77, 60]
+    v2_corr_sudoku = [100, 98, 91, 72]
+
+    # VLM data
+    gpt4o_sudoku = [63, 9, 0, 0]  # 4x4, 9x9, 16x16 Hex, 16x16 Numeric
+    gemini_sudoku = [100, 2, 0, 0]  # 4x4, 9x9, 16x16 Hex, 16x16 Numeric
+
+    # Plot lines with markers (circle for V1, square for V2)
+    ax2.plot(x_sudoku, v1_base_sudoku, 'o--', color=COLORS['v1_corr'],
+            markersize=6, linewidth=1.5, alpha=0.7)
+    ax2.plot(x_sudoku, v1_corr_sudoku, 'o-', color=COLORS['v1_corr'],
+            markersize=6, linewidth=1.5)
+    ax2.plot(x_sudoku, v2_base_sudoku, 's--', color=COLORS['v2_corr'],
+            markersize=6, linewidth=1.5, alpha=0.7)
+    ax2.plot(x_sudoku, v2_corr_sudoku, 's-', color=COLORS['v2_corr'],
+            markersize=6, linewidth=2)
+
+    # Plot VLM data points (triangle for GPT-4o, diamond for Gemini)
+    ax2.plot(x_sudoku[:len(gpt4o_sudoku)], gpt4o_sudoku, '^-', color=COLORS['gpt4o'],
+            markersize=8, linewidth=1.5)
+    ax2.plot(x_sudoku[:len(gemini_sudoku)], gemini_sudoku, 'D-', color=COLORS['gemini'],
+            markersize=7, linewidth=1.5)
+
+    # Fill between baseline and corrected
+    ax2.fill_between(x_sudoku, v1_base_sudoku, v1_corr_sudoku, alpha=0.2, color=COLORS['v1_corr'])
+    ax2.fill_between(x_sudoku, v2_base_sudoku, v2_corr_sudoku, alpha=0.2, color=COLORS['v2_corr'])
+
+    ax2.set_xlabel('Sudoku Grid Size')
+    ax2.set_ylabel('Accuracy (%)')
+    ax2.set_xticks(x_sudoku)
+    ax2.set_xticklabels(sizes_sudoku)
+    ax2.set_ylim(0, 105)
+    ax2.grid(axis='y', alpha=0.3, linestyle=':')
+    ax2.set_title('Sudoku', fontweight='bold')
 
     plt.tight_layout()
-    plt.savefig(SCRIPT_DIR / 'fig4_v1_vs_v2.pdf')
-    plt.savefig(SCRIPT_DIR / 'fig4_v1_vs_v2.png')
+    plt.subplots_adjust(top=0.92)  # Make room for legend at top
+    plt.savefig(SCRIPT_DIR / 'fig4_v1_vs_v2_combined.pdf')
+    plt.savefig(SCRIPT_DIR / 'fig4_v1_vs_v2_combined.png')
     plt.close()
-    print("Generated: fig4_v1_vs_v2.pdf")
+    print("Generated: fig4_v1_vs_v2_combined.pdf")
 
 # =============================================================================
 # Figure 5a: KenKen Error Correction Breakdown
@@ -588,8 +667,9 @@ def figure5d_efficiency_all_puzzles():
                        textcoords='offset points', ha='center', va='bottom',
                        fontsize=7, fontweight='bold', color=COLORS['neurosymbolic'])
 
-    ax.axvspan(2.5, 6.5, alpha=0.1, color='red')
-    ax.text(4.5, 100, 'VLMs: 0%', ha='center', fontsize=8, style='italic', color='darkred')
+    # VLMs fail from 5x5 onwards (index 2)
+    ax.axvspan(1.5, 6.5, alpha=0.1, color='red')
+    ax.text(4, 100, 'VLMs: 0%', ha='center', fontsize=8, style='italic', color='darkred')
     ax.set_yscale('log')
     ax.set_ylim(0.05, 500)
     ax.set_xticks(x)
@@ -656,6 +736,10 @@ def figure5d_efficiency_all_puzzles():
             ax.annotate(f'{speedup:.0f}×', xy=(i, ns_t), xytext=(0, 8),
                        textcoords='offset points', ha='center', va='bottom',
                        fontsize=7, fontweight='bold', color=COLORS['neurosymbolic'])
+
+    # VLMs fail on both 16x16 HexaSudoku variants (indices 2 and 3)
+    ax.axvspan(1.5, 3.5, alpha=0.1, color='red')
+    ax.text(2.5, 100, 'VLMs: 0%', ha='center', fontsize=8, style='italic', color='darkred')
 
     ax.set_yscale('log')
     ax.set_ylim(0.01, 500)
@@ -817,7 +901,7 @@ def main():
     figure1_kenken_vlm_comparison()
     figure2_puzzle_types()
     figure3_error_correction()
-    figure4_v1_vs_v2()
+    figure4_v1_vs_v2_combined()
     figure5a_kenken_correction_breakdown()
     figure5b_sudoku_correction_breakdown()
     figure5c_efficiency_comparison()
