@@ -17,12 +17,12 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 |----------|-------------|-------|-------------|-------|----------|
 | Computer | KenKen | 3,4,5,6,7,8,9 | 100 | 700 | `benchmarks/KenKen/Computer/` |
 | Computer | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Computer/` |
-| Computer | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Hex_Notation/` |
-| Computer | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Numeric/` |
+| Computer | Sudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Hex_Notation/` |
+| Computer | Sudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Numeric/` |
 | Handwritten | KenKen | 3,4,5,6,7,8,9 | 100 | 700 | `benchmarks/KenKen/Handwritten/` |
 | Handwritten | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Handwritten/` |
-| Handwritten | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Hex_Notation/` |
-| Handwritten | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Numeric/` |
+| Handwritten | Sudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Hex_Notation/` |
+| Handwritten | Sudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Numeric/` |
 | **Total** | | | | **2,200** | |
 
 ## Evaluation Results
