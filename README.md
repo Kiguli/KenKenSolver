@@ -11,7 +11,23 @@ Large Language Models (GPT-4, Claude, Gemini) struggle with constraint satisfact
 
 This division of labor achieves near-perfect accuracy where LLMs fail completely.
 
-## KenKen Results (Computer-Generated)
+## Benchmark Dataset
+
+| Category | Puzzle Type | Sizes | Images/Size | Total | Location |
+|----------|-------------|-------|-------------|-------|----------|
+| Computer | KenKen | 3,4,5,6,7,8,9 | 100 | 700 | `benchmarks/KenKen/Computer/` |
+| Computer | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Computer/` |
+| Computer | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Hex_Notation/` |
+| Computer | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Numeric/` |
+| Handwritten | KenKen | 3,4,5,6,7,8,9 | 100 | 700 | `benchmarks/KenKen/Handwritten/` |
+| Handwritten | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Handwritten/` |
+| Handwritten | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Hex_Notation/` |
+| Handwritten | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Numeric/` |
+| **Total** | | | | **2,200** | |
+
+## Evaluation Results
+
+### KenKen Results (Computer-Generated)
 
 | Size | NeuroSymbolic | Gemini 2.5 Pro | Claude Sonnet 4 | Qwen 2.5-VL | GPT-4o | GPT-4o Mini |
 |------|---------------|----------------|-----------------|-------------|--------|-------------|
@@ -25,7 +41,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 
 *All LLMs fail completely on KenKen puzzles 5×5 and larger. The neuro-symbolic approach achieves 100% accuracy without error correction due to perfect digit recognition.*
 
-## Sudoku & HexaSudoku Results (Computer-Generated)
+### Sudoku & HexaSudoku Results (Computer-Generated)
 
 | Puzzle | NeuroSymbolic | Gemini 2.5 Pro | Claude Sonnet 4 | Qwen 2.5-VL | GPT-4o | GPT-4o Mini |
 |--------|---------------|----------------|-----------------|-------------|--------|-------------|
@@ -36,7 +52,7 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 
 *LLMs struggle with 9×9 Sudoku (GPT-4o: 8%, others: ≤1%) and fail completely on 16×16 HexaSudoku. The neuro-symbolic approach achieves 100% accuracy without error correction due to perfect digit recognition.*
 
-## Handwritten Results (Baseline vs Error-Corrected)
+### Handwritten Results (Baseline vs Error-Corrected)
 
 | Puzzle | Size | V1 Baseline | V1 Corrected | V2 Baseline | V2 Corrected | GPT-4o | Gemini 2.5 Pro |
 |--------|------|-------------|--------------|-------------|--------------|--------|----------------|
@@ -53,6 +69,157 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 | HexaSudoku | 16×16 (Numeric) | 30% | 32% | 60% | **72%** | 0% | - |
 
 *V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with augmentation. V1 Sudoku/HexaSudoku baselines derived from extraction accuracy.*
+
+## Error Correction
+
+For handwritten puzzles, CNN misclassifications can cause constraint conflicts. Five correction approaches were developed:
+
+### Correction Methods
+
+**1. Confidence-Based**
+Uses CNN softmax probabilities to identify likely errors:
+- Sorts clues by confidence score (lowest first = most likely wrong)
+- Substitutes each suspect with its second-best CNN prediction
+- Tries single-error, then two-error corrections exhaustively
+
+**2. Constraint-Based (Unsat Core)**
+Uses Z3's unsat core to identify clues causing logical conflicts:
+- Extracts the minimal set of constraints causing UNSAT
+- Only tests substitutions on clues involved in conflicts
+- Supports up to 5-error correction with targeted search
+
+**3. Top-K Prediction**
+Extends constraint-based approach by trying 2nd, 3rd, and 4th best CNN predictions:
+- Handles cases where second-best prediction is also wrong
+- Improves HexaSudoku from 36% → 40%
+
+**4. Cage Re-detection (KenKen)**
+When cage detection fails validation (too many cages, too many single-cells), retry with stricter thresholds:
+- Uses threshold multipliers (1.5x, 2.0x, 2.5x) to filter thin grid lines misdetected as cage walls
+- Validates cages: cell count, single-cell count, total cage count
+- Fixes 7×7 puzzles where integer division rounding causes false cage walls
+
+**5. Operator Inference (KenKen)**
+For multi-cell cages with missing operators and target > grid size:
+- Subtraction max = size - 1, Division max = size → ruled out
+- Automatically tries addition and multiplication operators
+- Fixes 9×9 puzzles where multiplication symbol is truncated during character segmentation
+
+### When to Use Each Method
+
+| Scenario | Recommended | Why |
+|----------|-------------|-----|
+| Speed critical | Unsat Core | 10-25x fewer solver calls |
+| Maximum accuracy (9×9) | Confidence-Based | Catches errors that don't cause UNSAT |
+| Maximum accuracy (16×16) | Top-K | Handles cases where 2nd-best is also wrong |
+| Small puzzles (4×4) | Any | All achieve 99% |
+
+### KenKen Error Correction Breakdown (V2)
+
+Out of 700 handwritten KenKen puzzles (sizes 3-9), the correction methods contributed as follows:
+
+| Correction Type | Puzzles | Description |
+|-----------------|---------|-------------|
+| **None (direct solve)** | 288 | CNN predictions correct, no correction needed |
+| **Simple single** | 104 | Fixed 1 OCR error using top-K predictions |
+| **Constraint single** | 10 | Fixed 1 error via Z3 unsat core analysis |
+| **Simple two** | 15 | Fixed 2 OCR errors using top-K predictions |
+| **Constraint two** | 1 | Fixed 2 errors via unsat core |
+| **Constraint three** | 1 | Fixed 3 errors via unsat core |
+| **Still uncorrectable** | 281 | Too many errors (4+) to correct |
+
+**Key insights**:
+- 41% of puzzles (288/700) solved directly without correction
+- 19% of puzzles (131/700) recovered via error correction
+- Simple single-error correction was most effective (104 puzzles)
+- 40% of puzzles remain unsolvable due to 4+ OCR errors
+
+### Sudoku/HexaSudoku Error Correction Breakdown (V2)
+
+Out of 100 puzzles per variant, the correction methods contributed as follows:
+
+| Puzzle Type | Direct Solve | Single Correction | Double Correction | Uncorrectable |
+|-------------|--------------|-------------------|-------------------|---------------|
+| Sudoku 4×4 | 100 | 0 | 0 | 0 |
+| Sudoku 9×9 | 96 | 2 | 0 | 2 |
+| HexaSudoku (A-G) | 77 | 13 | 1 | 9 |
+| HexaSudoku (Numeric) | 60 | 11 | 1 | 28 |
+
+**Key insights**:
+- Sudoku 4×4 achieves perfect accuracy without any corrections needed
+- Sudoku 9×9 near-perfect with only 2 single-error corrections
+- HexaSudoku Hex notation benefits significantly from correction (77% → 91%)
+- HexaSudoku Numeric more challenging with 28 uncorrectable puzzles (many have 3+ OCR errors)
+
+### V1 Error Correction Effectiveness
+
+V1's weaker CNN baseline (2 conv layers, ~400K params, ~95% accuracy) meant most puzzles had too many OCR errors to correct:
+
+| Outcome | Puzzles | % |
+|---------|---------|---|
+| Direct solve | 133 | 19% |
+| Corrected | 52 | 7% |
+| Uncorrectable | 515 | 74% |
+
+The 1↔7 confusion alone caused 37% of V1 errors. V2's improved CNN architecture eliminates this confusion and dramatically increases both baseline accuracy and correction effectiveness.
+
+## V2 Model Improvements
+
+### KenKen Handwritten V2
+
+The V2 approach dramatically improves handwritten KenKen solving through better CNN architecture and training methodology.
+
+**CNN Architecture (ImprovedCNN)**:
+- 4 conv layers (vs 2 in V1)
+- BatchNorm after every layer
+- 872K parameters (vs ~400K)
+- 99.9% validation accuracy (vs ~95%)
+
+**Training Data**:
+- Characters extracted from actual board images using the same pipeline as inference
+- Eliminates domain gap between training and inference
+- 70% handwritten / 30% computer-generated mix
+- Balanced to equal representation per class
+
+**Data Augmentation (10x)**:
+- Rotation: ±20° (vs ±5°)
+- Scale: 0.5-1.2x (vs 0.9-1.1x)
+- Elastic deformation (new)
+- Morphological erosion/dilation (new)
+
+**Training Process**:
+- Focal Loss (focuses on hard examples)
+- Early stopping with patience=15
+- Lower learning rate (0.0003 vs 0.001)
+
+**Key Result**: The 1↔7 confusion that caused 37% of V1 errors was **completely eliminated** in V2.
+
+### Why Larger Puzzles Remain Challenging
+
+Even with 99.9% per-character accuracy, larger puzzles have more characters:
+- 3×3: ~15 characters → 98.5% chance of zero errors
+- 9×9: ~80 characters → 92% chance of zero errors
+
+The error correction can fix 1-3 errors per puzzle, but some 9×9 puzzles have 4+ OCR errors.
+
+See [`archive/KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md`](archive/KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md) for detailed analysis.
+
+### Sudoku/HexaSudoku Handwritten V2
+
+A unified solver handling all Sudoku and HexaSudoku variants with a single 17-class CNN model.
+
+**Unified Model Architecture**:
+- Single ImprovedCNN (17 classes: digits 0-9 + letters A-G)
+- 850K parameters with BatchNorm and deeper architecture
+- 99.3% validation accuracy
+
+**HexaSudoku Numeric Handling**:
+- **Tens digit forced to 1**: Eliminates 1↔7 confusion for values 10-16
+- **Ones digit constrained to 0-6**: Values 17-19 don't exist in HexaSudoku
+- **Ink density ratio** for single/double digit detection (threshold 1.7)
+- **Fixed spatial split** for two-digit extraction (left/right halves)
+
+See [`archive/Sudoku-handwritten-v2/REPORT.md`](archive/Sudoku-handwritten-v2/REPORT.md) for detailed analysis.
 
 ## Pipeline Architecture
 
@@ -150,7 +317,7 @@ Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
 - **Purpose**: Used in handwritten V1 experiments
 - **Input**: 28×28 grayscale cell
 - **Architecture**: 2 conv layers, ~400K params
-- **Note**: Less accurate than V2 models
+- **Note**: Less accurate than V2 models (~95% vs 99.9% validation accuracy)
 
 ## KenKen Cage Detection
 
@@ -183,20 +350,6 @@ Detected cages are validated against heuristics:
 
 If validation fails (often due to thin grid lines being misdetected as cage walls), the algorithm retries with stricter thickness thresholds (1.5×, 2.0×, 2.5× the base threshold).
 
-## Benchmark Dataset
-
-| Category | Puzzle Type | Sizes | Images/Size | Total | Location |
-|----------|-------------|-------|-------------|-------|----------|
-| Computer | KenKen | 3,4,5,6,7,8,9 | 100 | 700 | `benchmarks/KenKen/Computer/` |
-| Computer | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Computer/` |
-| Computer | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Hex_Notation/` |
-| Computer | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Computer_Numeric/` |
-| Handwritten | KenKen | 3,4,5,6,7,8,9 | 100 | 700 | `benchmarks/KenKen/Handwritten/` |
-| Handwritten | Sudoku | 4,9 | 100 | 200 | `benchmarks/Sudoku/Handwritten/` |
-| Handwritten | HexaSudoku (Hex) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Hex_Notation/` |
-| Handwritten | HexaSudoku (Numeric) | 16 | 100 | 100 | `benchmarks/HexaSudoku_16x16/Handwritten_Numeric/` |
-| **Total** | | | | **2,200** | |
-
 ## Key Files
 
 | Resource | Location | Description |
@@ -208,165 +361,6 @@ If validation fails (often due to thin grid lines being misdetected as cage wall
 | LLM Benchmark | `evaluation/llm/llm_benchmark.py` | Evaluate LLMs on puzzles |
 | KenKen Solver | `evaluation/neurosymbolic/kenken/` | Computer and handwritten solvers |
 | Sudoku/HexaSudoku Solver | `evaluation/neurosymbolic/sudoku/` | Unified solver for all variants |
-
-## Error Correction Methods
-
-For handwritten puzzles, CNN misclassifications can cause constraint conflicts. Five correction approaches were developed:
-
-### 1. Confidence-Based
-Uses CNN softmax probabilities to identify likely errors:
-- Sorts clues by confidence score (lowest first = most likely wrong)
-- Substitutes each suspect with its second-best CNN prediction
-- Tries single-error, then two-error corrections exhaustively
-
-### 2. Constraint-Based (Unsat Core)
-Uses Z3's unsat core to identify clues causing logical conflicts:
-- Extracts the minimal set of constraints causing UNSAT
-- Only tests substitutions on clues involved in conflicts
-- Supports up to 5-error correction with targeted search
-
-### 3. Top-K Prediction
-Extends constraint-based approach by trying 2nd, 3rd, and 4th best CNN predictions:
-- Handles cases where second-best prediction is also wrong
-- Improves HexaSudoku from 36% → 40%
-
-### 4. Cage Re-detection (KenKen)
-When cage detection fails validation (too many cages, too many single-cells), retry with stricter thresholds:
-- Uses threshold multipliers (1.5x, 2.0x, 2.5x) to filter thin grid lines misdetected as cage walls
-- Validates cages: cell count, single-cell count, total cage count
-- Fixes 7×7 puzzles where integer division rounding causes false cage walls
-
-### 5. Operator Inference (KenKen)
-For multi-cell cages with missing operators and target > grid size:
-- Subtraction max = size - 1, Division max = size → ruled out
-- Automatically tries addition and multiplication operators
-- Fixes 9×9 puzzles where multiplication symbol is truncated during character segmentation
-
-### When to Use Each Method
-
-| Scenario | Recommended | Why |
-|----------|-------------|-----|
-| Speed critical | Unsat Core | 10-25x fewer solver calls |
-| Maximum accuracy (9×9) | Confidence-Based | Catches errors that don't cause UNSAT |
-| Maximum accuracy (16×16) | Top-K | Handles cases where 2nd-best is also wrong |
-| Small puzzles (4×4) | Any | All achieve 99% |
-
-## KenKen Handwritten V2
-
-The V2 approach dramatically improves handwritten KenKen solving through better CNN architecture and training methodology.
-
-### V1 vs V2 Comparison
-
-| Size | V1 Corrected | V2 Corrected | Improvement |
-|------|--------------|--------------|-------------|
-| 3×3  | 89%          | **100%**     | +11%        |
-| 4×4  | 58%          | **94%**      | +36%        |
-| 5×5  | 26%          | **74%**      | +48%        |
-| 6×6  | 15%          | **66%**      | +51%        |
-| 7×7  | 2%           | **41%**      | +39%        |
-| 8×8  | 1%           | **46%**      | +45%        |
-| 9×9  | 1%           | **26%**      | +25%        |
-
-### Error Correction Breakdown (V2)
-
-Out of 700 handwritten KenKen puzzles (sizes 3-9), the correction methods contributed as follows:
-
-| Correction Type | Puzzles | Description |
-|-----------------|---------|-------------|
-| **None (direct solve)** | 288 | CNN predictions correct, no correction needed |
-| **Simple single** | 104 | Fixed 1 OCR error using top-K predictions |
-| **Constraint single** | 10 | Fixed 1 error via Z3 unsat core analysis |
-| **Simple two** | 15 | Fixed 2 OCR errors using top-K predictions |
-| **Constraint two** | 1 | Fixed 2 errors via unsat core |
-| **Constraint three** | 1 | Fixed 3 errors via unsat core |
-| **Still uncorrectable** | 281 | Too many errors (4+) to correct |
-
-**Key insights**:
-- 41% of puzzles (288/700) solved directly without correction
-- 19% of puzzles (131/700) recovered via error correction
-- Simple single-error correction was most effective (104 puzzles)
-- 40% of puzzles remain unsolvable due to 4+ OCR errors
-
-### What Changed in V2
-
-**CNN Architecture (ImprovedCNN)**:
-- 4 conv layers (vs 2 in V1)
-- BatchNorm after every layer
-- 872K parameters (vs ~400K)
-- 99.9% validation accuracy (vs ~95%)
-
-**Training Data**:
-- Characters extracted from actual board images using the same pipeline as inference
-- Eliminates domain gap between training and inference
-- 70% handwritten / 30% computer-generated mix
-- Balanced to equal representation per class
-
-**Data Augmentation (10x)**:
-- Rotation: ±20° (vs ±5°)
-- Scale: 0.5-1.2x (vs 0.9-1.1x)
-- Elastic deformation (new)
-- Morphological erosion/dilation (new)
-
-**Training Process**:
-- Focal Loss (focuses on hard examples)
-- Early stopping with patience=15
-- Lower learning rate (0.0003 vs 0.001)
-
-### Key Result
-
-The 1↔7 confusion that caused 37% of V1 errors was **completely eliminated** in V2. This single improvement accounts for most of the accuracy gains.
-
-### Why Larger Puzzles Remain Challenging
-
-Even with 99.9% per-character accuracy, larger puzzles have more characters:
-- 3×3: ~15 characters → 98.5% chance of zero errors
-- 9×9: ~80 characters → 92% chance of zero errors
-
-The error correction can fix 1-3 errors per puzzle, but some 9×9 puzzles have 4+ OCR errors.
-
-See [`archive/KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md`](archive/KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md) for detailed analysis.
-
-## Sudoku/HexaSudoku Handwritten V2
-
-A unified solver handling all Sudoku and HexaSudoku variants with a single 17-class CNN model.
-
-### V1 vs V2 Comparison
-
-| Puzzle Type | V1 | V2 | Improvement |
-|-------------|-----|-----|-------------|
-| Sudoku 4×4 | 92% | **100%** | +8% |
-| Sudoku 9×9 | 85% | **98%** | +13% |
-| HexaSudoku (A-G) | 10% | **91%** | +81% |
-| HexaSudoku (Numeric) | 32% | **72%** | +40% |
-
-### What Changed in V2
-
-**Unified Model Architecture**:
-- Single ImprovedCNN (17 classes: digits 0-9 + letters A-G)
-- 850K parameters with BatchNorm and deeper architecture
-- 99.3% validation accuracy
-
-**HexaSudoku Numeric Handling**:
-- **Tens digit forced to 1**: Eliminates 1↔7 confusion for values 10-16
-- **Ones digit constrained to 0-6**: Values 17-19 don't exist in HexaSudoku
-- **Ink density ratio** for single/double digit detection (threshold 1.7)
-- **Fixed spatial split** for two-digit extraction (left/right halves)
-
-**Error Correction**:
-- Z3 unsat core analysis identifies conflicting cells
-- Single and double-error correction with top-K CNN predictions
-- Domain-aware alternatives (only valid values tried)
-
-### Baseline vs Error-Corrected
-
-| Puzzle Type | Baseline | Corrected | Improvement |
-|-------------|----------|-----------|-------------|
-| Sudoku 4×4 | 100% | 100% | +0% |
-| Sudoku 9×9 | 96% | 98% | +2% |
-| HexaSudoku (A-G) | 77% | 91% | +14% |
-| HexaSudoku (Numeric) | 60% | 72% | +12% |
-
-See [`archive/Sudoku-handwritten-v2/REPORT.md`](archive/Sudoku-handwritten-v2/REPORT.md) for detailed analysis.
 
 ## Installation
 
@@ -474,10 +468,3 @@ KenKenSolver/
 ## License
 
 MIT License
-
-## Acknowledgments
-
-- Z3 Theorem Prover by Microsoft Research
-- TMNIST dataset for character recognition training
-- MNIST dataset (LeCun et al., 1998) for handwritten digits
-- EMNIST dataset (Cohen et al., 2017) for handwritten letters
