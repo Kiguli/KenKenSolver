@@ -119,6 +119,15 @@ For multi-cell cages with missing operators and target > grid size:
 | Maximum accuracy (16×16) | Top-K | Handles cases where 2nd-best is also wrong |
 | Small puzzles (4×4) | Any | All achieve 99% |
 
+### Error Correction Parameters
+
+| Parameter | KenKen (Confidence) | KenKen (Constraint) | Sudoku |
+|-----------|---------------------|---------------------|--------|
+| Top-K predictions | 6 | 4 | 5 |
+| Max errors to correct | 4 | 3 | 3 |
+| Max suspects to probe | 15 | 20 | all from unsat core |
+| Alternatives per double | n/a | n/a | 2 |
+
 ### KenKen Error Correction Breakdown (V2)
 
 Out of 700 handwritten KenKen puzzles (sizes 3-9), the correction methods contributed as follows:
