@@ -380,11 +380,11 @@ brew install git-lfs  # macOS (use apt on Linux)
 git lfs install
 git lfs pull
 
-# Install core dependencies
-pip install z3-solver torch torchvision opencv-python pillow pandas numpy matplotlib
+# Install dependencies
+pip install -r requirements.txt
 
 # For LLM evaluations (optional)
-pip install anthropic openai google-generativeai transformers python-dotenv
+pip install -r requirements-llm.txt
 ```
 
 ## Quick Start

@@ -1,0 +1,5 @@
+# Optional dependencies for LLM benchmarking
+anthropic
+openai
+google-generativeai
+python-dotenv

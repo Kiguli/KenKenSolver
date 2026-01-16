@@ -1,0 +1,10 @@
+# Core dependencies for neuro-symbolic puzzle solvers
+torch
+torchvision
+pillow
+opencv-python
+numpy
+pandas
+scipy
+z3-solver
+matplotlib
