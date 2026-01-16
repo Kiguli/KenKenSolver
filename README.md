@@ -29,46 +29,51 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 
 ### KenKen Results (Computer-Generated)
 
-| Size | NeuroSymbolic | Gemini 2.5 Pro | Claude Sonnet 4 | Qwen 2.5-VL | GPT-4o | GPT-4o Mini |
-|------|---------------|----------------|-----------------|-------------|--------|-------------|
-| 3×3 | **100%** | 69% | 41% | 24% | 21% | 5% |
-| 4×4 | **100%** | 35% | 6% | 0% | 0% | 0% |
-| 5×5 | **100%** | 0% | 0% | - | - | - |
-| 6×6 | **100%** | - | - | - | - | - |
-| 7×7 | **100%** | - | - | - | - | - |
-| 8×8 | **100%** | - | - | - | - | - |
-| 9×9 | **100%** | - | - | - | - | - |
+| Model | 3×3 | 4×4 | 5×5 | 6×6 | 7×7 | 8×8 | 9×9 |
+|-------|-----|-----|-----|-----|-----|-----|-----|
+| NeuroSymbolic | **100%** | **100%** | **100%** | **100%** | **100%** | **100%** | **100%** |
+| Gemini 2.5 Pro | 69% | 35% | 0% | - | - | - | - |
+| Claude Sonnet 4 | 41% | 6% | 0% | - | - | - | - |
+| Qwen 2.5-VL | 24% | 0% | - | - | - | - | - |
+| GPT-4o | 21% | 0% | - | - | - | - | - |
+| GPT-4o Mini | 5% | 0% | - | - | - | - | - |
 
 *All LLMs fail completely on KenKen puzzles 5×5 and larger. The neuro-symbolic approach achieves 100% accuracy without error correction due to perfect digit recognition.*
 
-### Sudoku & HexaSudoku Results (Computer-Generated)
+### Sudoku Results (Computer-Generated)
 
-| Puzzle | NeuroSymbolic | Gemini 2.5 Pro | Claude Sonnet 4 | Qwen 2.5-VL | GPT-4o | GPT-4o Mini |
-|--------|---------------|----------------|-----------------|-------------|--------|-------------|
-| Sudoku 4×4 | **100%** | 99% | 73% | 51% | 75% | 65% |
-| Sudoku 9×9 | **100%** | 0% | 0% | 0% | 8% | 1% |
-| HexaSudoku 16×16 (Hex) | **100%** | - | - | - | 0% | 0% |
-| HexaSudoku 16×16 (Numeric) | **100%** | - | - | - | 0% | 0% |
+| Model | 4×4 | 9×9 | 16×16 (Hex) | 16×16 (Numeric) |
+|-------|-----|-----|-------------|-----------------|
+| NeuroSymbolic | **100%** | **100%** | **100%** | **100%** |
+| Gemini 2.5 Pro | 99% | 0% | - | - |
+| Claude Sonnet 4 | 73% | 0% | - | - |
+| Qwen 2.5-VL | 51% | 0% | - | - |
+| GPT-4o | 75% | 8% | 0% | 0% |
+| GPT-4o Mini | 65% | 1% | 0% | 0% |
 
-*LLMs struggle with 9×9 Sudoku (GPT-4o: 8%, others: ≤1%) and fail completely on 16×16 HexaSudoku. The neuro-symbolic approach achieves 100% accuracy without error correction due to perfect digit recognition.*
+*LLMs struggle with 9×9 Sudoku (GPT-4o: 8%, others: ≤1%) and fail completely on 16×16 Sudoku. The neuro-symbolic approach achieves 100% accuracy without error correction due to perfect digit recognition.*
 
 ### Handwritten Results (Baseline vs Error-Corrected)
 
-| Puzzle | Size | V1 Baseline | V1 Corrected | V2 Baseline | V2 Corrected | GPT-4o | Gemini 2.5 Pro |
-|--------|------|-------------|--------------|-------------|--------------|--------|----------------|
-| KenKen | 3×3 | 69% | 89% | 98% | **100%** | 20% | 68% |
-| KenKen | 4×4 | 36% | 58% | 86% | **94%** | 0% | 30% |
-| KenKen | 5×5 | 18% | 26% | 36% | **74%** | - | 0% |
-| KenKen | 6×6 | 7% | 15% | 32% | **66%** | - | - |
-| KenKen | 7×7 | 1% | 2% | 10% | **41%** | - | - |
-| KenKen | 8×8 | 1% | 1% | 13% | **46%** | - | - |
-| KenKen | 9×9 | 0% | 1% | 13% | **26%** | - | - |
-| Sudoku | 4×4 | 90% | 92% | 100% | **100%** | 63% | 100% |
-| Sudoku | 9×9 | 75% | 85% | 96% | **98%** | 9% | 2% |
-| HexaSudoku | 16×16 (Hex) | 10% | 10% | 77% | **91%** | 0% | - |
-| HexaSudoku | 16×16 (Numeric) | 30% | 32% | 60% | **72%** | 0% | - |
+| Model | KenKen 3×3 | KenKen 4×4 | KenKen 5×5 | KenKen 6×6 | KenKen 7×7 | KenKen 8×8 | KenKen 9×9 |
+|-------|------------|------------|------------|------------|------------|------------|------------|
+| V1 Baseline | 69% | 36% | 18% | 7% | 1% | 1% | 0% |
+| V1 Corrected | 89% | 58% | 26% | 15% | 2% | 1% | 1% |
+| V2 Baseline | 98% | 86% | 36% | 32% | 10% | 13% | 13% |
+| V2 Corrected | **100%** | **94%** | **74%** | **66%** | **41%** | **46%** | **26%** |
+| GPT-4o | 20% | 0% | - | - | - | - | - |
+| Gemini 2.5 Pro | 68% | 30% | 0% | - | - | - | - |
 
-*V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with augmentation. V1 Sudoku/HexaSudoku baselines derived from extraction accuracy.*
+| Model | Sudoku 4×4 | Sudoku 9×9 | Sudoku 16×16 (Hex) | Sudoku 16×16 (Numeric) |
+|-------|------------|------------|---------------------|------------------------|
+| V1 Baseline | 90% | 75% | 10% | 30% |
+| V1 Corrected | 92% | 85% | 10% | 32% |
+| V2 Baseline | 100% | 96% | 77% | 60% |
+| V2 Corrected | **100%** | **98%** | **91%** | **72%** |
+| GPT-4o | 63% | 9% | 0% | 0% |
+| Gemini 2.5 Pro | 100% | 2% | - | - |
+
+*V1: 90-10 train/test split with MNIST digits. V2: ImprovedCNN trained on board-extracted characters with augmentation. V1 Sudoku baselines derived from extraction accuracy.*
 
 ## Error Correction
 
@@ -91,7 +96,7 @@ Uses Z3's unsat core to identify clues causing logical conflicts:
 **3. Top-K Prediction**
 Extends constraint-based approach by trying 2nd, 3rd, and 4th best CNN predictions:
 - Handles cases where second-best prediction is also wrong
-- Improves HexaSudoku from 36% → 40%
+- Improves Sudoku 16×16 from 36% → 40%
 
 **4. Cage Re-detection (KenKen)**
 When cage detection fails validation (too many cages, too many single-cells), retry with stricter thresholds:
@@ -134,7 +139,7 @@ Out of 700 handwritten KenKen puzzles (sizes 3-9), the correction methods contri
 - Simple single-error correction was most effective (104 puzzles)
 - 40% of puzzles remain unsolvable due to 4+ OCR errors
 
-### Sudoku/HexaSudoku Error Correction Breakdown (V2)
+### Sudoku Error Correction Breakdown (V2)
 
 Out of 100 puzzles per variant, the correction methods contributed as follows:
 
@@ -142,14 +147,14 @@ Out of 100 puzzles per variant, the correction methods contributed as follows:
 |-------------|--------------|-------------------|-------------------|---------------|
 | Sudoku 4×4 | 100 | 0 | 0 | 0 |
 | Sudoku 9×9 | 96 | 2 | 0 | 2 |
-| HexaSudoku (A-G) | 77 | 13 | 1 | 9 |
-| HexaSudoku (Numeric) | 60 | 11 | 1 | 28 |
+| Sudoku 16×16 (Hex) | 77 | 13 | 1 | 9 |
+| Sudoku 16×16 (Numeric) | 60 | 11 | 1 | 28 |
 
 **Key insights**:
 - Sudoku 4×4 achieves perfect accuracy without any corrections needed
 - Sudoku 9×9 near-perfect with only 2 single-error corrections
-- HexaSudoku Hex notation benefits significantly from correction (77% → 91%)
-- HexaSudoku Numeric more challenging with 28 uncorrectable puzzles (many have 3+ OCR errors)
+- Sudoku 16×16 Hex notation benefits significantly from correction (77% → 91%)
+- Sudoku 16×16 Numeric more challenging with 28 uncorrectable puzzles (many have 3+ OCR errors)
 
 ### V1 Error Correction Effectiveness
 
@@ -204,18 +209,18 @@ The error correction can fix 1-3 errors per puzzle, but some 9×9 puzzles have 4
 
 See [`archive/KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md`](archive/KenKen-handwritten-v2/V1_V2_COMPARISON_REPORT.md) for detailed analysis.
 
-### Sudoku/HexaSudoku Handwritten V2
+### Sudoku Handwritten V2
 
-A unified solver handling all Sudoku and HexaSudoku variants with a single 17-class CNN model.
+A unified solver handling all Sudoku variants (4×4, 9×9, 16×16) with a single 17-class CNN model.
 
 **Unified Model Architecture**:
 - Single ImprovedCNN (17 classes: digits 0-9 + letters A-G)
 - 850K parameters with BatchNorm and deeper architecture
 - 99.3% validation accuracy
 
-**HexaSudoku Numeric Handling**:
+**Sudoku 16×16 Numeric Handling**:
 - **Tens digit forced to 1**: Eliminates 1↔7 confusion for values 10-16
-- **Ones digit constrained to 0-6**: Values 17-19 don't exist in HexaSudoku
+- **Ones digit constrained to 0-6**: Values 17-19 don't exist in 16×16 Sudoku
 - **Ink density ratio** for single/double digit detection (threshold 1.7)
 - **Fixed spatial split** for two-digit extraction (left/right halves)
 
@@ -230,8 +235,8 @@ The system uses different CNN models for computer-generated vs handwritten puzzl
 | KenKen Grid Size | `kenken_grid_cnn.pth` | `kenken_grid_cnn.pth` |
 | KenKen Digits | `kenken_sudoku_character_cnn.pth` | V1: `kenken_cnn.pth`, V2: `improved_cnn.pth` |
 | Sudoku Digits | `kenken_sudoku_character_cnn.pth` | V1: `sudoku_cnn.pth`, V2: `improved_cnn.pth` |
-| HexaSudoku (Hex) | `hexasudoku_character_cnn.pth` | V1: `hexasudoku_cnn.pth`, V2: `improved_cnn.pth` |
-| HexaSudoku (Numeric) | `hexasudoku_numeric_cnn.pth` | V1: `hexasudoku_numeric_cnn.pth`, V2: `improved_cnn.pth` |
+| Sudoku 16×16 (Hex) | `hexasudoku_character_cnn.pth` | V1: `hexasudoku_cnn.pth`, V2: `improved_cnn.pth` |
+| Sudoku 16×16 (Numeric) | `hexasudoku_numeric_cnn.pth` | V1: `hexasudoku_numeric_cnn.pth`, V2: `improved_cnn.pth` |
 
 ### KenKen Pipeline (300px fixed cells, variable board size)
 
@@ -263,10 +268,10 @@ Image Input (size varies: 900×900 to 2700×2700 based on grid size)
         Solution Output
 ```
 
-### Sudoku/HexaSudoku Pipeline (fixed board size, variable cell size)
+### Sudoku Pipeline (fixed board size, variable cell size)
 
 ```
-Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
+Image Input (900×900 for 4×4/9×9, 1600×1600 for 16×16)
         ↓
    ┌──────────────────────┐
    │   Grid Extraction    │  ← OpenCV to find grid lines and boxes
@@ -276,7 +281,7 @@ Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
    ┌──────────────────────┐
    │  Sudoku Digit CNN    │  ← 28×28 input
    │                      │     Sudoku: 10 classes (0-9)
-   │                      │     HexaSudoku: 17 classes (0-9 + A-G)
+   │                      │     16×16: 17 classes (0-9 + A-G)
    │                      │     Computer: kenken_sudoku_character_cnn
    │                      │              or hexasudoku_character_cnn
    │                      │     Handwritten: improved_cnn (V2)
@@ -306,7 +311,7 @@ Image Input (900×900 for Sudoku, 1600×1600 for HexaSudoku)
 - **Architecture**: 4 conv layers with BatchNorm, ~850K params
 - **Validation accuracy**: 99.9%
 
-### Sudoku/HexaSudoku Digit CNN (V2 - Unified ImprovedCNN)
+### Sudoku Digit CNN (V2 - Unified ImprovedCNN)
 - **Purpose**: Recognize digits and hex letters
 - **Input**: 28×28 grayscale cell
 - **Output**: 17 classes (digits 0-9, letters A-G for values 10-16)
@@ -360,7 +365,7 @@ If validation fails (often due to thin grid lines being misdetected as cage wall
 | Evaluation Results | `results/` | CSV files with accuracy data |
 | LLM Benchmark | `evaluation/llm/llm_benchmark.py` | Evaluate LLMs on puzzles |
 | KenKen Solver | `evaluation/neurosymbolic/kenken/` | Computer and handwritten solvers |
-| Sudoku/HexaSudoku Solver | `evaluation/neurosymbolic/sudoku/` | Unified solver for all variants |
+| Sudoku Solver | `evaluation/neurosymbolic/sudoku/` | Unified solver for all variants |
 
 ## Installation
 
@@ -455,7 +460,7 @@ KenKenSolver/
     ├── KenKen-300px/          # 300px computer-generated variant
     ├── KenKen-300px-handwritten/ # 300px handwritten variant
     ├── Sudoku/                # Sudoku solver
-    ├── Sudoku-handwritten-v2/ # Unified Sudoku/HexaSudoku
+    ├── Sudoku-handwritten-v2/ # Unified Sudoku solver
     ├── HexaSudoku/            # 16×16 solver
     ├── 83-17 split handwritten/
     ├── 90-10 split handwritten/
