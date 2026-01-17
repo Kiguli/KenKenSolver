@@ -340,9 +340,9 @@ def figure4_v1_vs_v2_combined():
     v1_base_kenken = [69, 36, 18, 7, 1, 1, 0]
     v1_corr_kenken = [89, 58, 26, 15, 2, 1, 1]
 
-    # V2 data
-    v2_base_kenken = [98, 86, 36, 32, 10, 13, 13]
-    v2_corr_kenken = [100, 94, 74, 66, 41, 46, 26]
+    # V2 data (from kenken_handwritten_v2_constraint_simple.csv)
+    v2_base_kenken = [99, 86, 36, 32, 12, 13, 13]
+    v2_corr_kenken = [100, 92, 75, 62, 42, 46, 26]
 
     # VLM data (GPT-4o and Gemini 2.5 Pro)
     gpt4o_kenken = [20, 0]  # 3x3, 4x4
@@ -436,16 +436,17 @@ def figure4_v1_vs_v2_combined():
 
 def figure5a_kenken_correction_breakdown():
     """Show breakdown of error correction types for KenKen puzzles."""
-    fig, ax = plt.subplots(figsize=(3.5, 3))
+    fig, ax = plt.subplots(figsize=(3.5, 3.3))
 
     sizes = [3, 4, 5, 6, 7, 8, 9]
     labels = [f'{s}×{s}' for s in sizes]
 
-    # KenKen V2 data: none, simple, constraint, uncorrectable
-    none = [98, 86, 36, 32, 10, 13, 13]
-    simple = [0, 1, 30, 22, 26, 33, 11]
-    constraint = [2, 5, 8, 11, 5, 0, 2]
-    uncorrectable = [0, 6, 26, 34, 59, 54, 74]
+    # KenKen V2 data (constraint-simple order): none, simple, constraint, uncorrectable
+    # From kenken_handwritten_v2_constraint_simple.csv
+    none = [99, 86, 36, 32, 12, 13, 13]
+    simple = [0, 3, 20, 22, 27, 28, 12]  # Silent errors: confidence fallback succeeded
+    constraint = [1, 3, 19, 8, 3, 5, 1]  # Unsat core succeeded
+    uncorrectable = [0, 8, 25, 38, 58, 54, 74]
 
     # Normalize to 100%
     totals = [n + s + c + u for n, s, c, u in zip(none, simple, constraint, uncorrectable)]
@@ -459,7 +460,7 @@ def figure5a_kenken_correction_breakdown():
 
     ax.bar(x, none_pct, width, label='Solved Directly', color=COLORS['none'],
            edgecolor='white', linewidth=0.5)
-    ax.bar(x, simple_pct, width, bottom=none_pct, label='Simple Correction',
+    ax.bar(x, simple_pct, width, bottom=none_pct, label='Confidence Correction',
            color=COLORS['simple'], edgecolor='white', linewidth=0.5)
     bottom2 = [n + s for n, s in zip(none_pct, simple_pct)]
     ax.bar(x, constraint_pct, width, bottom=bottom2, label='Constraint Correction',
@@ -472,10 +473,13 @@ def figure5a_kenken_correction_breakdown():
     ax.set_ylabel('Proportion (%)')
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
-    ax.set_ylim(0, 110)
-    ax.legend(loc='upper right', fontsize=6, ncol=2)
+    ax.set_ylim(0, 105)
+
+    # Add legend above figure
+    fig.legend(loc='upper center', bbox_to_anchor=(0.5, 1.0), ncol=2, fontsize=7, frameon=False)
 
     plt.tight_layout()
+    plt.subplots_adjust(top=0.85)  # Make room for legend at top
     plt.savefig(SCRIPT_DIR / 'fig5a_kenken_correction_breakdown.pdf')
     plt.savefig(SCRIPT_DIR / 'fig5a_kenken_correction_breakdown.png')
     plt.close()

@@ -59,8 +59,8 @@ This division of labor achieves near-perfect accuracy where LLMs fail completely
 |-------|------------|------------|------------|------------|------------|------------|------------|
 | V1 Baseline | 69% | 36% | 18% | 7% | 1% | 1% | 0% |
 | V1 Corrected | 89% | 58% | 26% | 15% | 2% | 1% | 1% |
-| V2 Baseline | 98% | 86% | 36% | 32% | 10% | 13% | 13% |
-| V2 Corrected | **100%** | **94%** | **74%** | **66%** | **41%** | **46%** | **26%** |
+| V2 Baseline | 99% | 86% | 36% | 32% | 12% | 13% | 13% |
+| V2 Corrected | **100%** | **92%** | **75%** | **62%** | **42%** | **46%** | **26%** |
 | GPT-4o | 20% | 0% | - | - | - | - | - |
 | Gemini 2.5 Pro | 68% | 30% | 0% | - | - | - | - |
 
@@ -130,23 +130,23 @@ For multi-cell cages with missing operators and target > grid size:
 
 ### KenKen Error Correction Breakdown (V2)
 
-Out of 700 handwritten KenKen puzzles (sizes 3-9), the correction methods contributed as follows:
+Out of 700 handwritten KenKen puzzles (sizes 3-9), using constraint-first ordering:
 
 | Correction Type | Puzzles | Description |
 |-----------------|---------|-------------|
-| **None (direct solve)** | 288 | CNN predictions correct, no correction needed |
-| **Simple single** | 104 | Fixed 1 OCR error using top-K predictions |
-| **Constraint single** | 10 | Fixed 1 error via Z3 unsat core analysis |
-| **Simple two** | 15 | Fixed 2 OCR errors using top-K predictions |
-| **Constraint two** | 1 | Fixed 2 errors via unsat core |
+| **None (direct solve)** | 291 | CNN predictions correct, no correction needed |
+| **Constraint single** | 35 | Fixed 1 error via Z3 unsat core analysis |
+| **Constraint two** | 4 | Fixed 2 errors via unsat core |
 | **Constraint three** | 1 | Fixed 3 errors via unsat core |
-| **Still uncorrectable** | 281 | Too many errors (4+) to correct |
+| **Confidence single** | 97 | Fixed 1 OCR error using confidence fallback |
+| **Confidence two** | 15 | Fixed 2 OCR errors using confidence fallback |
+| **Still uncorrectable** | 257 | Too many errors (4+) to correct |
 
 **Key insights**:
-- 41% of puzzles (288/700) solved directly without correction
-- 19% of puzzles (131/700) recovered via error correction
-- Simple single-error correction was most effective (104 puzzles)
-- 40% of puzzles remain unsolvable due to 4+ OCR errors
+- 42% of puzzles (291/700) solved directly without correction
+- 22% of puzzles (152/700) recovered via error correction
+- Constraint-based correction fixed 40 puzzles (6%)
+- Confidence-based fallback fixed an additional 112 puzzles (16%)
 
 ### Sudoku Error Correction Breakdown (V2)
 
@@ -164,6 +164,27 @@ Out of 100 puzzles per variant, the correction methods contributed as follows:
 - Sudoku 9×9 near-perfect with only 2 single-error corrections
 - Sudoku 16×16 Hex notation benefits significantly from correction (77% → 91%)
 - Sudoku 16×16 Numeric more challenging with 28 uncorrectable puzzles (many have 3+ OCR errors)
+
+### Silent Errors (KenKen V2)
+
+Silent errors occur when OCR mistakes produce a satisfiable-but-wrong puzzle that constraint-based correction cannot detect (no UNSAT). These are identified by running constraint-first ordering and counting puzzles where constraint correction failed but confidence-based fallback succeeded:
+
+| Size | Silent Errors | % of Puzzles | Description |
+|------|---------------|--------------|-------------|
+| 3×3 | 0 | 0% | No silent errors |
+| 4×4 | 3 | 3% | Minor impact |
+| 5×5 | 20 | 20% | Significant |
+| 6×6 | 22 | 22% | Significant |
+| 7×7 | 27 | 27% | High impact |
+| 8×8 | 28 | 28% | High impact |
+| 9×9 | 12 | 12% | Moderate |
+| **Total** | **112** | **16%** | Overall rate |
+
+**Key insights**:
+- 16% of puzzles (112/700) have silent errors that only confidence-based correction can fix
+- Silent error rate peaks at 7×7 and 8×8 (27-28%) where puzzle complexity is high but not overwhelming
+- The drop at 9×9 (12%) is because more puzzles have 4+ errors and are uncorrectable by either method
+- Confidence-based correction is essential for maximum accuracy, catching errors that don't cause UNSAT
 
 ### V1 Error Correction Effectiveness
 

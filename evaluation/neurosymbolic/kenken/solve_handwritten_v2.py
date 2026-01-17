@@ -1286,7 +1286,8 @@ def attempt_constraint_based_correction(puzzle, alternatives, size, max_errors=N
 # Main Solver Function
 # =============================================================================
 
-def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_correction=True, verbose=False):
+def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_correction=True,
+                 correction_order='simple-constraint', verbose=False):
     """
     Solve a KenKen puzzle from an image file.
 
@@ -1296,6 +1297,7 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
         grid_model: Grid size detection CNN model (optional if size_override provided)
         size_override: Override automatic size detection
         use_correction: Whether to attempt error correction on failure
+        correction_order: Order of correction methods ('simple-constraint' or 'constraint-simple')
         verbose: Print debug information
 
     Returns:
@@ -1345,32 +1347,60 @@ def solve_puzzle(filename, char_model, grid_model=None, size_override=None, use_
 
     # If direct solve and operator inference failed, try error correction
     if use_correction:
-        # First try simple error correction (faster, uses top-K predictions)
-        puzzle, alternatives = make_puzzle_with_alternatives(
-            size, border_thickness, cages, filename, char_model, k=6, invert=invert
-        )
-        simple_correction = attempt_error_correction(
-            puzzle, alternatives, size, max_errors=4, max_k=6, max_suspects=15
-        )
-        if simple_correction.success:
-            correction_type = f"simple_{simple_correction.correction_type}"
-            if retry_info.get('retries', 0) > 0:
-                correction_type = f"cage_redetect+{correction_type}"
-            return simple_correction.solution, correction_type, (time.time() - start_time) * 1000
+        if correction_order == 'simple-constraint':
+            # Simple first (faster, uses top-K predictions), then constraint
+            puzzle, alternatives = make_puzzle_with_alternatives(
+                size, border_thickness, cages, filename, char_model, k=6, invert=invert
+            )
+            simple_correction = attempt_error_correction(
+                puzzle, alternatives, size, max_errors=4, max_k=6, max_suspects=15
+            )
+            if simple_correction.success:
+                correction_type = f"simple_{simple_correction.correction_type}"
+                if retry_info.get('retries', 0) > 0:
+                    correction_type = f"cage_redetect+{correction_type}"
+                return simple_correction.solution, correction_type, (time.time() - start_time) * 1000
 
-        # Fallback to constraint-based error correction if simple fails
-        puzzle, alternatives = make_puzzle_with_alternatives(
-            size, border_thickness, cages, filename, char_model, k=4, invert=invert
-        )
-        correction = attempt_constraint_based_correction(
-            puzzle, alternatives, size, max_errors=3, max_k=4
-        )
+            # Fallback to constraint-based error correction if simple fails
+            puzzle, alternatives = make_puzzle_with_alternatives(
+                size, border_thickness, cages, filename, char_model, k=4, invert=invert
+            )
+            correction = attempt_constraint_based_correction(
+                puzzle, alternatives, size, max_errors=3, max_k=4
+            )
 
-        if correction.success:
-            correction_type = f"constraint_{correction.correction_type}"
-            if retry_info.get('retries', 0) > 0:
-                correction_type = f"cage_redetect+{correction_type}"
-            return correction.solution, correction_type, (time.time() - start_time) * 1000
+            if correction.success:
+                correction_type = f"constraint_{correction.correction_type}"
+                if retry_info.get('retries', 0) > 0:
+                    correction_type = f"cage_redetect+{correction_type}"
+                return correction.solution, correction_type, (time.time() - start_time) * 1000
+        else:
+            # Constraint first (uses unsat core), then simple
+            puzzle, alternatives = make_puzzle_with_alternatives(
+                size, border_thickness, cages, filename, char_model, k=4, invert=invert
+            )
+            constraint_correction = attempt_constraint_based_correction(
+                puzzle, alternatives, size, max_errors=3, max_k=4
+            )
+
+            if constraint_correction.success:
+                correction_type = f"constraint_{constraint_correction.correction_type}"
+                if retry_info.get('retries', 0) > 0:
+                    correction_type = f"cage_redetect+{correction_type}"
+                return constraint_correction.solution, correction_type, (time.time() - start_time) * 1000
+
+            # Fallback to simple error correction if constraint fails
+            puzzle, alternatives = make_puzzle_with_alternatives(
+                size, border_thickness, cages, filename, char_model, k=6, invert=invert
+            )
+            simple_correction = attempt_error_correction(
+                puzzle, alternatives, size, max_errors=4, max_k=6, max_suspects=15
+            )
+            if simple_correction.success:
+                correction_type = f"simple_{simple_correction.correction_type}"
+                if retry_info.get('retries', 0) > 0:
+                    correction_type = f"cage_redetect+{correction_type}"
+                return simple_correction.solution, correction_type, (time.time() - start_time) * 1000
 
         return None, "still_uncorrectable", (time.time() - start_time) * 1000
 
@@ -1393,6 +1423,9 @@ def main():
                        help='Disable error correction')
     parser.add_argument('--output', type=str, default='kenken_handwritten_v2.csv',
                        help='Output CSV filename (default: kenken_handwritten_v2.csv)')
+    parser.add_argument('--correction-order', type=str, choices=['simple-constraint', 'constraint-simple'],
+                       default='simple-constraint',
+                       help='Order of error correction methods (default: simple-constraint)')
     parser.add_argument('--model', type=str, choices=['v1', 'v2'], default='v2',
                        help='Model version to use: v1 (CNN_v2) or v2 (ImprovedCNN)')
     args = parser.parse_args()
@@ -1402,10 +1435,13 @@ def main():
     use_correction = not args.no_correction
 
     model_version = args.model
+    correction_order = getattr(args, 'correction_order', 'simple-constraint')
     print("=" * 70)
     print(f"KenKen Solver - 300px Cells Evaluation (Handwritten {model_version.upper()})")
     print(f"Sizes: {sizes}, Puzzles per size: {num_puzzles}")
     print(f"Error correction: {'Enabled' if use_correction else 'Disabled'}")
+    if use_correction:
+        print(f"Correction order: {correction_order}")
     print(f"Model: {model_version.upper()}")
     print("=" * 70)
     print()
@@ -1481,6 +1517,7 @@ def main():
                     filename, char_model, grid_model,
                     size_override=size,  # Use known size for evaluation
                     use_correction=use_correction,
+                    correction_order=correction_order,
                     verbose=args.verbose
                 )
 
